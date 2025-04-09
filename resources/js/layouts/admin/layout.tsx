@@ -11,6 +11,16 @@ const sidebarNavItems: NavItem[] = [
     title: 'Usuarios',
     href: '/admin/users',
     icon: null
+  },
+  {
+    title: 'Sesiones',
+    href: '/admin/sessions',
+    icon: null
+  },
+  {
+    title: 'Roles',
+    href: '/admin/roles',
+    icon: null
   }
 ]
 

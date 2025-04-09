@@ -3,32 +3,39 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
-class UserController extends Controller
+class SessionController extends Controller
 {
 	public function show(Request $request)
 	{
-		$users = [];
+		$sessionsPaginated = [];
 		$perPage = max(1, min((int) $request->get('per_page', 20), 500));
 		$page = (int) $request->get('page', 1);
 		$search = strtolower($request->get('search', ''));
 
 		$conditions = [
-			'is:verified' => fn($query) => $query->whereNotNull('email_verified_at'),
-			'-is:verified' => fn($query) => $query->whereNull('email_verified_at'),
+			'has:user' => fn($query) => $query->whereNotNull('user_id'),
+			'-has:user' => fn($query) => $query->whereNull('user_id'),
 		];
 
 		$specialCases = [
-			'role:' => function ($query, $value) {
-				if ($value !== '') $query->role($value);
+			'ip:' => function ($query, $value) {
+				if ($value !== '') $query->where('ip_address', 'like', "%$value%");
+				else $query->whereNull('ip_address');
+			},
+			'agent:' => function ($query, $value) {
+				if ($value !== '') $query->where('user_agent', 'like', "%$value%");
+				else $query->whereNull('user_agent');
 			},
 		];
 
-		$query = User::select();
+
+		$query = Session::select('id', 'ip_address', 'last_activity', 'user_agent', 'user_id')->with('user:id,email,name')
+			->orderBy('last_activity', 'desc');
 
 		// Verificar si es un caso especial
 		$isSpecialCase = false;
@@ -46,21 +53,19 @@ class UserController extends Controller
 			if (array_key_exists($search, $conditions)) {
 				$conditions[$search]($query);
 			} elseif ($search != '') {
-				$query->where(function ($q) use ($search) {
+				$query->whereHas('user', function ($q) use ($search) {
 					$q->where("email", 'like', "%$search%")
 						->orWhere("name", 'like', "%$search%");
 				});
 			}
 		}
 
-
 		try {
-			$usersPaginated = $query
-				->orderBy('name')
+			$sessionsPaginated = $query
 				->paginate($perPage, ['*'], 'page', $page);
 		} catch (\Throwable $th) {
 			Log::error($th->getMessage());
 		}
-		return Inertia::render('admin/users/users-page', ['usersPaginated' => $usersPaginated]);
+		return Inertia::render('admin/sessions/sessions-page', ['sessionsPaginated' => $sessionsPaginated]);
 	}
 }

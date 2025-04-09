@@ -3,32 +3,29 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 
-class UserController extends Controller
+class RoleController extends Controller
 {
 	public function show(Request $request)
 	{
-		$users = [];
+		$rolesPaginated = [];
 		$perPage = max(1, min((int) $request->get('per_page', 20), 500));
 		$page = (int) $request->get('page', 1);
 		$search = strtolower($request->get('search', ''));
 
-		$conditions = [
-			'is:verified' => fn($query) => $query->whereNotNull('email_verified_at'),
-			'-is:verified' => fn($query) => $query->whereNull('email_verified_at'),
-		];
+		$conditions = [];
 
 		$specialCases = [
-			'role:' => function ($query, $value) {
-				if ($value !== '') $query->role($value);
+			'permission:' => function ($query, $value) {
+				if ($value !== '') $query->permission($value);
 			},
 		];
 
-		$query = User::select();
+		$query = Role::select();
 
 		// Verificar si es un caso especial
 		$isSpecialCase = false;
@@ -53,14 +50,13 @@ class UserController extends Controller
 			}
 		}
 
-
 		try {
-			$usersPaginated = $query
+			$rolesPaginated = $query
 				->orderBy('name')
 				->paginate($perPage, ['*'], 'page', $page);
 		} catch (\Throwable $th) {
 			Log::error($th->getMessage());
 		}
-		return Inertia::render('admin/users/users-page', ['usersPaginated' => $usersPaginated]);
+		return Inertia::render('admin/roles/roles-page', ['rolesPaginated' => $rolesPaginated]);
 	}
 }
