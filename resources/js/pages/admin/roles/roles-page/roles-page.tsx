@@ -3,8 +3,8 @@ import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { Head } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
-import AdminLayout from '../../../layouts/admin/layout'
-import { Role, RolesPaginated } from './types'
+import AdminLayout from '../../../../layouts/admin/layout'
+import { Role, RolesPaginated } from './rolespage'
 
 const breadcrumbs: BreadcrumbItem[] = [
   {

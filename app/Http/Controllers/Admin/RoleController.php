@@ -57,6 +57,18 @@ class RoleController extends Controller
 		} catch (\Throwable $th) {
 			Log::error($th->getMessage());
 		}
-		return Inertia::render('admin/roles/roles-page', ['rolesPaginated' => $rolesPaginated]);
+		return Inertia::render('admin/roles/roles-page/roles-page', ['rolesPaginated' => $rolesPaginated]);
+	}
+
+	public function showById(Request $request, $id)
+	{
+		try {
+			$role = Role::findById($id);
+		} catch (\Throwable $th) {
+			$role = null;
+			Log::error($th->getMessage());
+		}
+
+		return Inertia::render('admin/roles/role-page/role-page', ['role' => $role]);
 	}
 }
