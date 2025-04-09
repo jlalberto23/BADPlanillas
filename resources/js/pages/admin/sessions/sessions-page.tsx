@@ -36,6 +36,7 @@ export default function UsersPage({ sessionsPaginated }: Props) {
             searchPlaceholder="Buscar por usuario"
             searchOptions={searchOptions}
             headerContent={<RefreshButton />}
+            exportedFileName="Sesiones"
           />
         </div>
       </AdminLayout>

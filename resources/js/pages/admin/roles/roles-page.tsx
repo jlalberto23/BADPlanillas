@@ -32,6 +32,7 @@ export default function UsersPage({ rolesPaginated }: Props) {
             calcTotals={false}
             searchPlaceholder="Buscar por nombre de rol"
             searchOptions={searchOptions}
+            exportedFileName="Roles"
           />
         </div>
       </AdminLayout>

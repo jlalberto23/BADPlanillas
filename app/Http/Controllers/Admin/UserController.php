@@ -20,6 +20,8 @@ class UserController extends Controller
 		$conditions = [
 			'is:verified' => fn($query) => $query->whereNotNull('email_verified_at'),
 			'-is:verified' => fn($query) => $query->whereNull('email_verified_at'),
+			'has:sessions' => fn($query) => $query->whereHas('sessions'),
+			'-has:sessions' => fn($query) => $query->whereDoesntHave('sessions'),
 		];
 
 		$specialCases = [
@@ -28,7 +30,7 @@ class UserController extends Controller
 			},
 		];
 
-		$query = User::select();
+		$query = User::select()->withCount('sessions');
 
 		// Verificar si es un caso especial
 		$isSpecialCase = false;
