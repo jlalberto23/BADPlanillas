@@ -67,6 +67,7 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+
   *,
   ::after,
   ::before,
@@ -155,4 +156,9 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+* {
+  -webkit-print-color-adjust: exact;
+  scrollbar-color: var(--muted-foreground) transparent;
 }
