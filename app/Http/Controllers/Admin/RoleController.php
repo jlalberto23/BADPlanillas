@@ -21,11 +21,13 @@ class RoleController extends Controller
 
 		$specialCases = [
 			'permission:' => function ($query, $value) {
-				if ($value !== '') $query->permission($value);
+				if ($value !== '') $query->whereHas('permissions', function ($query) use ($value) {
+					$query->where('description', 'like', "%$value%");
+				});
 			},
 		];
 
-		$query = Role::select();
+		$query = Role::select()->with('permissions:id,name,description');
 
 		// Verificar si es un caso especial
 		$isSpecialCase = false;

@@ -9,7 +9,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
 	Route::get('users', [UserController::class, 'show']);
 
 	Route::get('roles', [RoleController::class, 'show']);
-	Route::get('roles/{id}', [RoleController::class, 'showById']);
+	Route::get('roles/{id}', [RoleController::class, 'showById'])->name('role.showById');
 
 	Route::get('sessions', [SessionController::class, 'show']);
 });
