@@ -3,7 +3,7 @@ import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { Head } from '@inertiajs/react'
 import AdminLayout from '../../../../layouts/admin/layout'
-import { columns } from './components/roles-page-columns'
+import { columns } from './roles-page-columns'
 import { RolesPaginated } from './rolespage'
 
 const breadcrumbs: BreadcrumbItem[] = [

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -65,12 +66,48 @@ class RoleController extends Controller
 	public function showById(Request $request, $id)
 	{
 		try {
-			$role = Role::findById($id);
+			$role = Role::with('permissions:id,name,description')->find($id);
 		} catch (\Throwable $th) {
 			$role = null;
 			Log::error($th->getMessage());
 		}
 
 		return Inertia::render('admin/roles/role-page/role-page', ['role' => $role]);
+	}
+
+	public function update(Request $request, $id)
+	{
+		$request->validate([
+			'name' => ['required', 'string', 'min:1', 'max:25'],
+			'description' => ['required', 'string', 'min:1', 'max:255']
+		]);
+		$sendMessageError = false;
+		try {
+			$role = Role::with('permissions:id,name,description')->find($id);
+			if (!$role) {
+				$sendMessageError = true;
+				throw new Exception('Rol no encontrado');
+			}
+			$role->update($request->only('name', 'description'));
+			return back();
+		} catch (\Throwable $th) {
+			Log::error($th->getMessage());
+			$message = $sendMessageError ? $th->getMessage() : "Error al actualizar el rol";
+			return back()->withErrors(['message' => $message]);
+		}
+	}
+
+	public function destroy($id)
+	{
+		try {
+			if (!Role::where('id', $id)->exists()) {
+				throw new Exception('Rol no encontrado');
+			}
+			Role::where('id', $id)->delete();
+			return back()->with('success', 'Rol eliminado correctamente');
+		} catch (\Throwable $th) {
+			Log::error($th->getMessage());
+			return back()->withErrors(['message' => 'Error al eliminar el rol']);
+		}
 	}
 }

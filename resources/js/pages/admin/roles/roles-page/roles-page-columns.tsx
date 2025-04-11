@@ -14,8 +14,8 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { Link } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
-import { MoreVertical, Pencil } from 'lucide-react'
-import { Role } from '../rolespage'
+import { Eye, MoreVertical } from 'lucide-react'
+import { Role } from './rolespage'
 
 export const columns: ColumnDef<Role, string>[] = [
   {
@@ -38,9 +38,9 @@ export const columns: ColumnDef<Role, string>[] = [
           <DropdownMenuSeparator />
           <Link href={route('role.showById', id)}>
             <DropdownMenuItem>
-              Editar
+              Ver
               <DropdownMenuShortcut>
-                <Pencil className="size-4" />
+                <Eye className="size-4" />
               </DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
@@ -51,7 +51,12 @@ export const columns: ColumnDef<Role, string>[] = [
   {
     id: 'Nombre',
     accessorKey: 'name',
-    header: ({ column }) => <DataTableColumnHeader column={column} />
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    cell: ({
+      row: {
+        original: { id, name }
+      }
+    }) => <Link href={route('role.showById', id)}>{name}</Link>
   },
   {
     id: 'Description',
