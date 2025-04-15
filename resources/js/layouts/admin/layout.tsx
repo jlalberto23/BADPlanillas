@@ -11,6 +11,16 @@ const sidebarNavItems: NavItem[] = [
     title: 'Usuarios',
     href: '/admin/users',
     icon: null
+  },
+  {
+    title: 'Sesiones',
+    href: '/admin/sessions',
+    icon: null
+  },
+  {
+    title: 'Roles',
+    href: '/admin/roles',
+    icon: null
   }
 ]
 
@@ -23,10 +33,10 @@ export default function AdminLayout({ children }: PropsWithChildren) {
   const currentPath = window.location.pathname
 
   return (
-    <div className="px-4 py-6">
+    <div className="flex grow flex-col px-4 py-6">
       <Heading title="Administración" description="Gestiona los roles y permisos de los usuarios" />
 
-      <div className="flex flex-col space-y-8 lg:flex-row lg:space-y-0 lg:space-x-12">
+      <div className="flex grow flex-col space-y-8 lg:flex-row lg:space-y-0 lg:space-x-12">
         <aside className="w-full max-w-xl lg:w-48">
           <nav className="flex flex-col space-y-1 space-x-0">
             {sidebarNavItems.map((item, index) => (
@@ -49,8 +59,8 @@ export default function AdminLayout({ children }: PropsWithChildren) {
 
         <Separator className="my-6 md:hidden" />
 
-        <div className="flex-1 md:max-w-2xl">
-          <section className="max-w-xl space-y-12">{children}</section>
+        <div className="flex w-full grow">
+          <section className="w-full grow space-y-12">{children}</section>
         </div>
       </div>
     </div>
