@@ -293,12 +293,12 @@ export function DataTablePaginated<TData, TValue>({
               </TableRow>
             )}
           </TableBody>
-          <TableHeader className="sticky top-0 bg-card">
+          <TableHeader className="sticky top-0 bg-card rounded-t-md">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className=''>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className='first:rounded-tl-md last:rounded-tr-md'>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
