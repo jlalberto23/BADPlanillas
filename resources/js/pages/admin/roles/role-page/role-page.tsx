@@ -2,8 +2,9 @@ import { Button } from '@/components/ui/button'
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { Head, Link } from '@inertiajs/react'
-import { Pencil, Trash } from 'lucide-react'
+import { List, Pencil, Trash } from 'lucide-react'
 import AdminLayout from '../../../../layouts/admin/layout'
+import { RoleAssignPermissions } from '../components/role-assign-permisssions'
 import { RoleDeletingDialog } from '../components/role-deleting-dialog'
 import { RoleEditingDialog } from '../components/role-editing-dialog'
 import { Role } from './rolepage'
@@ -45,6 +46,17 @@ export default function RolePage({ role }: Props) {
                   <Pencil />
                 </Button>
               </RoleEditingDialog>
+              <RoleAssignPermissions
+                assignedPermissions={role.permissions.reduce<string[]>((acc, permission) => {
+                  acc.push(permission.name)
+                  return acc
+                }, [])}
+                roleId={role.id}
+              >
+                <Button size="icon" variant="outline">
+                  <List />
+                </Button>
+              </RoleAssignPermissions>
             </div>
           </div>
           <p className="text-muted-foreground">{description}</p>

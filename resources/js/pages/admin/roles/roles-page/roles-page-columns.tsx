@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,8 +10,6 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { DataTableColumnHeader } from '@/components/ui/pagination'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { Link } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
@@ -72,15 +71,15 @@ export const columns: ColumnDef<Role, string>[] = [
         original: { permissions, name }
       }
     }) => (
-      <Popover>
-        <PopoverTrigger asChild>
+      <Dialog>
+        <DialogTrigger asChild>
           <Button variant="ghost" size="sm">
             {permissions.length}
           </Button>
-        </PopoverTrigger>
-        <PopoverContent>
+        </DialogTrigger>
+        <DialogContent>
           <h4 className="mb-4 text-sm leading-none font-medium">Permisos de {name}</h4>
-          <ScrollArea className="h-72">
+          <div className="h-72 overflow-auto">
             <ul>
               {permissions.map((permission) => (
                 <div key={permission.id}>
@@ -89,9 +88,9 @@ export const columns: ColumnDef<Role, string>[] = [
                 </div>
               ))}
             </ul>
-          </ScrollArea>
-        </PopoverContent>
-      </Popover>
+          </div>
+        </DialogContent>
+      </Dialog>
     )
   }
 ]

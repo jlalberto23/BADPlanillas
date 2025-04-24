@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SessionController;
 use App\Http\Controllers\Admin\UserController;
@@ -14,4 +15,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
 	Route::delete('roles/{id}', [RoleController::class, 'destroy'])->name('role.destroy');
 
 	Route::get('sessions', [SessionController::class, 'show']);
+
+	Route::prefix('data')->group(function () {
+		Route::get('permissions', [PermissionController::class, 'getAll'])->name('data.permissions');
+	});
 });
