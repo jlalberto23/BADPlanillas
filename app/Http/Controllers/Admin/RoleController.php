@@ -11,7 +11,7 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
-	public function show(Request $request)
+	public function showAll(Request $request)
 	{
 		$rolesPaginated = [];
 		$perPage = max(1, min((int) $request->get('per_page', 20), 500));
@@ -63,7 +63,7 @@ class RoleController extends Controller
 		return Inertia::render('admin/roles/roles-page/roles-page', ['rolesPaginated' => $rolesPaginated]);
 	}
 
-	public function showById($id)
+	public function show($id)
 	{
 		try {
 			$role = Role::with('permissions:id,name,description')->find($id);

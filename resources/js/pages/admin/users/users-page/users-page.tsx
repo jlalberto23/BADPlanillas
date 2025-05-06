@@ -1,10 +1,10 @@
 import { DataTableColumnHeader, DataTablePaginated, DataTableSearchOption } from '@/components/ui/pagination'
+import AdminLayout from '@/layouts/admin/layout'
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
-import { Head } from '@inertiajs/react'
+import { Head, Link } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
-import AdminLayout from '../../../layouts/admin/layout'
-import { User, UsersPaginated } from './types'
+import { User, UsersPaginated } from './userspage'
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -63,17 +63,13 @@ const columns: ColumnDef<User, string>[] = [
     id: 'Nombre',
     accessorKey: 'name',
     header: ({ column }) => <DataTableColumnHeader column={column} />,
-    cell: ({
-      row: {
-        original: { name, sessions_count }
-      }
-    }) => (
-      <div>
-        {name}
-        {sessions_count ? (
-          <div className={`ml-1 inline-block size-2 rounded-full ${sessions_count > 1 ? 'bg-blue-600' : 'bg-green-600'}`}></div>
+    cell: ({ row: { original: u } }) => (
+      <Link href={route('user.show', u.id)}>
+        {u.name}
+        {u.sessions_count ? (
+          <div className={`ml-1 inline-block size-2 rounded-full ${u.sessions_count > 1 ? 'bg-blue-600' : 'bg-green-600'}`}></div>
         ) : null}
-      </div>
+      </Link>
     )
   },
   {
@@ -85,11 +81,7 @@ const columns: ColumnDef<User, string>[] = [
     id: 'Sessiones',
     accessorKey: 'sessions_count',
     header: ({ column }) => <DataTableColumnHeader column={column} />,
-    cell: ({
-      row: {
-        original: { sessions_count }
-      }
-    }) => (sessions_count ? sessions_count : <span className="text-muted-foreground">{sessions_count}</span>)
+    cell: ({ row: { original: u } }) => (u.sessions_count ? u.sessions_count : <span className="text-muted-foreground">{u.sessions_count}</span>)
   },
   {
     id: 'Verificado',

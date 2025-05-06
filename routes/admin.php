@@ -7,10 +7,11 @@ use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
-	Route::get('users', [UserController::class, 'show']);
+	Route::get('users', [UserController::class, 'showAll']);
+	Route::get('users/{id}', [UserController::class, 'show'])->name('user.show');
 
-	Route::get('roles', [RoleController::class, 'show']);
-	Route::get('roles/{id}', [RoleController::class, 'showById'])->name('role.showById');
+	Route::get('roles', [RoleController::class, 'showAll']);
+	Route::get('roles/{id}', [RoleController::class, 'show'])->name('role.showById');
 	Route::put('roles/{id}', [RoleController::class, 'update'])->name('role.update');
 	Route::delete('roles/{id}', [RoleController::class, 'destroy'])->name('role.destroy');
 	Route::put('roles/{id}/syncpermissions', [RoleController::class, 'syncpermissions'])->name('role.permissions.sync');

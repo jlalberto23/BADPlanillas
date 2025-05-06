@@ -10,9 +10,8 @@ use Inertia\Inertia;
 
 class UserController extends Controller
 {
-	public function show(Request $request)
+	public function showAll(Request $request)
 	{
-		$users = [];
 		$perPage = max(1, min((int) $request->get('per_page', 20), 500));
 		$page = (int) $request->get('page', 1);
 		$search = strtolower($request->get('search', ''));
@@ -55,7 +54,6 @@ class UserController extends Controller
 			}
 		}
 
-
 		try {
 			$usersPaginated = $query
 				->orderBy('name')
@@ -63,6 +61,20 @@ class UserController extends Controller
 		} catch (\Throwable $th) {
 			Log::error($th->getMessage());
 		}
-		return Inertia::render('admin/users/users-page', ['usersPaginated' => $usersPaginated]);
+		return Inertia::render('admin/users/users-page/users-page', ['usersPaginated' => $usersPaginated]);
+	}
+
+	public function show($id)
+	{
+		try {
+			$user = User::with('roles:id,name,description')
+				->withCount('sessions')
+				->find($id);
+		} catch (\Throwable $th) {
+			$user = null;
+			Log::error($th->getMessage());
+		}
+
+		return Inertia::render('admin/users/user-page/user-page', ['user' => $user]);
 	}
 }
