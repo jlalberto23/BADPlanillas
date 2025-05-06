@@ -1,9 +1,12 @@
+import { Button } from '@/components/ui/button'
 import { DataTableColumnHeader, DataTablePaginated, DataTableSearchOption } from '@/components/ui/pagination'
 import AdminLayout from '@/layouts/admin/layout'
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { Head, Link } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
+import { EllipsisVertical } from 'lucide-react'
+import UserOptions from '../components/user-options'
 import { User, UsersPaginated } from './userspage'
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -57,7 +60,14 @@ const searchOptions: DataTableSearchOption[] = [
 const columns: ColumnDef<User, string>[] = [
   {
     id: 'Actions',
-    header: ''
+    header: '',
+    cell: ({ row: { original } }) => (
+      <UserOptions user={original}>
+        <Button size="sm" variant="ghost" className="h-6">
+          <EllipsisVertical className="size-3" />
+        </Button>
+      </UserOptions>
+    )
   },
   {
     id: 'Nombre',

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
 	Route::get('users', [UserController::class, 'showAll']);
 	Route::get('users/{id}', [UserController::class, 'show'])->name('user.show');
+	Route::put('users/{id}', [UserController::class, 'update'])->name('user.update');
+	Route::delete('users/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
 	Route::get('roles', [RoleController::class, 'showAll']);
 	Route::get('roles/{id}', [RoleController::class, 'show'])->name('role.showById');

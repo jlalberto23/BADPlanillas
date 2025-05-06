@@ -77,4 +77,47 @@ class UserController extends Controller
 
 		return Inertia::render('admin/users/user-page/user-page', ['user' => $user]);
 	}
+
+	public function update(Request $request, $id)
+	{
+		$request->validate([
+			'name' => ['required', 'string', 'min:1', 'max:25'],
+			'email' => ['required', 'string', 'min:1', 'max:25', 'email']
+		]);
+		$sendMessageError = false;
+
+		try {
+
+			if (User::whereLike('email', $request->input('email'))->where('id', '!=', $id)->exists()) {
+				$sendMessageError =  true;
+				throw new \Exception('Ya existe un usuario con ese correo');
+			}
+
+			$user = User::select('id')->find($id);
+			if (!$user) {
+				$sendMessageError = true;
+				throw new \Exception('Rol no encontrado');
+			}
+			$user->update($request->only('name', 'email'));
+			return back();
+		} catch (\Throwable $th) {
+			Log::error($th->getMessage());
+			$message = $sendMessageError ? $th->getMessage() : "Error al actualizar el rol";
+			return back()->withErrors(['message' => $message]);
+		}
+	}
+
+	public function destroy($id)
+	{
+		try {
+			if (!User::where('id', $id)->exists()) {
+				throw new \Exception('Usuario no encontrado');
+			}
+			User::where('id', $id)->delete();
+			return back()->with('success', 'Usuario eliminado correctamente');
+		} catch (\Throwable $th) {
+			Log::error($th->getMessage());
+			return back()->withErrors(['message' => 'Error al eliminar el usuario']);
+		}
+	}
 }
