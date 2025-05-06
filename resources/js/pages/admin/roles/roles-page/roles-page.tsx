@@ -20,8 +20,6 @@ interface Props {
 export default function UsersPage({ rolesPaginated }: Props) {
   const { data, ...pagination } = rolesPaginated
 
-  console.log(data)
-
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Roles" />

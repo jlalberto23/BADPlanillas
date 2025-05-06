@@ -21,7 +21,6 @@ interface Props {
 
 export default function UsersPage({ sessionsPaginated }: Props) {
   const { data, ...pagination } = sessionsPaginated
-  console.log(data)
 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>

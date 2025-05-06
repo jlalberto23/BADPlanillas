@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -78,7 +78,8 @@ export const columns: ColumnDef<Role, string>[] = [
           </Button>
         </DialogTrigger>
         <DialogContent>
-          <h4 className="mb-4 text-sm leading-none font-medium">Permisos de {name}</h4>
+          <DialogTitle>{name}</DialogTitle>
+          <DialogDescription>Lista de permisos para este rol</DialogDescription>
           <div className="h-72 overflow-auto">
             <ul>
               {permissions.map((permission) => (
