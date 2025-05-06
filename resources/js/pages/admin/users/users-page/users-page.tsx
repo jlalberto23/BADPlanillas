@@ -5,7 +5,8 @@ import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { Head, Link } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
-import { EllipsisVertical } from 'lucide-react'
+import { EllipsisVertical, Plus } from 'lucide-react'
+import { UserCreatingDialog } from '../components/user-creating-dialog'
 import UserOptions from '../components/user-options'
 import { User, UsersPaginated } from './userspage'
 
@@ -36,6 +37,13 @@ export default function UsersPage({ usersPaginated }: Props) {
             searchPlaceholder="Buscar por nombre o correo"
             searchOptions={searchOptions}
             exportedFileName="Usuarios"
+            headerContent={
+              <UserCreatingDialog>
+                <Button variant="outline" size="sm">
+                  <Plus />
+                </Button>
+              </UserCreatingDialog>
+            }
           />
         </div>
       </AdminLayout>

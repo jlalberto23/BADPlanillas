@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
@@ -76,6 +77,64 @@ class UserController extends Controller
 		}
 
 		return Inertia::render('admin/users/user-page/user-page', ['user' => $user]);
+	}
+
+	public function create(Request $request)
+	{
+		$request->validate([
+			'name' => ['required', 'string', 'min:1', 'max:25'],
+			'email' => ['required', 'string', 'min:1', 'max:25', 'email'],
+			'password' => ['required', 'string']
+		]);
+		$sendMessageError = false;
+
+		$passwordValidation = [
+			[
+				'message' => 'La contraseña debe tener al menos 8 caracteres',
+				'isValid' => strlen($request->password) >= 8
+			],
+			[
+				'message' => 'La contraseña debe iniciar con una letra',
+				'isValid' => preg_match('/^[A-Za-z]/', $request->password)
+			],
+			[
+				'message' => 'La contraseña debe contener al menos una mayúscula',
+				'isValid' => preg_match('/[A-Z]/', $request->password)
+			],
+			[
+				'message' => 'La contraseña debe contener al menos un símbolo especial',
+				'isValid' => preg_match('/[^A-Za-z0-9]/', $request->password)
+			],
+			[
+				'message' => 'Las contraseñas no coinciden',
+				'isValid' => $request->password === $request->password_confirmation
+			]
+		];
+
+		$failedRules = collect($passwordValidation)->filter(fn($rule) => !$rule['isValid'])->pluck('message');
+
+		if ($failedRules->isNotEmpty()) {
+			return back()->withErrors(['message' => $failedRules->implode(', ')]);
+		}
+
+		try {
+			if (User::whereLike('email', $request->input('email'))->exists()) {
+				$sendMessageError =  true;
+				throw new \Exception('Ya existe un usuario con ese correo');
+			}
+
+			$user = User::create([
+				'name' => $request->name,
+				'email' => $request->email,
+				'password' => Hash::make($request->password),
+			]);
+
+			return redirect(route('user.show', ['id' => $user->id]));
+		} catch (\Throwable $th) {
+			Log::error($th->getMessage());
+			$message = $sendMessageError ? $th->getMessage() : "Error al actualizar el rol";
+			return back()->withErrors(['message' => $message]);
+		}
 	}
 
 	public function update(Request $request, $id)
