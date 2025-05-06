@@ -13,6 +13,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
 	Route::get('roles/{id}', [RoleController::class, 'showById'])->name('role.showById');
 	Route::put('roles/{id}', [RoleController::class, 'update'])->name('role.update');
 	Route::delete('roles/{id}', [RoleController::class, 'destroy'])->name('role.destroy');
+	Route::put('roles/{id}/syncpermissions', [RoleController::class, 'syncpermissions'])->name('role.permissions.sync');
 
 	Route::get('sessions', [SessionController::class, 'show']);
 

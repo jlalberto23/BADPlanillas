@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { getPermissions } from '@/services/permissionsServices'
 import { useForm } from '@inertiajs/react'
@@ -23,14 +24,14 @@ interface Props {
   children: ReactNode
 }
 
-interface Form {
+type Form = {
   permissions: string[]
-  [key: string]: any // Add an index signature to satisfy the constraint
 }
 
 export function RoleAssignPermissions({ children, roleId, assignedPermissions }: Props) {
   const [open, setOpen] = useState(false)
   const [permissions, setPermissions] = useState<PermissionTable[]>([])
+  const [filteredPermissions, setFilteredPermissions] = useState<PermissionTable[]>([])
   const { data, setData, reset, put, processing, errors, clearErrors } = useForm<Form>({
     permissions: assignedPermissions
   })
@@ -43,9 +44,28 @@ export function RoleAssignPermissions({ children, roleId, assignedPermissions }:
     }
   }, [open])
 
+  useEffect(() => {
+    setFilteredPermissions(permissions)
+  }, [permissions])
+
+  const handleSearch = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+    const query = value.toLowerCase()
+    setFilteredPermissions(
+      permissions.filter((permission) => {
+        if (query === ':checked') {
+          return data.permissions.includes(permission.name)
+        }
+        if (query === ':unchecked') {
+          return !data.permissions.includes(permission.name)
+        }
+        return permission.description.toLowerCase().includes(query)
+      })
+    )
+  }
+
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault()
-    put(route('role.permissions.update', roleId), {
+    put(route('role.permissions.sync', roleId), {
       preserveScroll: true,
       onSuccess: () => {
         toast.success('Permisos actualizados')
@@ -80,8 +100,15 @@ export function RoleAssignPermissions({ children, roleId, assignedPermissions }:
             <AlertDialogTitle>Editar Permisos</AlertDialogTitle>
             <AlertDialogDescription>Selecciona los permisos que deseas asignar al rol. Asegúrate de guardar los cambios.</AlertDialogDescription>
           </AlertDialogHeader>
+          <div className="flex items-center gap-2">
+            <Input type="text" placeholder="Filtrar permisos" onChange={handleSearch} list="permissions-filter" />
+            <datalist id="permissions-filter">
+              <option value=":checked">✅ Marcados</option>
+              <option value=":unchecked">❌ Desmarcados</option>
+            </datalist>
+          </div>
           <section className="flex h-72 flex-col gap-2 overflow-auto">
-            {permissions.map((permission) => (
+            {filteredPermissions.map((permission) => (
               <div key={permission.name} className="flex items-center gap-2">
                 <Checkbox
                   checked={data.permissions.includes(permission.name)}

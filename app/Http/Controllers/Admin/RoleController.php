@@ -63,7 +63,7 @@ class RoleController extends Controller
 		return Inertia::render('admin/roles/roles-page/roles-page', ['rolesPaginated' => $rolesPaginated]);
 	}
 
-	public function showById(Request $request, $id)
+	public function showById($id)
 	{
 		try {
 			$role = Role::with('permissions:id,name,description')->find($id);
@@ -82,8 +82,15 @@ class RoleController extends Controller
 			'description' => ['required', 'string', 'min:1', 'max:255']
 		]);
 		$sendMessageError = false;
+
 		try {
-			$role = Role::with('permissions:id,name,description')->find($id);
+
+			if (Role::whereLike('name', $request->input('name'))->where('id', '!=', $id)->exists()) {
+				$sendMessageError =  true;
+				throw new Exception('Ya existe un rol con ese nombre');
+			}
+
+			$role = Role::select('id')->find($id);
 			if (!$role) {
 				$sendMessageError = true;
 				throw new Exception('Rol no encontrado');
@@ -108,6 +115,36 @@ class RoleController extends Controller
 		} catch (\Throwable $th) {
 			Log::error($th->getMessage());
 			return back()->withErrors(['message' => 'Error al eliminar el rol']);
+		}
+	}
+
+	public function syncPermissions(Request $request, $id)
+	{
+		$request->validate([
+			'permissions' => 'required|array',
+			'permissions.*' => 'string',
+		]);
+
+		$sendMessageError = false;
+
+		try {
+			if (!Role::where('id', $id)->exists()) {
+				throw new Exception('Rol no encontrado');
+			}
+			$role = Role::select('id')->find($id);
+			try {
+				$role->syncPermissions($request->get('permissions')); //todo: Probar con permisos reales
+			} catch (\Throwable $th) {
+				Log::error($th->getMessage());
+				$sendMessageError = true;
+				throw new Exception('Error al guardar los permisos');
+			}
+		} catch (\Throwable $th) {
+			if (!$sendMessageError) {
+				Log::error($th->getMessage());
+			}
+			$message = $sendMessageError ? $th->getMessage() : "Error al actualizar el rol";
+			return back()->withErrors(['message' => $message]);
 		}
 	}
 }

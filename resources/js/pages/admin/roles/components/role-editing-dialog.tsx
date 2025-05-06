@@ -22,7 +22,7 @@ interface Props {
   children: ReactNode
 }
 
-interface Form extends Pick<Props['role'], 'name' | 'description'> {}
+type Form = Pick<Props['role'], 'name' | 'description'>
 
 export function RoleEditingDialog({ children, role }: Props) {
   const [open, setOpen] = useState(false)
