@@ -32,9 +32,10 @@ return new class extends Migration
             $table->string('correo_institucional')->unique();
             $table->string('estado');//activo o inactivo
             $table->string('carnet_empleado')->unique();
+            $table->string('tpoDocumento');
                         
             //Referencias a tablas catalogo
-            $table->unsignedBigInteger('id_tpo_documento');
+            //$table->unsignedBigInteger('id_tpo_documento');
             $table->unsignedBigInteger('id_profesion');
             $table->unsignedBigInteger('id_puesto');
             $table->unsignedBigInteger('id_deptoEmpresa');

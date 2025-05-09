@@ -17,6 +17,11 @@ const mainNavItems: NavItem[] = [
     title: 'Admin',
     href: '/admin/users',
     icon: LockKeyhole
+  },
+  {
+    title: 'Crear Empleado',
+    href: '/empleados',
+    icon: LockKeyhole
   }
 ]
 

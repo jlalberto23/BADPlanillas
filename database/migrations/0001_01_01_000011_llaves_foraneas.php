@@ -13,7 +13,7 @@ return new class extends Migration
     {
         //Llaves foraneas de empleados
         Schema::table('empleados', function (Blueprint $table) {
-            $table->foreign('id_tpo_documento')->references('id_tpo_documento')->on('tpoDocumento');
+            //$table->foreign('id_tpo_documento')->references('id_tpo_documento')->on('tpoDocumento');
             $table->foreign('id_profesion')->references('id_profesion')->on('profesiones');
             $table->foreign('id_puesto')->references('id_puesto')->on('puestos');
             $table->foreign('id_deptoEmpresa')->references('id_deptoEmpresa')->on('departamentoEmpresa');

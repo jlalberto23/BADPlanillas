@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //tpoDocumento, pais, departamento, municipios, distritos, profesiones, puestos, rangoSalarial
-        // departamentoEmpresa, centroCosto, periodoContable, anioCalendario, tpoIngreso, ingresosEmpleado
-        // tpoDescuentos, tpoAportesPatron, tablaRenta, 
-        Schema::create('tpoDocumento', function (Blueprint $table) {
-			$table->bigIncrements('id_tpo_documento');
-			$table->string('descripcionDocumento');			
-		});
+
+        //Schema::create('tpoDocumento', function (Blueprint $table) {
+		//	$table->bigIncrements('id_tpo_documento');
+		//	$table->string('descripcionDocumento');			
+		//});
         Schema::create('pais', function (Blueprint $table) {
 			$table->bigIncrements('id_pais');
 			$table->string('nombrePais');			

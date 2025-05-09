@@ -13,6 +13,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 	})->name('dashboard');
 });
 
+Route::middleware(['auth', 'verified'])->group(function () {
+	Route::get('empleados', function () {
+		return Inertia::render('registrarEmpleado');
+	})->name('empleados');
+});
+
+
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
