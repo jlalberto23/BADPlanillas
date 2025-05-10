@@ -140,8 +140,8 @@ class UserController extends Controller
 	public function update(Request $request, $id)
 	{
 		$request->validate([
-			'name' => ['required', 'string', 'min:1', 'max:25'],
-			'email' => ['required', 'string', 'min:1', 'max:25', 'email']
+			'name' => ['required', 'string', 'min:1', 'max:50'],
+			'email' => ['required', 'string', 'min:1', 'max:50', 'email']
 		]);
 		$sendMessageError = false;
 

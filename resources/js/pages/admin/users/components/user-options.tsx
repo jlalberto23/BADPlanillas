@@ -7,7 +7,8 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { Pencil, Trash } from 'lucide-react'
+import { Link } from '@inertiajs/react'
+import { Eye, Pencil, Trash } from 'lucide-react'
 import { ReactNode, useRef, useState } from 'react'
 import { UserDeletingDialog } from './user-deleting-dialog'
 import { UserEditingDialog } from './user-editing-dialog'
@@ -38,6 +39,16 @@ export default function UserOptions({ user, children }: Props) {
         <DropdownMenuContent>
           <DropdownMenuLabel>Opciones</DropdownMenuLabel>
           <DropdownMenuSeparator />
+          {!route().current('user.show', user.id) && (
+            <Link href={route('user.show', user.id)}>
+              <DropdownMenuItem>
+                Ver
+                <DropdownMenuShortcut>
+                  <Eye className="size-4" />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </Link>
+          )}
           <DropdownMenuItem onClick={handleEditClick}>
             Editar
             <DropdownMenuShortcut>

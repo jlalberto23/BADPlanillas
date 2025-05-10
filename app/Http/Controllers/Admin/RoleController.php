@@ -78,7 +78,7 @@ class RoleController extends Controller
 	public function update(Request $request, $id)
 	{
 		$request->validate([
-			'name' => ['required', 'string', 'min:1', 'max:25'],
+			'name' => ['required', 'string', 'min:1', 'max:50'],
 			'description' => ['required', 'string', 'min:1', 'max:255']
 		]);
 		$sendMessageError = false;

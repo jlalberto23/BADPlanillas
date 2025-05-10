@@ -46,14 +46,16 @@ export default function RoleOptions({ role, children }: Props) {
         <DropdownMenuContent>
           <DropdownMenuLabel>Opciones</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <Link href={route('role.showById', role.id)}>
-            <DropdownMenuItem>
-              Ver
-              <DropdownMenuShortcut>
-                <Eye className="size-4" />
-              </DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </Link>
+          {!route().current('role.showById', role.id) && (
+            <Link href={route('role.showById', role.id)}>
+              <DropdownMenuItem>
+                Ver
+                <DropdownMenuShortcut>
+                  <Eye className="size-4" />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </Link>
+          )}
           <DropdownMenuItem onClick={handleEditClick}>
             Editar
             <DropdownMenuShortcut>
