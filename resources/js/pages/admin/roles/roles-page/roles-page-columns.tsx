@@ -1,19 +1,11 @@
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
 import { DataTableColumnHeader } from '@/components/ui/pagination'
 import { Separator } from '@/components/ui/separator'
 import { Link } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
-import { Eye, MoreVertical } from 'lucide-react'
+import { EllipsisVertical } from 'lucide-react'
+import RoleOptions from '../components/role-options'
 import { Role } from './rolespage'
 
 export const columns: ColumnDef<Role, string>[] = [
@@ -21,30 +13,12 @@ export const columns: ColumnDef<Role, string>[] = [
     id: 'Actions',
     header: '',
     accessorFn: () => '',
-    cell: ({
-      row: {
-        original: { id }
-      }
-    }) => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button size="sm" variant="ghost">
-            <MoreVertical className="size-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuLabel>Opciones</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <Link href={route('role.showById', id)}>
-            <DropdownMenuItem>
-              Ver
-              <DropdownMenuShortcut>
-                <Eye className="size-4" />
-              </DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </Link>
-        </DropdownMenuContent>
-      </DropdownMenu>
+    cell: ({ row: { original } }) => (
+      <RoleOptions role={original}>
+        <Button size="sm" variant="ghost" className="h-6">
+          <EllipsisVertical className="size-3" />
+        </Button>
+      </RoleOptions>
     )
   },
   {

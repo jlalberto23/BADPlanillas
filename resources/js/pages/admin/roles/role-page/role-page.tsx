@@ -2,11 +2,9 @@ import { Button } from '@/components/ui/button'
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { Head, Link } from '@inertiajs/react'
-import { List, Pencil, Trash } from 'lucide-react'
+import { EllipsisVertical } from 'lucide-react'
 import AdminLayout from '../../../../layouts/admin/layout'
-import { RoleAssignPermissions } from '../components/role-assign-permisssions'
-import { RoleDeletingDialog } from '../components/role-deleting-dialog'
-import { RoleEditingDialog } from '../components/role-editing-dialog'
+import RoleOptions from '../components/role-options'
 import { Role } from './rolepage'
 
 interface Props {
@@ -35,29 +33,11 @@ export default function RolePage({ role }: Props) {
         <div className="flex h-full flex-col">
           <div className="flex justify-between">
             <h3 className="text-2xl font-semibold">{name}</h3>
-            <div className="flex gap-4">
-              <RoleDeletingDialog role={role}>
-                <Button size="icon" variant="destructive">
-                  <Trash />
-                </Button>
-              </RoleDeletingDialog>
-              <RoleEditingDialog role={role}>
-                <Button size="icon" variant="outline">
-                  <Pencil />
-                </Button>
-              </RoleEditingDialog>
-              <RoleAssignPermissions
-                assignedPermissions={role.permissions.reduce<string[]>((acc, permission) => {
-                  acc.push(permission.name)
-                  return acc
-                }, [])}
-                roleId={role.id}
-              >
-                <Button size="icon" variant="outline">
-                  <List />
-                </Button>
-              </RoleAssignPermissions>
-            </div>
+            <RoleOptions role={role}>
+              <Button variant="outline">
+                <EllipsisVertical /> Opciones
+              </Button>
+            </RoleOptions>
           </div>
           <p className="text-muted-foreground">{description}</p>
           <ul className="bg-muted mt-3 min-h-48 list-inside list-disc rounded p-4 text-sm">
