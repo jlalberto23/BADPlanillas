@@ -29,7 +29,7 @@ export const columns: ColumnDef<Role, string>[] = [
       row: {
         original: { id, name }
       }
-    }) => <Link href={route('role.showById', id)}>{name}</Link>
+    }) => <Link href={route('role.show', id)}>{name}</Link>
   },
   {
     id: 'Description',

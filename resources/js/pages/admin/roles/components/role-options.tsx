@@ -46,8 +46,8 @@ export default function RoleOptions({ role, children }: Props) {
         <DropdownMenuContent>
           <DropdownMenuLabel>Opciones</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {!route().current('role.showById', role.id) && (
-            <Link href={route('role.showById', role.id)}>
+          {!route().current('role.show', role.id) && (
+            <Link href={route('role.show', role.id)}>
               <DropdownMenuItem>
                 Ver
                 <DropdownMenuShortcut>
@@ -83,7 +83,7 @@ export default function RoleOptions({ role, children }: Props) {
       <RoleEditingDialog role={role}>
         <button ref={editarBtn} className="hidden"></button>
       </RoleEditingDialog>
-      {role.permissions && role.permissions.length && (
+      {Array.isArray(role.permissions) && (
         <RoleAssignPermissions
           roleId={role.id}
           assignedPermissions={role.permissions.reduce<string[]>((acc, permission) => {

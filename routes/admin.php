@@ -14,7 +14,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
 	Route::delete('users/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
 	Route::get('roles', [RoleController::class, 'showAll']);
-	Route::get('roles/{id}', [RoleController::class, 'show'])->name('role.showById');
+	Route::post('roles', [RoleController::class, 'create'])->name('role.create');
+	Route::get('roles/{id}', [RoleController::class, 'show'])->name('role.show');
 	Route::put('roles/{id}', [RoleController::class, 'update'])->name('role.update');
 	Route::delete('roles/{id}', [RoleController::class, 'destroy'])->name('role.destroy');
 	Route::put('roles/{id}/syncpermissions', [RoleController::class, 'syncpermissions'])->name('role.permissions.sync');

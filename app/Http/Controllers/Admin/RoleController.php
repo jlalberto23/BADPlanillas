@@ -75,6 +75,30 @@ class RoleController extends Controller
 		return Inertia::render('admin/roles/role-page/role-page', ['role' => $role]);
 	}
 
+	public function create(Request $request)
+	{
+		$request->validate([
+			'name' => ['required', 'string', 'min:1', 'max:50', 'unique:roles,name'],
+			'description' => ['required', 'string', 'min:1', 'max:255']
+		]);
+
+		$sendMessageError = false;
+
+		try {
+
+			$role = Role::create([
+				'name' => $request->input('name'),
+				'description' => $request->input('description')
+			]);
+
+			return redirect(route('role.show', ['id' => $role->id]));
+		} catch (\Throwable $th) {
+			Log::error($th->getMessage());
+			$message = $sendMessageError ? $th->getMessage() : "Error al crear el rol";
+			return back()->withErrors(['message' => $message]);
+		}
+	}
+
 	public function update(Request $request, $id)
 	{
 		$request->validate([
