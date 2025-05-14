@@ -32,11 +32,6 @@ export const columns: ColumnDef<Role, string>[] = [
     }) => <Link href={route('role.show', id)}>{name}</Link>
   },
   {
-    id: 'Description',
-    accessorKey: 'description',
-    header: ({ column }) => <DataTableColumnHeader column={column} />
-  },
-  {
     id: 'Permisos',
     accessorFn: ({ permissions }) => permissions?.map((permission) => permission.description)?.join(', '),
     header: ({ column }) => <DataTableColumnHeader column={column} />,
@@ -67,5 +62,11 @@ export const columns: ColumnDef<Role, string>[] = [
         </DialogContent>
       </Dialog>
     )
+  },
+  {
+    id: 'Description',
+    accessorKey: 'description',
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    cell: ({ row: { original: r } }) => <p className="min-w-48 text-wrap">{r.description}</p>
   }
 ]
