@@ -1,9 +1,13 @@
-
 import ContentLayout from '@/layouts/app/app-content-layout'
-import { PropsWithChildren } from "react"
 import { NavItem } from '@/types'
+import { PropsWithChildren } from 'react'
 
 const sidebarNavItems: NavItem[] = [
+  {
+    title: 'Empleados',
+    href: '/catalogs/empleados',
+    icon: null
+  },
   {
     title: 'Departamentos',
     href: '/catalogs/departamentos',
@@ -20,19 +24,21 @@ const sidebarNavItems: NavItem[] = [
     icon: null
   },
   {
-    title: 'Empleados',
-    href: '/catalogs/empleados',
+    title: 'Profesiones',
+    href: '/catalogs/profesiones',
     icon: null
   },
   {
-    title: 'Profesiones',
-    href: '/catalogs/profesiones',
+    title: 'Puestos',
+    href: '/catalogs/puestos',
     icon: null
   }
 ]
 
 export default function CatalogsLayout({ children }: PropsWithChildren) {
-  return <ContentLayout title="Administración" description="Gestiona los roles y permisos de los usuarios" sidebarNavItems={sidebarNavItems}>
-		{children}
-	</ContentLayout>
+  return (
+    <ContentLayout title="Administración" description="Gestiona los roles y permisos de los usuarios" sidebarNavItems={sidebarNavItems}>
+      {children}
+    </ContentLayout>
+  )
 }
