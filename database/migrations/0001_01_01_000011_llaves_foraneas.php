@@ -89,8 +89,7 @@ return new class extends Migration
 			//$table->dropForeign(['id_tpo_documento']);
 			$table->dropForeign(['id_profesion']);
 			$table->dropForeign(['id_puesto']);
-			$table->dropForeign(['id_deptoEmpresa']);
-			$table->dropForeign(['id_jefeDepto']);
+			$table->dropForeign(['id_seccion']);
 		});
 		// Eliminar llaves foráneas de municipios
 		Schema::table('municipios', function (Blueprint $table) {
@@ -139,7 +138,6 @@ return new class extends Migration
 		// Eliminar llaves foráneas de seccionEmpresa
 		Schema::table('seccionEmpresa', function (Blueprint $table) {
 			$table->dropForeign(['id_jefeSeccion']);
-			$table->dropForeign(['id_deptoEmpresa']);
 			$table->dropForeign(['id_area']);
 		});
 

@@ -35,9 +35,9 @@ return new class extends Migration
 			$table->string('tipo_documento');
 
 			//Referencias a tablas catalogo
-			$table->unsignedBigInteger('id_profesion');
-			$table->unsignedBigInteger('id_puesto');
-			$table->unsignedBigInteger('id_seccion');
+			$table->unsignedBigInteger('id_profesion')->nullable();
+			$table->unsignedBigInteger('id_puesto')->nullable();
+			$table->unsignedBigInteger('id_seccion')->nullable();
 			$table->timestamps();
 		});
 	}
