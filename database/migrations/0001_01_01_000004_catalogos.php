@@ -11,6 +11,10 @@ return new class extends Migration
 	 */
 	public function up(): void
 	{
+		Schema::create('pais', function (Blueprint $table) {
+			$table->bigIncrements('id_pais');
+			$table->string('nombrePais');
+		});
 		Schema::create('departamento', function (Blueprint $table) {
 			$table->bigIncrements('id_departamento');
 			$table->string('nombreDepartamento');
@@ -106,6 +110,7 @@ return new class extends Migration
 	public function down(): void
 	{
 		Schema::dropIfExists('tpoDocumento');
+		Schema::dropIfExists('pais');
 		Schema::dropIfExists('departamento');
 		Schema::dropIfExists('municipios');
 		Schema::dropIfExists('distritos');
