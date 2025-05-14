@@ -31,7 +31,7 @@ class Empleado extends Model
 
 	public function puesto()
 	{
-		return $this->belongsTo(Puestos::class, 'id_puesto');
+		return $this->belongsTo(Puesto::class, 'id_puesto');
 	}
 
 	public function seccion()
