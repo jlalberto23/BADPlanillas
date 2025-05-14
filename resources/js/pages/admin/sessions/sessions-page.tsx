@@ -5,7 +5,7 @@ import { BreadcrumbItem } from '@/types'
 import { Head } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
 import { RefreshCw } from 'lucide-react'
-import AdminLayout from '../../../layouts/admin/layout'
+import AdminLayout from '../layout'
 import { Session, SessionsPaginated } from './types'
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -103,7 +103,7 @@ const columns: ColumnDef<Session, string>[] = [
       row: {
         original: { user_agent }
       }
-    }) => <p className="text-muted-foreground max-w-48 text-xs text-wrap">{user_agent}</p>
+    }) => <p className="text-muted-foreground min-w-48 text-xs text-wrap">{user_agent}</p>
   }
 ]
 

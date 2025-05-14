@@ -3,7 +3,7 @@ import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { Head, Link } from '@inertiajs/react'
 import { EllipsisVertical } from 'lucide-react'
-import AdminLayout from '../../../../layouts/admin/layout'
+import AdminLayout from '../../layout'
 import UserOptions from '../components/user-options'
 import { User } from './userpage'
 

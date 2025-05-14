@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
 import { type NavItem } from '@/types'
 import { Link } from '@inertiajs/react'
-import { BookOpen, Folder, LayoutGrid, LockKeyhole } from 'lucide-react'
+import { BookOpen, Folder, LayoutGrid, List, LockKeyhole } from 'lucide-react'
 import AppLogo from './app-logo'
 
 const mainNavItems: NavItem[] = [
@@ -20,8 +20,8 @@ const mainNavItems: NavItem[] = [
   },
   {
     title: 'Crear Empleado',
-    href: '/empleados',
-    icon: LockKeyhole
+    href: route('catalogs.empleados.registrar'),
+    icon: List
   }
 ]
 

@@ -1,6 +1,5 @@
 import InputError from '@/components/input-error'
 import AppLayout from '@/layouts/app-layout'
-import SettingsLayout from '@/layouts/settings/layout'
 import { type BreadcrumbItem } from '@/types'
 import { Head, useForm } from '@inertiajs/react'
 import { FormEventHandler } from 'react'
@@ -9,10 +8,11 @@ import HeadingSmall from '@/components/heading-small'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import CatalogsLayout from '../layout'
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Empleados',
+       title: 'Empleados',
         href: '/empleados'
       },
       {
@@ -60,7 +60,7 @@ export default function EmpleadoForm() {
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Nuevo empleado" />
 
-      <SettingsLayout>
+      <CatalogsLayout>
         <div className="space-y-6">
           <HeadingSmall title="Nuevo empleado" description="Llena el formulario para crear un nuevo empleado." />
 {/* Nombres */}
@@ -337,7 +337,7 @@ export default function EmpleadoForm() {
             </div>
           </form>
         </div>
-      </SettingsLayout>
+      </CatalogsLayout>
     </AppLayout>
   )
 }

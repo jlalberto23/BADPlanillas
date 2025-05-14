@@ -15,8 +15,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
 	Route::get('empleados', function () {
-		return Inertia::render('registrarEmpleado');
-	})->name('empleados');
+		return Inertia::render('catalogs/empleados/registrarEmpleado');
+	})->name('catalogs.empleados.registrar');
 });
 
 

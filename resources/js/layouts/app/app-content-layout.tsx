@@ -6,25 +6,13 @@ import { type NavItem } from '@/types'
 import { Link } from '@inertiajs/react'
 import { type PropsWithChildren } from 'react'
 
-const sidebarNavItems: NavItem[] = [
-  {
-    title: 'Usuarios',
-    href: '/admin/users',
-    icon: null
-  },
-  {
-    title: 'Sesiones',
-    href: '/admin/sessions',
-    icon: null
-  },
-  {
-    title: 'Roles',
-    href: '/admin/roles',
-    icon: null
-  }
-]
+interface Props {
+	title: string
+	description: string
+	sidebarNavItems: NavItem[]
+}
 
-export default function AdminLayout({ children }: PropsWithChildren) {
+export default function ContentLayout({ children, title, description, sidebarNavItems }: PropsWithChildren<Props>) {
   // When server-side rendering, we only render the layout on the client...
   if (typeof window === 'undefined') {
     return null
@@ -34,7 +22,7 @@ export default function AdminLayout({ children }: PropsWithChildren) {
 
   return (
     <div className="flex w-full grow flex-col overflow-x-hidden px-4 py-6">
-      <Heading title="Administración" description="Gestiona los roles y permisos de los usuarios" />
+      <Heading title={title} description={description} />
 
       <div className="flex grow flex-col space-y-8 overflow-x-hidden lg:flex-row lg:space-y-0 lg:space-x-12">
         <aside className="w-full max-w-xl lg:w-48">

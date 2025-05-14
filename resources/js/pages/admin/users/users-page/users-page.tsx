@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { DataTableColumnHeader, DataTablePaginated, DataTableSearchOption } from '@/components/ui/pagination'
-import AdminLayout from '@/layouts/admin/layout'
+import AdminLayout from '../../layout'
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { Head, Link } from '@inertiajs/react'
