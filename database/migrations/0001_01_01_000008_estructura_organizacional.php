@@ -15,23 +15,22 @@ return new class extends Migration
 			$table->id('id_deptoEmpresa');
 			$table->string('nombreDepto');
 			$table->string('descripcionDepto');
-			$table->unsignedBigInteger('id_jefeDepto');
-			$table->unsignedBigInteger('id_centro_costo');
+			$table->unsignedBigInteger('id_jefeDepto')->nullable();
+			$table->unsignedBigInteger('id_centro_costo')->nullable();
 		});
 		Schema::create('areaEmpresa', function (Blueprint $table) {
 			$table->id('id_area');
 			$table->string('nombreArea');
 			$table->string('descripcionArea');
-			$table->unsignedBigInteger('id_jefeArea');
-			$table->unsignedBigInteger('id_deptoEmpresa');
+			$table->unsignedBigInteger('id_jefeArea')->nullable();
+			$table->unsignedBigInteger('id_deptoEmpresa')->nullable();
 		});
 		Schema::create('seccionEmpresa', function (Blueprint $table) {
 			$table->id('id_seccion');
 			$table->string('nombreSeccion');
 			$table->string('descripcionSeccion');
-			$table->unsignedBigInteger('id_jefeSeccion');
-			$table->unsignedBigInteger('id_deptoEmpresa');
-			$table->unsignedBigInteger('id_area');
+			$table->unsignedBigInteger('id_jefeSeccion')->nullable();
+			$table->unsignedBigInteger('id_area')->nullable();
 		});
 	}
 

@@ -16,8 +16,7 @@ return new class extends Migration
 			//$table->foreign('id_tpo_documento')->references('id_tpo_documento')->on('tpoDocumento');
 			$table->foreign('id_profesion')->references('id_profesion')->on('profesiones');
 			$table->foreign('id_puesto')->references('id_puesto')->on('puestos');
-			$table->foreign('id_deptoEmpresa')->references('id_deptoEmpresa')->on('departamentoEmpresa');
-			$table->foreign('id_jefeDepto')->references('id_empleado')->on('empleados');
+			$table->foreign('id_seccion')->references('id_seccion')->on('seccionEmpresa');
 		});
 		//Llaves foraneas de municipios
 		Schema::table('municipios', function (Blueprint $table) {
@@ -66,7 +65,6 @@ return new class extends Migration
 		//Llaves foraneas de areaEmpresa
 		Schema::table('seccionEmpresa', function (Blueprint $table) {
 			$table->foreign('id_jefeSeccion')->references('id_empleado')->on('empleados');
-			$table->foreign('id_deptoEmpresa')->references('id_deptoEmpresa')->on('departamentoEmpresa');
 			$table->foreign('id_area')->references('id_area')->on('areaEmpresa');
 		});
 		//Llaves foraneas de planilla

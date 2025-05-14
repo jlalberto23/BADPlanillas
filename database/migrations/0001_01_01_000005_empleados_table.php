@@ -16,7 +16,7 @@ return new class extends Migration
 			$table->string('primer_nombre');
 			$table->string('segundo_nombre');
 			$table->string('apellido_paterno');
-			$table->string('apellido materno');
+			$table->string('apellido_materno');
 			$table->string('apellido_casada')->nullable();
 			$table->date('fecha_nacimiento');
 			$table->date('fecha_ingreso');
@@ -30,17 +30,14 @@ return new class extends Migration
 			$table->string('sexo', 1);
 			$table->string('correo_personal')->unique();
 			$table->string('correo_institucional')->unique();
-			$table->string('estado'); //activo o inactivo
+			$table->enum('estado', ['activo', 'inactivo']);
 			$table->string('carnet_empleado')->unique();
-			$table->string('tpoDocumento');
+			$table->string('tipo_documento');
 
 			//Referencias a tablas catalogo
-			//$table->unsignedBigInteger('id_tpo_documento');
 			$table->unsignedBigInteger('id_profesion');
 			$table->unsignedBigInteger('id_puesto');
-			$table->unsignedBigInteger('id_deptoEmpresa');
-			$table->unsignedBigInteger('id_jefeDepto')->nullable();
-
+			$table->unsignedBigInteger('id_seccion');
 			$table->timestamps();
 		});
 	}
