@@ -7,9 +7,9 @@ import { Link } from '@inertiajs/react'
 import { type PropsWithChildren } from 'react'
 
 interface Props {
-	title: string
-	description: string
-	sidebarNavItems: NavItem[]
+  title: string
+  description: string
+  sidebarNavItems: NavItem[]
 }
 
 export default function ContentLayout({ children, title, description, sidebarNavItems }: PropsWithChildren<Props>) {
@@ -24,16 +24,16 @@ export default function ContentLayout({ children, title, description, sidebarNav
     <div className="flex w-full grow flex-col overflow-x-hidden px-4 py-6">
       <Heading title={title} description={description} />
 
-      <div className="flex grow flex-col space-y-8 overflow-x-hidden lg:flex-row lg:space-y-0 lg:space-x-12">
+      <div className="flex grow flex-col overflow-x-hidden lg:flex-row lg:space-y-0 lg:space-x-12">
         <aside className="w-full max-w-xl lg:w-48">
-          <nav className="flex flex-col space-y-1 space-x-0">
+          <nav className="flex flex-wrap space-y-1 space-x-1 lg:flex-col lg:space-x-0">
             {sidebarNavItems.map((item, index) => (
               <Button
                 key={`${item.href}-${index}`}
                 size="sm"
                 variant="ghost"
                 asChild
-                className={cn('w-full justify-start', {
+                className={cn('justify-start lg:w-full', {
                   'bg-muted': currentPath === item.href
                 })}
               >
@@ -44,8 +44,7 @@ export default function ContentLayout({ children, title, description, sidebarNav
             ))}
           </nav>
         </aside>
-
-        <Separator className="my-6 md:hidden" />
+        <Separator className="my-4 lg:hidden" />
 
         <div className="flex w-full grow overflow-x-hidden">
           <section className="w-full grow space-y-12">{children}</section>

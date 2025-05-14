@@ -19,7 +19,7 @@ const mainNavItems: NavItem[] = [
     icon: LockKeyhole
   },
   {
-    title: 'Crear Empleado',
+    title: 'Catálogos',
     href: route('catalogs.empleados.registrar'),
     icon: List
   }
