@@ -157,7 +157,8 @@ class RoleController extends Controller
 			}
 			$role = Role::select('id')->find($id);
 			try {
-				$role->syncPermissions($request->get('permissions')); //todo: Probar con permisos reales
+				$role->guard_name = 'web';
+				$role->syncPermissions($request->get('permissions'));
 			} catch (\Throwable $th) {
 				Log::error($th->getMessage());
 				$sendMessageError = true;

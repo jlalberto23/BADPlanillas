@@ -1,5 +1,11 @@
 # BAD - Planillas
 
+## Roles and Permissions Seeders
+
+```bash
+php artisan db:seed --class="Database\Seeders\AdminSeeders\AdminRolePermissionsSeeder"
+```
+
 ## Example Seeders
 
 ```bash
