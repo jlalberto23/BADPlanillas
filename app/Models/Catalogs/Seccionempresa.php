@@ -3,15 +3,14 @@
 namespace App\Models\Catalogs;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Empleado;
 
 class Seccionempresa extends Model
 {
 	protected $table = 'seccionEmpresa';
 	public $timestamps = false;
-	
+
 	protected $primaryKey = 'id_seccion';
-	
+
 	protected $fillable = [
 		'nombreSeccion',
 		'descripcionSeccion',

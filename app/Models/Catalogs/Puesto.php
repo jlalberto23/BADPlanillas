@@ -3,7 +3,7 @@
 namespace App\Models\Catalogs;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Empleado;
+use App\Models\Catalogs\Empleado;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Puestos extends Model

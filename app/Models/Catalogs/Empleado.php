@@ -3,19 +3,13 @@
 namespace App\Models\Catalogs;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Catalogs\Profesiones;
-use App\Models\Catalogs\Puestos;
-use App\Models\Catalogs\Departamentoempresa;
-use App\Models\Catalogs\Areaempresa;
-use App\Models\Catalogs\Seccionempresa;
-use App\Models\Catalogs\Empleadoprofesion;
 
-class Empleados extends Model
+class Empleado extends Model
 {
 	protected $table = 'empleados';
 	public $timestamps = false;
 	protected $primaryKey = 'id_empleado';
-	
+
 	protected $fillable = [
 		'id_profesion',
 		'id_puesto',
@@ -32,7 +26,7 @@ class Empleados extends Model
 	// Relaciones
 	public function profesion()
 	{
-		return $this->belongsTo(Profesiones::class, 'id_profesion');
+		return $this->belongsTo(Profesion::class, 'id_profesion');
 	}
 
 	public function puesto()

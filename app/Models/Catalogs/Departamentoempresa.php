@@ -2,18 +2,15 @@
 
 namespace App\Models\Catalogs;
 
-use Illuminate\Database\Eloquent\Model;
-use App\Models\Catalogs\Empleados;
 use App\Models\Payroll\Centrocosto;
-use App\Models\Catalogs\Areaempresa;
-use App\Models\Catalogs\Seccionempresa;
+use Illuminate\Database\Eloquent\Model;
 
 class Departamentoempresa extends Model
 {
 	protected $table = 'departamentoEmpresa';
 	public $timestamps = false;
 	protected $primaryKey = 'id_deptoEmpresa';
-	
+
 	protected $fillable = [
 		'nombreDepto',
 		'descripcionDepto',
@@ -24,7 +21,7 @@ class Departamentoempresa extends Model
 	// Relación con el jefe del departamento
 	public function jefeDepartamento()
 	{
-		return $this->belongsTo(Empleados::class, 'id_jefeDepto');
+		return $this->belongsTo(Empleado::class, 'id_jefeDepto');
 	}
 
 	// Relación con el centro de costo
@@ -56,7 +53,7 @@ class Departamentoempresa extends Model
 	public function empleados()
 	{
 		return $this->hasManyThrough(
-			Empleados::class,
+			Empleado::class,
 			Seccionempresa::class,
 			'id_area', // Llave foránea en secciones que conecta con áreas
 			'id_seccion', // Llave foránea en empleados
