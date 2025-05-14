@@ -14,6 +14,18 @@ php artisan db:seed --class="Database\Seeders\CatalogsSeeders\EstructuraSeeder"
 php artisan db:seed --class="Database\Seeders\AdminSeeders\AdminRolePermissionsSeeder"
 ```
 
+- Profesiones
+
+```bash
+php artisan db:seed --class="Database\Seeders\CatalogsSeeders\ProfesionesSeeder"
+```
+
+- Puestos
+
+```bash
+php artisan db:seed --class="Database\Seeders\CatalogsSeeders\PuestosSeeder"
+```
+
 ## Example Seeders
 
 ```bash

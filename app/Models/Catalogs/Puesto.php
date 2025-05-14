@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Catalogs\Empleado;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Puestos extends Model
+class Puesto extends Model
 {
 	protected $table = 'puestos';
 	public $timestamps = false;
