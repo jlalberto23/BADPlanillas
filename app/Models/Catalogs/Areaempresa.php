@@ -10,8 +10,8 @@ class Areaempresa extends Model
 	public $timestamps = false;
 	protected $primaryKey = 'id_area';
 	protected $fillable = [
-		'nombre_area',
-		'descripcion_area',
+		'nombreArea',
+		'descripcionArea',
 		'id_deptoEmpresa',
 		'id_jefeArea'
 	];
