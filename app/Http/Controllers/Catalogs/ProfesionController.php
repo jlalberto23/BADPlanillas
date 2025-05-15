@@ -80,4 +80,10 @@ class ProfesionController extends Controller
 			return back()->withErrors(['message' => 'Error al eliminar la profesión']);
 		}
 	}
+
+	public function getProfesiones()
+	{
+		$profesiones = Profesion::all();
+		return response()->json($profesiones);
+	}
 }

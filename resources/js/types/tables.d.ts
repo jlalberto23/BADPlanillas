@@ -47,3 +47,32 @@ interface ProfesionTable {
   id_profesion: number
   nombreProfesion: string
 }
+
+interface EmpleadoTable {
+  id_empleado: number
+  primer_nombre: string
+  segundo_nombre: string
+  apellido_paterno: string
+  apellido_materno: string
+  apellido_casada: string | null
+  fecha_nacimiento: string
+  fecha_ingreso: string
+  numero_documento: string | null
+  dui: string
+  nit: string
+  codigo_isss: string
+  codigo_nup: string
+  salario_base: number
+  estado_civil: string
+  sexo: string
+  correo_personal: string
+  correo_institucional: string
+  estado: 'activo' | 'inactivo'
+  carnet_empleado: string
+  tipo_documento: string
+  id_profesion: number | null
+  id_puesto: number | null
+  id_seccion: number | null
+  created_at: string
+  updated_at: string
+}

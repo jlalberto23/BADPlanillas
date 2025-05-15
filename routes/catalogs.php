@@ -13,4 +13,6 @@ Route::middleware(['auth', 'verified'])->prefix('catalogs')->group(function () {
 		->middleware('can:catalogs.profesiones.update')->name('catalogs.profesiones.update');
 	Route::delete('profesiones/{id}', [ProfesionController::class, 'destroy'])
 		->middleware('can:catalogs.profesiones.destroy')->name('catalogs.profesiones.destroy');
+	Route::get('profesiones/get', [ProfesionController::class, 'getProfesiones'])
+		->name('catalogs.profesiones.get');
 });
