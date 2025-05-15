@@ -36,8 +36,6 @@ import { ReactNode, useEffect, useId, useMemo, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 import {
   ArrowDown,
-  ArrowLeftToLine,
-  ArrowRightToLine,
   ArrowUp,
   ArrowUpDown,
   ChevronLeft,
@@ -78,7 +76,7 @@ export function DataTableColumnHeader<TData, TValue>({
   const [filterValue, setFilterValue] = useState(
     (column?.getFilterValue() as string) ?? ''
   )
-  let titleContent = children || column.id
+  const titleContent = children || column.id
 
   if (!column.getCanSort()) {
     return <div className={cn(className)}>{titleContent}</div>
@@ -481,46 +479,33 @@ export function DataTablePagination({ pagination }: DataTablePaginationProps) {
     options.sort((a, b) => a - b)
   }
 
+  const getClassNameByLink = (link: Pagination['links'][0]) => {
+    const page = Number(link.label)
+
+    if (!page || page == pagination.current_page || page == 1 || page == pagination.last_page) return
+		if(page > 5 && page < pagination.last_page - 5) return 'hidden @4xl/pagination:inline'
+    if (page > 3 && page < pagination.last_page - 4) return 'hidden @2xl/pagination:inline'
+    if (page > 2 && page < pagination.last_page - 1) return 'hidden @xl/pagination:inline'
+    if (page > 1 && page < pagination.last_page) return 'hidden @lg/pagination:inline'
+    return 'hidden'
+  }
+
   return (
-    <div className="flex items-center justify-between px-2">
-      <div className="flex flex-wrap items-center gap-y-2 gap-x-6 lg:gap-8">
-        <div className="flex items-center justify-center text-sm font-medium">
-          <div className="flex items-center space-x-2">
-            <p className="text-sm font-medium">Mostrar</p>
-            <Select
-              value={`${pagination.per_page}`}
-              onValueChange={(value) =>
-                router.visit(
-                  pagination.path +
-                    `?per_page=${value}&search=${searchValue.current}`
-                )
-              }
-            >
-              <SelectTrigger className="h-8 w-[80px]">
-                <SelectValue placeholder={pagination.per_page} />
-              </SelectTrigger>
-              <SelectContent side="top">
-                {options.map((pageSize) => (
-                  <SelectItem key={pageSize} value={`${pageSize}`}>
-                    {pageSize}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <span className="ml-1">de {pagination.total}</span>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
+    <div className="flex items-center justify-between overflow-x-hidden @container/pagination">
+      <div className="flex items-center justify-between w-full gap-y-2 gap-x-2 lg:gap-8 overflow-x-auto">
+        <div className="flex items-center gap-2">
           {pagination.links.map((link, index) =>
             link.url ? (
               <Link
                 key={index}
                 href={`${link.url}&per_page=${pagination.per_page}&search=${searchValue.current}`}
+                className={getClassNameByLink(link)}
               >
                 <Button
                   variant={link.active ? 'default' : 'outline'}
                   className="h-8 w-8 p-0 flex"
                 >
+                  <span className="sr-only">{link.label}</span>
                   {link.label === '&laquo; Previous' ? (
                     <ChevronLeft className="h-4 w-4" />
                   ) : link.label === 'Next &raquo;' ? (
@@ -554,6 +539,32 @@ export function DataTablePagination({ pagination }: DataTablePaginationProps) {
               />
             )
           )}
+        </div>
+        <div className="flex items-center justify-center text-sm font-medium">
+          <div className="flex items-center gap-x-2">
+            <p className="hidden sm:inline text-sm font-medium">Mostrar</p>
+            <Select
+              value={`${pagination.per_page}`}
+              onValueChange={(value) =>
+                router.visit(
+                  pagination.path +
+                    `?per_page=${value}&search=${searchValue.current}`
+                )
+              }
+            >
+              <SelectTrigger className="h-8 w-[80px]">
+                <SelectValue placeholder={pagination.per_page} />
+              </SelectTrigger>
+              <SelectContent side="top">
+                {options.map((pageSize) => (
+                  <SelectItem key={pageSize} value={`${pageSize}`}>
+                    {pageSize}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <span className="ml-1 text-center">de {pagination.total}</span>
         </div>
       </div>
     </div>
