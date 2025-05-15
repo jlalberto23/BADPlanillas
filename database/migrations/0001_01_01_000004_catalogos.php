@@ -38,14 +38,8 @@ return new class extends Migration
 			$table->id('id_puesto');
 			$table->string('nombrePuesto');
 			$table->string('descripcionPuesto');
-		});
-		Schema::create('rangoSalarial', function (Blueprint $table) {
-			$table->id('id_rango_salario');
-			$table->unsignedBigInteger('id_puesto');
 			$table->decimal('salario_min', 9, 2);
 			$table->decimal('salario_max', 9, 2);
-
-			$table->timestamps();
 		});
 		Schema::create('anioCalendario', function (Blueprint $table) {
 			$table->id('id_anio');
@@ -116,7 +110,6 @@ return new class extends Migration
 		Schema::dropIfExists('distritos');
 		Schema::dropIfExists('profesiones');
 		Schema::dropIfExists('puestos');
-		Schema::dropIfExists('rangoSalarial');
 		Schema::dropIfExists('anioCalendario');
 		Schema::dropIfExists('periodoContable');
 		Schema::dropIfExists('tpoIngreso');

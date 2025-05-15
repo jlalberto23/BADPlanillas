@@ -26,10 +26,6 @@ return new class extends Migration
 		Schema::table('distritos', function (Blueprint $table) {
 			$table->foreign('id_municipio')->references('id_municipio')->on('municipios');
 		});
-		//Llaves foraneas de rangoSalarial
-		Schema::table('rangoSalarial', function (Blueprint $table) {
-			$table->foreign('id_puesto')->references('id_puesto')->on('puestos');
-		});
 		//Llaves foraneas de periodoContable
 		Schema::table('periodoContable', function (Blueprint $table) {
 			$table->foreign('id_anio')->references('id_anio')->on('anioCalendario');
@@ -92,10 +88,6 @@ return new class extends Migration
 		// Eliminar llaves foráneas de distritos
 		Schema::table('distritos', function (Blueprint $table) {
 			$table->dropForeign(['id_municipio']);
-		});
-		// Eliminar llaves foráneas de rangoSalarial
-		Schema::table('rangoSalarial', function (Blueprint $table) {
-			$table->dropForeign(['id_puesto']);
 		});
 		// Eliminar llaves foráneas de periodoContable
 		Schema::table('periodoContable', function (Blueprint $table) {
