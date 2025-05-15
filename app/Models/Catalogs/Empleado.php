@@ -65,19 +65,6 @@ class Empleado extends Model
 		);
 	}
 
-	// Relación con el departamento a través del área
-	public function departamento()
-	{
-		return $this->hasOneThrough(
-			Departamentoempresa::class,
-			Areaempresa::class,
-			'id_area', // Llave foránea en areaEmpresa
-			'id_deptoEmpresa', // Llave primaria en departamentoEmpresa
-			'id_area', // Llave foránea en empleados (a través de la relación area())
-			'id_deptoEmpresa' // Llave foránea en areaEmpresa que conecta con departamentoEmpresa
-		);
-	}
-
 	// Relaciones inversas para jefaturas
 	public function departamentosACargo()
 	{

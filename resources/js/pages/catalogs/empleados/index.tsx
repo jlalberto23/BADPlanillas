@@ -54,6 +54,22 @@ const searchOptions: DataTableSearchOption[] = [
   {
     value: 'profesion:',
     label: 'Buscar por profesión'
+  },
+  {
+    value: 'puesto:',
+    label: 'Buscar por puesto'
+  },
+  {
+    value: 'seccion:',
+    label: 'Buscar por sección'
+  },
+  {
+    value: 'area:',
+    label: 'Buscar por área'
+  },
+  {
+    value: 'departamento:',
+    label: 'Buscar por departamento'
   }
 ]
 
@@ -80,6 +96,11 @@ const columns: ColumnDef<Empleado, string>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} />
   },
   {
+    id: 'Puesto',
+    accessorKey: 'puesto.nombrePuesto',
+    header: ({ column }) => <DataTableColumnHeader column={column} />
+  },
+  {
     id: 'Primer Nombre',
     accessorKey: 'primer_nombre',
     header: ({ column }) => <DataTableColumnHeader column={column} />
@@ -102,6 +123,21 @@ const columns: ColumnDef<Empleado, string>[] = [
   {
     id: 'Apellido de Casada',
     accessorKey: 'apellido_casada',
+    header: ({ column }) => <DataTableColumnHeader column={column} />
+  },
+  {
+    id: 'Sección',
+    accessorKey: 'seccion.nombreSeccion',
+    header: ({ column }) => <DataTableColumnHeader column={column} />
+  },
+  {
+    id: 'Área',
+    accessorKey: 'area.nombreArea',
+    header: ({ column }) => <DataTableColumnHeader column={column} />
+  },
+  {
+    id: 'Departamento',
+    accessorKey: 'area.departamento.nombreDepto',
     header: ({ column }) => <DataTableColumnHeader column={column} />
   },
   {

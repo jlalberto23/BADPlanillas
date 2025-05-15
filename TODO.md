@@ -23,8 +23,8 @@
 - [ ] Crud de areas
 - [ ] Crud de secciones
 - [ ] Crud de empleados
-  - [ ] Mostrar más columnas (profesiones, puestos, secciones, departamentos, areas)
-  - [ ] Agregar búsqueda por profesiones, puestos, secciones, departamentos, areas
+  - [x] Mostrar más columnas (profesiones, puestos, secciones, departamentos, areas)
+  - [x] Agregar búsqueda por profesiones, puestos, secciones, departamentos, areas
   - [ ] Crear empleado
   - [ ] Editar empleado
   - [ ] Eliminar empleado (con verificación de que no tenga registros asociados)
