@@ -42,3 +42,8 @@ interface RoleTable {
   created_at: Date
   updated_at: Date
 }
+
+interface ProfesionTable {
+  id_profesion: number
+  nombreProfesion: string
+}
