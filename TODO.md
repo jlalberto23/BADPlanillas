@@ -14,3 +14,17 @@
 - [ ] Aplicar permisos a rutas
 - [ ] Aplicar permisos a componentes
 - [ ] Asignar roles a usuarios
+
+## Catalogs
+
+- [ ] Crud de profesiones
+- [ ] Crud de puestos
+- [ ] Crud de departamentos
+- [ ] Crud de areas
+- [ ] Crud de secciones
+- [ ] Crud de empleados
+  - [ ] Mostrar más columnas (profesiones, puestos, secciones, departamentos, areas)
+  - [ ] Agregar búsqueda por profesiones, puestos, secciones, departamentos, areas
+  - [ ] Crear empleado
+  - [ ] Editar empleado
+  - [ ] Eliminar empleado (con verificación de que no tenga registros asociados)

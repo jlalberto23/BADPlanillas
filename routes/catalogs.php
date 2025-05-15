@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Catalogs\EmpleadoController;
 use App\Http\Controllers\Catalogs\ProfesionController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,4 +16,8 @@ Route::middleware(['auth', 'verified'])->prefix('catalogs')->group(function () {
 		->middleware('can:catalogs.profesiones.destroy')->name('catalogs.profesiones.destroy');
 	Route::get('profesiones/get', [ProfesionController::class, 'getProfesiones'])
 		->name('catalogs.profesiones.get');
+
+	// Rutas para empleados
+	Route::get('empleados', [EmpleadoController::class, 'index'])
+		->middleware('can:catalogs.empleados.index')->name('catalogs.empleados.index');
 });

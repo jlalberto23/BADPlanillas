@@ -13,6 +13,7 @@ class CatalogsRolePermissionsSeeder extends Seeder
 		'catalogs.profesiones.store' => 'Crear profesiones',
 		'catalogs.profesiones.update' => 'Actualizar profesiones',
 		'catalogs.profesiones.destroy' => 'Eliminar profesiones',
+		'catalogs.empleados.index' => 'Ver empleados',
 	];
 
 	private $role = 'Administrador de Catálogos';

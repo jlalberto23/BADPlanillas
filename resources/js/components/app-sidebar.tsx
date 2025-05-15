@@ -20,7 +20,7 @@ const mainNavItems: NavItem[] = [
   },
   {
     title: 'Catálogos',
-    href: route('catalogs.empleados.registrar'),
+    href: route('catalogs.empleados.index'),
     icon: List
   },
   {

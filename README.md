@@ -30,10 +30,26 @@ php artisan db:seed --class="Database\Seeders\CatalogsSeeders\PuestosSeeder"
 
 ## Example Seeders
 
+- Empleados
+
+```bash
+php artisan db:seed --class="Database\Seeders\CatalogsSeeders\FakeEmpleadosSeeder"
+```
+
+- Users
+
 ```bash
 php artisan db:seed --class="Database\Seeders\Examples\UsersSeeder"
+```
 
+- Permissions
+
+```bash
 php artisan db:seed --class="Database\Seeders\Examples\PermissionsSeeder"
+```
 
+- Roles
+
+```bash
 php artisan db:seed --class="Database\Seeders\Examples\RolesSeeder"
 ```

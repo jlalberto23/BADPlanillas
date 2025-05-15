@@ -15,11 +15,11 @@ import SelectProfesion from '../profesiones/components/profesion-select'
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Empleados',
-    href: '/empleados'
+    href: route('catalogs.empleados.index')
   },
   {
     title: 'Nuevo Empleado',
-    href: '/empleados/nuevo'
+    href: route('catalogs.empleados.registrar')
   }
 ]
 

@@ -14,13 +14,26 @@ class Empleado extends Model
 		'id_profesion',
 		'id_puesto',
 		'id_seccion',
-		'nombre',
-		'apellido',
+		'primer_nombre',
+		'segundo_nombre',
+		'apellido_paterno',
+		'apellido_materno',
+		'apellido_casada',
+		'fecha_nacimiento',
+		'fecha_ingreso',
+		'numero_documento',
 		'dui',
 		'nit',
-		'isss',
-		'afp',
-		'estado'
+		'codigo_isss',
+		'codigo_nup',
+		'salario_base',
+		'estado_civil',
+		'sexo',
+		'correo_personal',
+		'correo_institucional',
+		'estado',
+		'carnet_empleado',
+		'tipo_documento'
 	];
 
 	// Relaciones
