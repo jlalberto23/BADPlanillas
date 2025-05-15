@@ -18,13 +18,13 @@ interface Props {
   children: ReactNode
 }
 
-export function UserDeletingDialog({ children, user }: Props) {
+export function UserSessionsDeletingDialog({ children, user }: Props) {
   const [open, setOpen] = useState(false)
   const { reset, delete: destroy, processing, clearErrors } = useForm()
 
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault()
-    destroy(route('user.destroy', user.id), {
+    destroy(route('user.sessions.destroy', user.id), {
       preserveScroll: true,
       onSuccess: () => {
         toast.success('Usuario eliminado')
@@ -48,9 +48,10 @@ export function UserDeletingDialog({ children, user }: Props) {
       <AlertDialogContent>
         <form onSubmit={handleSubmit} className="grid gap-4">
           <AlertDialogHeader>
-            <AlertDialogTitle>Eliminar Usuario</AlertDialogTitle>
+            <AlertDialogTitle>Eliminar las sessiones</AlertDialogTitle>
             <AlertDialogDescription>
-              ¿Estás seguro de que deseas eliminar el usuario <strong>{user.name}</strong>? Esta acción no se puede deshacer.
+              ¿Estás seguro de que deseas eliminar <strong>todas las sesiones</strong> del usuario <strong>{user.name}</strong>?. El usuario será
+              deslogueado del sistema.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

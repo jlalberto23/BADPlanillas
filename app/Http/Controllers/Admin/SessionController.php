@@ -68,4 +68,10 @@ class SessionController extends Controller
 		}
 		return Inertia::render('admin/sessions/sessions-page', ['sessionsPaginated' => $sessionsPaginated]);
 	}
+
+	public function deleteAllByUser($userId)
+	{
+		Session::where('user_id', $userId)->delete();
+		return redirect()->back();
+	}
 }

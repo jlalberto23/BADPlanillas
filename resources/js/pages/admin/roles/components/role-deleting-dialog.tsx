@@ -48,7 +48,7 @@ export function RoleDeletingDialog({ children, role }: Props) {
       <AlertDialogContent>
         <form onSubmit={handleSubmit} className="grid gap-4">
           <AlertDialogHeader>
-            <AlertDialogTitle>Elimar Rol</AlertDialogTitle>
+            <AlertDialogTitle>Eliminar Rol</AlertDialogTitle>
             <AlertDialogDescription>
               ¿Estás seguro de que deseas eliminar el rol <strong>{role.name}</strong>? Esta acción no se puede deshacer.
             </AlertDialogDescription>

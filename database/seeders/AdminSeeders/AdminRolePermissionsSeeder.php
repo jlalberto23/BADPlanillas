@@ -21,6 +21,7 @@ class AdminRolePermissionsSeeder extends Seeder
 		'admin.roles.delete' => 'Eliminar rol',
 		'admin.roles.permissions.sync' => 'Sincronizar permisos de rol',
 		'admin.sessions.view' => 'Ver sesiones',
+		'admin.sessions.delete' => 'Eliminar sesiones',
 		'admin.data.permissions.view' => 'Ver permisos de datos',
 	];
 

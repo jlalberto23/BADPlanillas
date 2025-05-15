@@ -33,6 +33,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
 
 	Route::get('sessions', [SessionController::class, 'show'])
 		->middleware('can:admin.sessions.view');
+	Route::delete('sessions/user/{userId}', [SessionController::class, 'deleteAllByUser'])
+		->middleware('can:admin.sessions.delete')->name('user.sessions.destroy');
 
 	Route::prefix('data')->group(function () {
 		Route::get('permissions', [PermissionController::class, 'getAll'])

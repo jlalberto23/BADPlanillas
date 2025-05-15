@@ -4,8 +4,9 @@ import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { Head } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
-import { RefreshCw } from 'lucide-react'
+import { EllipsisVertical, RefreshCw } from 'lucide-react'
 import AdminLayout from '../layout'
+import SessionOptions from './components/session-options'
 import { Session, SessionsPaginated } from './types'
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -65,7 +66,14 @@ const searchOptions: DataTableSearchOption[] = [
 const columns: ColumnDef<Session, string>[] = [
   {
     id: 'Actions',
-    header: ''
+    header: '',
+    cell: ({ row: { original } }) => (
+      <SessionOptions session={original}>
+        <Button size="sm" variant="ghost" className="h-6">
+          <EllipsisVertical className="size-3" />
+        </Button>
+      </SessionOptions>
+    )
   },
   {
     id: 'IP',
