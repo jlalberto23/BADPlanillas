@@ -24,12 +24,6 @@ class Departamentoempresa extends Model
 		return $this->belongsTo(Empleado::class, 'id_jefeDepto');
 	}
 
-	// Relación con el centro de costo
-	public function centroCosto()
-	{
-		return $this->belongsTo(Centrocosto::class, 'id_centro_costo');
-	}
-
 	// Relación con las áreas del departamento
 	public function areas()
 	{
@@ -50,15 +44,13 @@ class Departamentoempresa extends Model
 	}
 
 	// Relación con los empleados del departamento
-	public function empleados()
+	public function centroCostos()
 	{
-		return $this->hasManyThrough(
-			Empleado::class,
-			Seccionempresa::class,
-			'id_area', // Llave foránea en secciones que conecta con áreas
-			'id_seccion', // Llave foránea en empleados
-			'id_deptoEmpresa', // Llave local en departamento
-			'id_seccion' // Llave local en secciones
-		);
+		return $this->hasMany(Centrocosto::class, 'id_deptoEmpresa', 'id_deptoEmpresa');
+	}
+
+	public function centroCosto($anio = null)
+	{
+		return $this->hasOne(Centrocosto::class, 'id_deptoEmpresa', 'id_deptoEmpresa')->where('anio', $anio ?? now()->year);
 	}
 }

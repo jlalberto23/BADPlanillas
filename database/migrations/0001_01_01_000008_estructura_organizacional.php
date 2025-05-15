@@ -16,7 +16,6 @@ return new class extends Migration
 			$table->string('nombreDepto');
 			$table->string('descripcionDepto');
 			$table->unsignedBigInteger('id_jefeDepto')->nullable();
-			$table->unsignedBigInteger('id_centro_costo')->nullable();
 		});
 		Schema::create('areaEmpresa', function (Blueprint $table) {
 			$table->id('id_area');

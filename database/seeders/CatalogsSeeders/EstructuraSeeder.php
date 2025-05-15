@@ -14,7 +14,6 @@ class EstructuraSeeder extends Seeder
 			'nombreDepto' => 'Recursos Humanos',
 			'descripcionDepto' => 'Gestión del personal y desarrollo organizacional',
 			'id_jefeDepto' => null,
-			'id_centro_costo' => null,
 			'areas' => [
 				[
 					'nombreArea' => 'Reclutamiento y Selección',
@@ -56,7 +55,6 @@ class EstructuraSeeder extends Seeder
 			'nombreDepto' => 'Tecnología',
 			'descripcionDepto' => 'Desarrollo y soporte tecnológico',
 			'id_jefeDepto' => null,
-			'id_centro_costo' => null,
 			'areas' => [
 				[
 					'nombreArea' => 'Desarrollo de Software',

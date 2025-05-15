@@ -55,7 +55,6 @@ return new class extends Migration
 		//Llaves foraneas de departamentoEmpresa
 		Schema::table('departamentoEmpresa', function (Blueprint $table) {
 			$table->foreign('id_jefeDepto')->references('id_empleado')->on('empleados');
-			$table->foreign('id_centro_costo')->references('id_centro_costo')->on('centroCosto');
 		});
 		//Llaves foraneas de areaEmpresa
 		Schema::table('areaEmpresa', function (Blueprint $table) {
@@ -70,12 +69,7 @@ return new class extends Migration
 		//Llaves foraneas de planilla
 		Schema::table('planilla', function (Blueprint $table) {
 			$table->foreign('id_periodo')->references('id_periodo')->on('periodoContable');
-			$table->foreign('id_centro_costo')->references('id_centro_costo')->on('centroCosto');
 			$table->foreign('id_empleado')->references('id_empleado')->on('empleados');
-		});
-		//Llaves foraneas de centroCostoMonto
-		Schema::table('centroCostoMonto', function (Blueprint $table) {
-			$table->foreign('id_centro_costo')->references('id_centro_costo')->on('centroCosto');
 		});
 	}
 
@@ -128,7 +122,6 @@ return new class extends Migration
 		// Eliminar llaves foráneas de departamentoEmpresa
 		Schema::table('departamentoEmpresa', function (Blueprint $table) {
 			$table->dropForeign(['id_jefeDepto']);
-			$table->dropForeign(['id_centro_costo']);
 		});
 		// Eliminar llaves foráneas de areaEmpresa
 		Schema::table('areaEmpresa', function (Blueprint $table) {
@@ -144,12 +137,7 @@ return new class extends Migration
 		// Eliminar llaves foráneas de planilla
 		Schema::table('planilla', function (Blueprint $table) {
 			$table->dropForeign(['id_periodo']);
-			$table->dropForeign(['id_centro_costo']);
 			$table->dropForeign(['id_empleado']);
-		});
-		// Eliminar llaves foráneas de centroCostoMonto
-		Schema::table('centroCostoMonto', function (Blueprint $table) {
-			$table->dropForeign(['id_centro_costo']);
 		});
 	}
 };

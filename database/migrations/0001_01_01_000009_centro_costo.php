@@ -13,14 +13,11 @@ return new class extends Migration
 	{
 		Schema::create('centroCosto', function (Blueprint $table) {
 			$table->id('id_centro_costo');
-			$table->string('codigo');
-			$table->string('descripcionCC');
-		});
-		Schema::create('centroCostoMonto', function (Blueprint $table) {
-			$table->id('id_monto');
-			$table->unsignedBigInteger('id_centro_costo');
-			$table->string('anio');
-			$table->decimal('monto_presupuesto', 9, 2);
+			$table->foreignId('id_deptoEmpresa')->constrained('departamentoEmpresa', 'id_deptoEmpresa');
+			$table->year('anio');
+			$table->decimal('presupuesto_total', 9, 2);
+			$table->decimal('presupuesto_restante', 9, 2);
+			$table->unique(['id_deptoEmpresa', 'anio']);
 		});
 	}
 
@@ -29,7 +26,6 @@ return new class extends Migration
 	 */
 	public function down(): void
 	{
-		Schema::dropIfExists('centroCostoMonto');
 		Schema::dropIfExists('centroCosto');
 	}
 };
