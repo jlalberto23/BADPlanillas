@@ -25,7 +25,7 @@ const mainNavItems: NavItem[] = [
   },
   {
     title: 'Planillas',
-    href: '/planillas',
+    href: '/payroll/planillas',
     icon: FileText
   }
 ]

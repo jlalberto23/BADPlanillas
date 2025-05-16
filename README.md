@@ -14,6 +14,8 @@ php artisan db:seed --class="Database\Seeders\CatalogsSeeders\EstructuraSeeder"
 php artisan db:seed --class="Database\Seeders\AdminSeeders\AdminRolePermissionsSeeder"
 
 php artisan db:seed --class="Database\Seeders\CatalogsSeeders\CatalogsRolePermissionsSeeder"
+
+php artisan db:seed --class="Database\Seeders\PayrollSeeders\PayrollRolePermissionsSeeder"
 ```
 
 - Profesiones

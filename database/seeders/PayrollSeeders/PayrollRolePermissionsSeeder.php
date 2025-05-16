@@ -1,0 +1,40 @@
+<?php
+
+namespace Database\Seeders\PayrollSeeders;
+
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+
+class PayrollRolePermissionsSeeder extends Seeder
+{
+	private $permissions = [
+		'payroll.anios.index' => 'Ver años calendario',
+		'payroll.anios.store' => 'Crear años calendario',
+		'payroll.anios.update' => 'Actualizar años calendario',
+		'payroll.anios.destroy' => 'Eliminar años calendario',
+		'payroll.planillas.index' => 'Ver planillas',
+		'payroll.planillas.store' => 'Crear planillas',
+		'payroll.planillas.update' => 'Actualizar planillas',
+		'payroll.planillas.destroy' => 'Eliminar planillas',
+	];
+
+	private $role = 'Administrador de Planillas';
+	private $description = 'Gestiona el módulo de planillas del sistema';
+
+	public function run()
+	{
+		$role = Role::firstOrCreate(
+			['name' => $this->role],
+			['guard_name' => 'web', 'description' => $this->description]
+		);
+
+		foreach ($this->permissions as $name => $desc) {
+			$permission = Permission::firstOrCreate(
+				['name' => $name],
+				['guard_name' => 'web', 'description' => $desc]
+			);
+			$role->givePermissionTo($permission);
+		}
+	}
+}

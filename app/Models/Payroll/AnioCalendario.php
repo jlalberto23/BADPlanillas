@@ -14,7 +14,7 @@ class AnioCalendario extends Model
 		'anio',
 		'fecha_inicio',
 		'fecha_fin',
-		'estado'
+		'estado' // El estado es automático
 	];
 
 	protected $casts = [
