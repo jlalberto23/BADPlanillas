@@ -13,7 +13,8 @@ class AnioCalendario extends Model
 	protected $fillable = [
 		'anio',
 		'fecha_inicio',
-		'fecha_fin'
+		'fecha_fin',
+		'estado'
 	];
 
 	protected $casts = [

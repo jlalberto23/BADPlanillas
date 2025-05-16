@@ -19,7 +19,8 @@ class Planilla extends Model
 		'total_ingresos',
 		'total_descuentos',
 		'total_aporte_patronal',
-		'salario_neto_total'
+		'salario_neto_total',
+		'estado'
 	];
 
 	protected $casts = [
