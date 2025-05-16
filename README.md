@@ -28,6 +28,12 @@ php artisan db:seed --class="Database\Seeders\CatalogsSeeders\ProfesionesSeeder"
 php artisan db:seed --class="Database\Seeders\CatalogsSeeders\PuestosSeeder"
 ```
 
+- Tipos de conceptos
+
+```bash
+php artisan db:seed --class="Database\Seeders\PayrollSeeders\TiposConceptosSeeder"
+```
+
 ## Example Seeders
 
 - Empleados

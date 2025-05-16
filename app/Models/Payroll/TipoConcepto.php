@@ -14,7 +14,7 @@ class TipoConcepto extends Model
 
 	protected $fillable = [
 		'codigo',
-		'tipo',
+		'tipo', //ingreso, descuento, aporte_patron
 		'nombre',
 		'descripcion'
 	];
