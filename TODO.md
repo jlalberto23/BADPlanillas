@@ -28,3 +28,14 @@
   - [ ] Crear empleado
   - [ ] Editar empleado
   - [ ] Eliminar empleado (con verificación de que no tenga registros asociados)
+
+## Payroll
+
+- [ ] Crud de anios calendario
+- [ ] Crud de planillas
+- [ ] Crud de planilla detalles
+- [ ] Crud de conceptos empleados
+
+## Procedimientos, Funciones y Triggers
+
+// Definir los procedimientos, funciones y triggers

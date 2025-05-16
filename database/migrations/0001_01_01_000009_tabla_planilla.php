@@ -29,6 +29,7 @@ return new class extends Migration
 			$table->decimal('total_descuentos', 9, 2)->default(0);
 			$table->decimal('total_aporte_patronal', 9, 2)->default(0);
 			$table->decimal('salario_neto_total', 9, 2)->default(0);
+			$table->unique(['id_anio', 'mes']);
 		});
 
 		// Detalle para empleados
@@ -49,7 +50,7 @@ return new class extends Migration
 		Schema::create('conceptos_empleado', function (Blueprint $table) {
 			$table->id('id_concepto_empleado');
 			$table->foreignId('id_planilla_detalle')->constrained('planilla_detalle', 'id_planilla_detalle');
-			$table->string('codigo_concepto'); // clave foránea a tipos_conceptos.codigo
+			$table->string('codigo_concepto');
 			$table->date('fecha');
 			$table->decimal('monto', 9, 2);
 
