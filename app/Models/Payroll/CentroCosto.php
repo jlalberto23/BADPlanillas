@@ -10,6 +10,7 @@ class CentroCosto extends Model
 	protected $table = 'centro_costo';
 	protected $primaryKey = 'id_centro_costo';
 	public $timestamps = false;
+
 	protected $fillable = [
 		'id_deptoEmpresa',
 		'anio',
@@ -23,14 +24,13 @@ class CentroCosto extends Model
 		'presupuesto_restante' => 'decimal:2'
 	];
 
-	// Relación con el departamento de la empresa
-	public function departamento()
+	public function departamentoEmpresa()
 	{
-		return $this->belongsTo(Departamentoempresa::class, 'id_deptoEmpresa', 'id_deptoEmpresa');
+		return $this->belongsTo(Departamentoempresa::class, 'id_deptoEmpresa');
 	}
 
-	public function planillas()
+	public function planillaDetalles()
 	{
-		return $this->hasMany(Planilla::class, 'id_centro_costo', 'id_centro_costo');
+		return $this->hasMany(PlanillaDetalle::class, 'id_centro_costo');
 	}
 }
