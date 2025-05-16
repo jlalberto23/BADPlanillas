@@ -38,4 +38,14 @@
 
 ## Procedimientos, Funciones y Triggers
 
-// Definir los procedimientos, funciones y triggers
+- Trigger para poner en inactivo el anio cuando se genera la planilla del mes 12
+- Trigger para no permitir generar una planilla si el anio no esta activo
+- Trigger para no permitir generar una planilla si ya existe una planilla para ese anio y mes
+- Trigger para no permitir crear un anio calendario si hay un anio calendario activo
+
+- Procedimiento para calcular el total de ingresos, descuentos, aportes patronales y salario neto total de un detalle de planilla
+- Procedimiento para calcular el total de ingresos, descuentos, aportes patronales y salario neto total de una planilla
+
+- Procedimiento para calcular ISSS
+- Procedimiento para calcular AFP
+- Procedimiento para calcular Renta
