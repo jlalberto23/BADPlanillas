@@ -2,19 +2,25 @@ import { Button } from '@/components/ui/button'
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { Head, Link } from '@inertiajs/react'
-import { EllipsisVertical } from 'lucide-react'
+import { EllipsisVertical, PencilIcon } from 'lucide-react'
 import AdminLayout from '../../layout'
 import UserOptions from '../components/user-options'
 import { User } from './userpage'
+import { useState } from 'react'
+import UserRolesDialog from '../components/user-roles-dialog'
+import { Role } from '../../roles/role-page/rolepage'
 
 interface Props {
   user: User
+  roles: Role[]
 }
 
-export default function UserPage({ user }: Props) {
+export default function UserPage({ user, roles }: Props) {
+  const [isEditingRoles, setIsEditingRoles] = useState(false)
+  
   if (!user) return <NotFoundUserPage />
 
-  const { id, name, email, sessions_count, roles } = user
+  const { id, name, email, sessions_count, roles: userRoles } = user
 
   const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -49,10 +55,24 @@ export default function UserPage({ user }: Props) {
             </UserOptions>
           </div>
           <p className="text-muted-foreground text-base">{email}</p>
-          <ul className="bg-muted mt-3 min-h-48 list-inside list-disc rounded p-4 text-sm">
-            {roles?.map(({ name, description }) => <li key={name}>{description}</li>)}
-            {!roles || (!roles.length && <li className="text-muted-foreground list-none text-center">No se ha asignado ningún rol</li>)}
-          </ul>
+          <div className="mt-3">
+            <div className="flex items-center justify-between mb-2">
+              <h4 className="text-lg font-semibold">Roles asignados</h4>
+              <Button variant="outline" size="sm" onClick={() => setIsEditingRoles(true)}>
+                <PencilIcon className="mr-2 h-4 w-4" /> Editar roles
+              </Button>
+            </div>
+            <ul className="bg-muted min-h-48 list-inside list-disc rounded p-4 text-sm">
+              {userRoles?.map(({ name, description }) => <li key={name}>{description}</li>)}
+              {!userRoles || (!userRoles.length && <li className="text-muted-foreground list-none text-center">No se ha asignado ningún rol</li>)}
+            </ul>
+          </div>
+          <UserRolesDialog 
+            user={user} 
+            open={isEditingRoles} 
+            onOpenChange={setIsEditingRoles}
+            roles={roles}
+          />
         </div>
       </AdminLayout>
     </AppLayout>

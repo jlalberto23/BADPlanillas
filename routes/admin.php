@@ -17,6 +17,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
 		->middleware('can:admin.users.update')->name('user.update');
 	Route::delete('users/{id}', [UserController::class, 'destroy'])
 		->middleware('can:admin.users.delete')->name('user.destroy');
+	Route::put('users/{id}/syncroles', [UserController::class, 'syncroles'])
+		->middleware('can:admin.users.roles.sync')->name('user.roles.sync');
 
 	Route::get('roles', [RoleController::class, 'showAll'])
 		->middleware('can:admin.roles.view');

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -71,12 +72,17 @@ class UserController extends Controller
 			$user = User::with('roles:id,name,description')
 				->withCount('sessions')
 				->find($id);
-		} catch (\Throwable $th) {
-			$user = null;
-			Log::error($th->getMessage());
-		}
 
-		return Inertia::render('admin/users/user-page/user-page', ['user' => $user]);
+			$roles = Role::select('id', 'name', 'description')->get();
+
+			return Inertia::render('admin/users/user-page/user-page', [
+				'user' => $user,
+				'roles' => $roles
+			]);
+		} catch (\Throwable $th) {
+			Log::error($th->getMessage());
+			return back()->withErrors(['message' => 'Error al cargar el usuario']);
+		}
 	}
 
 	public function create(Request $request)
@@ -177,6 +183,23 @@ class UserController extends Controller
 		} catch (\Throwable $th) {
 			Log::error($th->getMessage());
 			return back()->withErrors(['message' => 'Error al eliminar el usuario']);
+		}
+	}
+
+	public function syncroles(Request $request, $id)
+	{
+		$request->validate([
+			'roles' => ['required', 'array'],
+			'roles.*' => ['required', 'exists:roles,id']
+		]);
+
+		try {
+			$user = User::findOrFail($id);
+			$user->syncRoles($request->roles);
+			return back()->with('success', 'Roles actualizados correctamente');
+		} catch (\Throwable $th) {
+			Log::error($th->getMessage());
+			return back()->withErrors(['message' => 'Error al actualizar los roles del usuario']);
 		}
 	}
 }

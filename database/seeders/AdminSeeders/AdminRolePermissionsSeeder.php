@@ -14,6 +14,7 @@ class AdminRolePermissionsSeeder extends Seeder
 		'admin.users.show' => 'Mostrar usuario',
 		'admin.users.update' => 'Actualizar usuario',
 		'admin.users.delete' => 'Eliminar usuario',
+		'admin.users.roles.sync' => 'Sincronizar roles de usuario',
 		'admin.roles.view' => 'Ver roles',
 		'admin.roles.create' => 'Crear roles',
 		'admin.roles.show' => 'Mostrar rol',
