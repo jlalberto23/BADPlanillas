@@ -16,11 +16,13 @@ return new class extends Migration
 			$table->year('anio')->unique();
 			$table->date('fecha_inicio');
 			$table->date('fecha_fin');
+			$table->enum('estado', ['activo', 'inactivo'])->default('activo');
 		});
 
 		Schema::create('planilla', function (Blueprint $table) {
 			$table->id('id_planilla');
 			$table->foreignId('id_anio')->constrained('anio_calendario', 'id_anio');
+			$table->enum('estado', ['activo', 'inactivo'])->default('activo');
 			$table->enum('mes', ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']);
 			$table->date('fecha_generacion')->nullable();
 			$table->date('fecha_inicio');
