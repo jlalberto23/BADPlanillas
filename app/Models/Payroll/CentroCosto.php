@@ -5,7 +5,7 @@ namespace App\Models\Payroll;
 use App\Models\Catalogs\Departamentoempresa;
 use Illuminate\Database\Eloquent\Model;
 
-class Centrocosto extends Model
+class CentroCosto extends Model
 {
 	protected $table = 'centro_costo';
 	protected $primaryKey = 'id_centro_costo';

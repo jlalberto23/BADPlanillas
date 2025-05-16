@@ -11,16 +11,16 @@ return new class extends Migration
 	 */
 	public function up(): void
 	{
-		Schema::create('anioCalendario', function (Blueprint $table) {
+		Schema::create('anio_calendario', function (Blueprint $table) {
 			$table->id('id_anio');
-			$table->year('anio');
+			$table->year('anio')->unique();
 			$table->date('fecha_inicio');
 			$table->date('fecha_fin');
 		});
 
 		Schema::create('planilla', function (Blueprint $table) {
 			$table->id('id_planilla');
-			$table->foreignId('id_anio')->constrained('anioCalendario', 'id_anio');
+			$table->foreignId('id_anio')->constrained('anio_calendario', 'id_anio');
 			$table->enum('mes', ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']);
 			$table->date('fecha_generacion')->nullable();
 			$table->date('fecha_inicio');
@@ -44,28 +44,14 @@ return new class extends Migration
 			$table->decimal('salario_neto_total', 9, 2)->default(0);
 		});
 
-		Schema::create('ingresosEmpleado', function (Blueprint $table) {
-			$table->id('id_empleado_ingreso');
+		Schema::create('conceptos_empleado', function (Blueprint $table) {
+			$table->id('id_concepto_empleado');
 			$table->foreignId('id_planilla_detalle')->constrained('planilla_detalle', 'id_planilla_detalle');
-			$table->foreignId('id_tipo_ingreso')->constrained('tpoIngreso', 'id_tipo_ingreso');
-			$table->string('fecha');
-			$table->decimal('monto', 9, 2);
-		});
-
-		Schema::create('descEmpleado', function (Blueprint $table) {
-			$table->id('id_empleado_descuento');
-			$table->foreignId('id_planilla_detalle')->constrained('planilla_detalle', 'id_planilla_detalle');
-			$table->foreignId('id_tpo_descuento')->constrained('tpoDescuentos', 'id_tpo_descuento');
-			$table->string('fecha');
-			$table->decimal('monto', 9, 2);
-		});
-
-		Schema::create('aportesPatron', function (Blueprint $table) {
-			$table->id('id_aporte_patron');
-			$table->foreignId('id_planilla_detalle')->constrained('planilla_detalle', 'id_planilla_detalle');
-			$table->foreignId('id_tpo_Aporte')->constrained('tpoAportesPatron', 'id_tpo_Aporte');
+			$table->string('codigo_concepto'); // clave foránea a tipos_conceptos.codigo
 			$table->date('fecha');
 			$table->decimal('monto', 9, 2);
+
+			$table->foreign('codigo_concepto')->references('codigo')->on('tipos_conceptos');
 		});
 	}
 
@@ -74,11 +60,9 @@ return new class extends Migration
 	 */
 	public function down(): void
 	{
-		Schema::dropIfExists('aportesPatron');
-		Schema::dropIfExists('descEmpleado');
-		Schema::dropIfExists('ingresosEmpleado');
+		Schema::dropIfExists('conceptos_empleado');
 		Schema::dropIfExists('planilla_detalle');
 		Schema::dropIfExists('planilla');
-		Schema::dropIfExists('anioCalendario');
+		Schema::dropIfExists('anio_calendario');
 	}
 };

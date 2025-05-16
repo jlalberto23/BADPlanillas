@@ -42,26 +42,20 @@ return new class extends Migration
 			$table->decimal('salario_max', 9, 2);
 		});
 
-		Schema::create('tpoIngreso', function (Blueprint $table) {
-			$table->id('id_tipo_ingreso');
-			$table->string('tpoIngreso');
+		Schema::create('tipos_conceptos', function (Blueprint $table) {
+			$table->string('codigo')->primary(); // clave única del concepto
+			$table->enum('tipo', ['ingreso', 'descuento', 'aporte_patron']);
+			$table->string('nombre');
+			$table->text('descripcion');
 		});
 
-		Schema::create('tpoDescuentos', function (Blueprint $table) {
-			$table->id('id_tpo_descuento');
-			$table->string('tpoDescuentos');
-		});
-
-		Schema::create('tpoAportesPatron', function (Blueprint $table) {
-			$table->id('id_tpo_Aporte');
-			$table->string('tpoAporte');
-		});
-
-		Schema::create('tablaRenta', function (Blueprint $table) {
-			$table->id('id_renta');
+		Schema::create('tabla_renta', function (Blueprint $table) {
+			$table->string('tramo')->primary();
 			$table->decimal('salario_desde', 9, 2);
-			$table->decimal('salario_hasta', 9, 2);
+			$table->decimal('salario_hasta', 9, 2)->nullable();
 			$table->decimal('porcentaje', 1, 4); //decimal expresando en forma 0.0750
+			$table->decimal('cuota_fija', 9, 2)->nullable();
+			$table->decimal('sobre_exceso', 9, 2)->nullable();
 		});
 	}
 
@@ -76,9 +70,7 @@ return new class extends Migration
 		Schema::dropIfExists('distritos');
 		Schema::dropIfExists('profesiones');
 		Schema::dropIfExists('puestos');
-		Schema::dropIfExists('tpoIngreso');
-		Schema::dropIfExists('tpoDescuentos');
-		Schema::dropIfExists('tpoAportesPatron');
-		Schema::dropIfExists('tablaRenta');
+		Schema::dropIfExists('tipos_conceptos');
+		Schema::dropIfExists('tabla_renta');
 	}
 };

@@ -4,9 +4,9 @@ namespace App\Models\Payroll;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tpoingreso extends Model
+class Aniocalendario extends Model
 {
-	protected $table = 'tpoIngreso';
+	protected $table = 'anio_calendario';
 	public $timestamps = false;
-	// todo: Falta agregar fillable y relaciones
+	protected $primaryKey = 'id_anio';
 }
