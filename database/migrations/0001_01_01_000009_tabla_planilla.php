@@ -42,6 +42,8 @@ return new class extends Migration
 			$table->decimal('total_descuentos', 9, 2)->default(0);
 			$table->decimal('total_aporte_patronal', 9, 2)->default(0);
 			$table->decimal('salario_neto_total', 9, 2)->default(0);
+
+			$table->unique(['id_planilla_detalle', 'id_empleado']);
 		});
 
 		Schema::create('conceptos_empleado', function (Blueprint $table) {
