@@ -4,13 +4,13 @@ import { PropsWithChildren } from 'react'
 
 const sidebarNavItems: NavItem[] = [
   {
-    title: 'Años Calendario',
-    href: '/payroll/anios',
+    title: 'Planillas',
+    href: '/payroll/planillas',
     icon: null
   },
   {
-    title: 'Planillas',
-    href: '/payroll/planillas',
+    title: 'Años Calendario',
+    href: '/payroll/anios',
     icon: null
   }
   // {

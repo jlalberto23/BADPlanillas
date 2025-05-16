@@ -138,7 +138,7 @@ interface AnioCalendarioTable {
   anio: number
   fecha_inicio: string
   fecha_fin: string
-  estado: 'activo' | 'inactivo'
+  estado: 'activo' | 'inactivo' // Automatico
 }
 
 interface PlanillaTable {

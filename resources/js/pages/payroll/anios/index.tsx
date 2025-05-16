@@ -1,10 +1,14 @@
+import { StateBadge } from '@/components/state-badge'
+import { Button } from '@/components/ui/button'
 import { DataTableColumnHeader, DataTablePaginated, DataTableSearchOption } from '@/components/ui/pagination'
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { Head } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
+import { Plus } from 'lucide-react'
 import PayrollLayout from '../layout'
 import { Anio, AniosPaginated } from './anios'
+import { AnioCreatingDialog } from './components/anio-creating-dialog'
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -32,8 +36,14 @@ export default function AniosPage({ anios }: Props) {
             calcTotals={false}
             searchPlaceholder="Buscar por nombre"
             searchOptions={searchOptions}
-            exportedFileName="Planillas"
-            // TODO: Agregar el headerContent
+            exportedFileName="Años calendario"
+            headerContent={
+              <AnioCreatingDialog>
+                <Button variant="outline" size="sm">
+                  <Plus />
+                </Button>
+              </AnioCreatingDialog>
+            }
           />
         </div>
       </PayrollLayout>
@@ -79,7 +89,8 @@ const columns: ColumnDef<Anio, string>[] = [
   {
     id: 'Estado',
     accessorKey: 'estado',
-    header: ({ column }) => <DataTableColumnHeader column={column} />
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    cell: ({ row }) => <StateBadge state={row.original.estado} />
   },
   {
     id: 'Planillas',

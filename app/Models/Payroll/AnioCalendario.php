@@ -17,12 +17,6 @@ class AnioCalendario extends Model
 		'estado' // El estado es automático
 	];
 
-	protected $casts = [
-		'anio' => 'integer',
-		'fecha_inicio' => 'date',
-		'fecha_fin' => 'date'
-	];
-
 	public function planillas()
 	{
 		return $this->hasMany(Planilla::class, 'id_anio');
