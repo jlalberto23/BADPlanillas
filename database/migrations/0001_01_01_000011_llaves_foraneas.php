@@ -26,28 +26,7 @@ return new class extends Migration
 		Schema::table('distritos', function (Blueprint $table) {
 			$table->foreign('id_municipio')->references('id_municipio')->on('municipios');
 		});
-		//Llaves foraneas de periodoContable
-		Schema::table('periodoContable', function (Blueprint $table) {
-			$table->foreign('id_anio')->references('id_anio')->on('anioCalendario');
-		});
-		//Llaves foraneas de ingresosEmpleado
-		Schema::table('ingresosEmpleado', function (Blueprint $table) {
-			$table->foreign('id_tipo_ingreso')->references('id_tipo_ingreso')->on('tpoIngreso');
-			$table->foreign('id_empleado')->references('id_empleado')->on('empleados');
-			$table->foreign('id_periodo')->references('id_periodo')->on('periodoContable');
-		});
-		//Llaves foraneas de descEmpleado
-		Schema::table('descEmpleado', function (Blueprint $table) {
-			$table->foreign('id_tpo_descuento')->references('id_tpo_descuento')->on('tpoDescuentos');
-			$table->foreign('id_empleado')->references('id_empleado')->on('empleados');
-			$table->foreign('id_periodo')->references('id_periodo')->on('periodoContable');
-		});
-		//Llaves foraneas de aportesPatron
-		Schema::table('aportesPatron', function (Blueprint $table) {
-			$table->foreign('id_tpo_Aporte')->references('id_tpo_Aporte')->on('tpoAportesPatron');
-			$table->foreign('id_empleado')->references('id_empleado')->on('empleados');
-			$table->foreign('id_periodo')->references('id_periodo')->on('periodoContable');
-		});
+
 		//Llaves foraneas de departamentoEmpresa
 		Schema::table('departamentoEmpresa', function (Blueprint $table) {
 			$table->foreign('id_jefeDepto')->references('id_empleado')->on('empleados');
@@ -61,11 +40,6 @@ return new class extends Migration
 		Schema::table('seccionEmpresa', function (Blueprint $table) {
 			$table->foreign('id_jefeSeccion')->references('id_empleado')->on('empleados');
 			$table->foreign('id_area')->references('id_area')->on('areaEmpresa');
-		});
-		//Llaves foraneas de planilla
-		Schema::table('planilla', function (Blueprint $table) {
-			$table->foreign('id_periodo')->references('id_periodo')->on('periodoContable');
-			$table->foreign('id_empleado')->references('id_empleado')->on('empleados');
 		});
 	}
 
@@ -89,28 +63,7 @@ return new class extends Migration
 		Schema::table('distritos', function (Blueprint $table) {
 			$table->dropForeign(['id_municipio']);
 		});
-		// Eliminar llaves foráneas de periodoContable
-		Schema::table('periodoContable', function (Blueprint $table) {
-			$table->dropForeign(['id_anio']);
-		});
-		// Eliminar llaves foráneas de ingresosEmpleado
-		Schema::table('ingresosEmpleado', function (Blueprint $table) {
-			$table->dropForeign(['id_tipo_ingreso']);
-			$table->dropForeign(['id_empleado']);
-			$table->dropForeign(['id_periodo']);
-		});
-		// Eliminar llaves foráneas de descEmpleado
-		Schema::table('descEmpleado', function (Blueprint $table) {
-			$table->dropForeign(['id_tpo_descuento']);
-			$table->dropForeign(['id_empleado']);
-			$table->dropForeign(['id_periodo']);
-		});
-		// Eliminar llaves foráneas de aportesPatron
-		Schema::table('aportesPatron', function (Blueprint $table) {
-			$table->dropForeign(['id_tpo_Aporte']);
-			$table->dropForeign(['id_empleado']);
-			$table->dropForeign(['id_periodo']);
-		});
+
 		// Eliminar llaves foráneas de departamentoEmpresa
 		Schema::table('departamentoEmpresa', function (Blueprint $table) {
 			$table->dropForeign(['id_jefeDepto']);
@@ -124,12 +77,6 @@ return new class extends Migration
 		Schema::table('seccionEmpresa', function (Blueprint $table) {
 			$table->dropForeign(['id_jefeSeccion']);
 			$table->dropForeign(['id_area']);
-		});
-
-		// Eliminar llaves foráneas de planilla
-		Schema::table('planilla', function (Blueprint $table) {
-			$table->dropForeign(['id_periodo']);
-			$table->dropForeign(['id_empleado']);
 		});
 	}
 };

@@ -2,7 +2,6 @@
 
 namespace App\Models\Payroll;
 
-use App\Models\Catalogs\Empleado;
 use Illuminate\Database\Eloquent\Model;
 
 class Planilla extends Model
@@ -10,32 +9,38 @@ class Planilla extends Model
 	protected $table = 'planilla';
 	protected $primaryKey = 'id_planilla';
 	public $timestamps = false;
+
 	protected $fillable = [
-		'id_periodo',
-		'id_empleado',
-		'id_centro_costo',
+		'id_anio',
+		'mes',
 		'fecha_generacion',
+		'fecha_inicio',
+		'fecha_fin',
 		'total_ingresos',
 		'total_descuentos',
 		'total_aporte_patronal',
-		'salario_neto_total'
+		'salario_neto_total',
+		'estado'
 	];
 
 	protected $casts = [
+		'mes' => 'string',
 		'fecha_generacion' => 'date',
+		'fecha_inicio' => 'date',
+		'fecha_fin' => 'date',
 		'total_ingresos' => 'decimal:2',
 		'total_descuentos' => 'decimal:2',
 		'total_aporte_patronal' => 'decimal:2',
 		'salario_neto_total' => 'decimal:2'
 	];
 
-	public function empleado()
+	public function anioCalendario()
 	{
-		return $this->belongsTo(Empleado::class, 'id_empleado', 'id_empleado');
+		return $this->belongsTo(AnioCalendario::class, 'id_anio');
 	}
 
-	public function centroCosto()
+	public function detalles()
 	{
-		return $this->belongsTo(Centrocosto::class, 'id_centro_costo', 'id_centro_costo');
+		return $this->hasMany(PlanillaDetalle::class, 'id_planilla');
 	}
 }

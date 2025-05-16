@@ -117,94 +117,59 @@ interface RangoSalarialTable {
   updated_at: string
 }
 
-// Catálogos de períodos
-interface AnioCalendarioTable {
-  id_anio: number
-  anio: string
-  fecha_inicio: string
-  fecha_fin: string
-}
-
-interface PeriodoContableTable {
-  id_periodo: number
-  id_anio: number
-  mes: string
-  fecha_inicio: string
-  fecha_fin: string
-}
-
-// Catálogos de ingresos y descuentos
-interface TipoIngresoTable {
-  id_tipo_ingreso: number
-  tpoIngreso: string
-}
-
-interface IngresoEmpleadoTable {
-  id_empleado_ingreso: number
-  id_tipo_ingreso: number
-  id_empleado: number
-  fecha: string
-  monto: number
-  id_periodo: number
-}
-
-interface TipoDescuentoTable {
-  id_tpo_descuento: number
-  tpoDescuentos: string
-}
-
-interface DescuentoEmpleadoTable {
-  id_empleado_descuento: number
-  id_tpo_descuento: number
-  id_empleado: number
-  fecha: string
-  monto: number
-  id_periodo: number
-}
-
-// Catálogos de aportes patronales
-interface TipoAportePatronalTable {
-  id_tpo_Aporte: number
-  tpoAporte: string
-}
-
-interface AportePatronalTable {
-  id_aporte_patron: number
-  id_tpo_Aporte: number
-  id_empleado: number
-  fecha: string
-  monto: number
-  id_periodo: number
+interface TipoConceptoTable {
+  codigo: string
+  tipo: 'ingreso' | 'descuento' | 'aporte_patron'
+  nombre: string
+  descripcion: string
 }
 
 interface TablaRentaTable {
-  id_renta: number
+  tramo: string
   salario_desde: number
-  salario_hasta: number
+  salario_hasta: number | null
   porcentaje: number
+  cuota_fija: number | null
+  sobre_exceso: number | null
 }
 
-// Estructura organizacional
-interface DepartamentoEmpresaTable {
-  id_deptoEmpresa: number
-  nombreDepto: string
-  descripcionDepto: string
-  id_jefeDepto: number | null
-  id_centro_costo: number | null
+interface AnioCalendarioTable {
+  id_anio: number
+  anio: number
+  fecha_inicio: string
+  fecha_fin: string
+  estado: 'activo' | 'inactivo'
 }
 
-interface AreaEmpresaTable {
-  id_area: number
-  nombreArea: string
-  descripcionArea: string
-  id_jefeArea: number | null
-  id_deptoEmpresa: number | null
+interface PlanillaTable {
+  id_planilla: number
+  id_anio: number
+  estado: 'activo' | 'inactivo'
+  mes: '01' | '02' | '03' | '04' | '05' | '06' | '07' | '08' | '09' | '10' | '11' | '12'
+  fecha_generacion: string | null
+  fecha_inicio: string
+  fecha_fin: string
+  total_ingresos: number
+  total_descuentos: number
+  total_aporte_patronal: number
+  salario_neto_total: number
 }
 
-interface SeccionEmpresaTable {
-  id_seccion: number
-  nombreSeccion: string
-  descripcionSeccion: string
-  id_jefeSeccion: number | null
-  id_area: number | null
+interface PlanillaDetalleTable {
+  id_planilla_detalle: number
+  id_planilla: number
+  id_empleado: number
+  id_centro_costo: number
+  total_ingresos: number
+  total_descuentos: number
+  total_aporte_patronal: number
+  salario_neto_total: number
+}
+
+interface ConceptosEmpleadoTable {
+  id_concepto_empleado: number
+  id_planilla_detalle: number
+  codigo_concepto: string
+  fecha: string
+  monto: number
 }
