@@ -45,25 +45,22 @@ class PlanillaController extends Controller
 			'mes' => ['required', 'string'],
 			'fecha_inicio' => ['required', 'date'],
 			'fecha_fin' => ['required', 'date', 'after:fecha_inicio'],
-			'total_ingresos' => ['required', 'numeric', 'min:0'],
-			'total_descuentos' => ['required', 'numeric', 'min:0'],
-			'total_aporte_patronal' => ['required', 'numeric', 'min:0'],
-			'salario_neto_total' => ['required', 'numeric', 'min:0'],
 		]);
 
 		try {
+
+			if (Planilla::where('estado', 'activo')->exists()) {
+				return back()->withErrors(['message' => 'Ya existe una planilla activa']);
+			}
+
 			$planilla = Planilla::create(array_merge(
 				$request->only([
 					'id_anio',
 					'mes',
 					'fecha_inicio',
 					'fecha_fin',
-					'total_ingresos',
-					'total_descuentos',
-					'total_aporte_patronal',
-					'salario_neto_total',
 				]),
-				['fecha_generacion' => now(), 'estado' => 'PENDIENTE']
+				['estado' => 'activo']
 			));
 			return back()->with('success', 'Planilla creada correctamente');
 		} catch (\Throwable $th) {
@@ -79,11 +76,6 @@ class PlanillaController extends Controller
 			'mes' => ['required', 'string'],
 			'fecha_inicio' => ['required', 'date'],
 			'fecha_fin' => ['required', 'date', 'after:fecha_inicio'],
-			'total_ingresos' => ['required', 'numeric', 'min:0'],
-			'total_descuentos' => ['required', 'numeric', 'min:0'],
-			'total_aporte_patronal' => ['required', 'numeric', 'min:0'],
-			'salario_neto_total' => ['required', 'numeric', 'min:0'],
-			'estado' => ['required', 'string'],
 		]);
 
 		try {
@@ -93,11 +85,6 @@ class PlanillaController extends Controller
 				'mes',
 				'fecha_inicio',
 				'fecha_fin',
-				'total_ingresos',
-				'total_descuentos',
-				'total_aporte_patronal',
-				'salario_neto_total',
-				'estado',
 			]));
 			return back()->with('success', 'Planilla actualizada correctamente');
 		} catch (\Throwable $th) {
@@ -121,20 +108,5 @@ class PlanillaController extends Controller
 			Log::error($th->getMessage());
 			return back()->withErrors(['message' => 'Error al eliminar la planilla']);
 		}
-	}
-
-	public function getPlanillas(Request $request)
-	{
-		$anio = $request->get('anio');
-		$query = Planilla::with(['anioCalendario']);
-
-		if ($anio) {
-			$query->whereHas('anioCalendario', function ($q) use ($anio) {
-				$q->where('anio', $anio);
-			});
-		}
-
-		$planillas = $query->orderBy('fecha_generacion', 'desc')->get();
-		return response()->json($planillas);
 	}
 }

@@ -26,6 +26,4 @@ Route::middleware(['auth', 'verified'])->prefix('payroll')->group(function () {
 		->middleware('can:payroll.planillas.update')->name('payroll.planillas.update');
 	Route::delete('planillas/{id}', [PlanillaController::class, 'destroy'])
 		->middleware('can:payroll.planillas.destroy')->name('payroll.planillas.destroy');
-	Route::get('planillas/get', [PlanillaController::class, 'getPlanillas'])
-		->name('payroll.planillas.get');
 });
