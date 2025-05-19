@@ -69,6 +69,13 @@ class AnioController extends Controller
 			'fecha_fin' => ['required', 'date', 'after:fecha_inicio'],
 		]);
 
+		$anio = $request->input('anio');
+		$fechaInicio = date('Y', strtotime($request->input('fecha_inicio')));
+		$fechaFin = date('Y', strtotime($request->input('fecha_fin')));
+		if ($fechaInicio != $anio || $fechaFin != $anio) {
+			return back()->withErrors(['message' => 'Las fechas deben estar dentro del rango del año']);
+		}
+
 		try {
 			$anio = AnioCalendario::findOrFail($id);
 			$anio->update($request->only([

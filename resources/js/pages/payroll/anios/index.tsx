@@ -5,11 +5,11 @@ import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { Head } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
-import { Plus } from 'lucide-react'
+import { EllipsisVertical, Plus } from 'lucide-react'
 import PayrollLayout from '../layout'
 import { Anio, AniosPaginated } from './anios'
 import { AnioCreatingDialog } from './components/anio-creating-dialog'
-
+import AnioOptions from './components/anio-options'
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Gestión de planillas',
@@ -65,11 +65,14 @@ const searchOptions: DataTableSearchOption[] = [
 const columns: ColumnDef<Anio, string>[] = [
   {
     id: 'Actions',
-    header: ''
-    // TODO: Agregar el cell de opciones
-    // cell: ({ row }) => (
-
-    // )
+    header: '',
+    cell: ({ row }) => (
+      <AnioOptions anio={row.original}>
+        <Button variant="ghost" size="sm">
+          <EllipsisVertical className="size-3" />
+        </Button>
+      </AnioOptions>
+    )
   },
   {
     id: 'Año',
