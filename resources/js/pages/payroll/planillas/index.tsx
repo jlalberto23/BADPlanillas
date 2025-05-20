@@ -7,9 +7,10 @@ import { BreadcrumbItem } from '@/types'
 import { MesNombres } from '@/types/mesEnum'
 import { Head } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
-import { Plus } from 'lucide-react'
+import { EllipsisVertical, Plus } from 'lucide-react'
 import PayrollLayout from '../layout'
 import { PlanillaCreatingDialog } from './components/planilla-creating-dialog'
+import PlanillaOptions from './components/planilla-options'
 import { Planilla, PlanillasPaginated } from './planillas'
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -67,11 +68,14 @@ const searchOptions: DataTableSearchOption[] = [
 const columns: ColumnDef<Planilla, string>[] = [
   {
     id: 'Actions',
-    header: ''
-    // TODO: Agregar el cell de opciones
-    // cell: ({ row }) => (
-
-    // )
+    header: '',
+    cell: ({ row }) => (
+      <PlanillaOptions planilla={row.original}>
+        <Button variant="ghost" size="sm">
+          <EllipsisVertical className="size-3" />
+        </Button>
+      </PlanillaOptions>
+    )
   },
   {
     id: 'Año',
