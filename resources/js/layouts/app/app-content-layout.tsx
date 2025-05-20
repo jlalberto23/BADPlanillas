@@ -9,7 +9,7 @@ import { type PropsWithChildren } from 'react'
 interface Props {
   title: string
   description: string
-  sidebarNavItems: NavItem[]
+  sidebarNavItems?: NavItem[]
 }
 
 export default function ContentLayout({ children, title, description, sidebarNavItems }: PropsWithChildren<Props>) {
@@ -27,7 +27,7 @@ export default function ContentLayout({ children, title, description, sidebarNav
       <div className="flex grow flex-col overflow-x-hidden lg:flex-row lg:space-y-0 lg:space-x-12">
         <aside className="w-full max-w-xl lg:w-48">
           <nav className="flex flex-wrap space-y-1 space-x-1 lg:flex-col lg:space-x-0">
-            {sidebarNavItems.map((item, index) => (
+            {sidebarNavItems?.map((item, index) => (
               <Button
                 key={`${item.href}-${index}`}
                 size="sm"

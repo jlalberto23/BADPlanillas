@@ -5,7 +5,7 @@ import AppLayout from '@/layouts/app-layout'
 import { formatCurrency } from '@/lib/formatCurrency'
 import { BreadcrumbItem } from '@/types'
 import { MesNombres } from '@/types/mesEnum'
-import { Head } from '@inertiajs/react'
+import { Head, Link } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
 import { EllipsisVertical, Plus } from 'lucide-react'
 import PayrollLayout from '../layout'
@@ -68,12 +68,16 @@ const columns: ColumnDef<Planilla, string>[] = [
   {
     id: 'Año',
     accessorKey: 'anio_calendario.anio',
-    header: ({ column }) => <DataTableColumnHeader column={column} />
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    cell: ({ row }) => <Link href={route('payroll.planillas.show', { id: row.original.id_planilla })}>{row.original.anio_calendario.anio}</Link>
   },
   {
     id: 'Mes',
     accessorFn: ({ mes }) => MesNombres[mes as keyof typeof MesNombres],
-    header: ({ column }) => <DataTableColumnHeader column={column} />
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    cell: ({ row }) => (
+      <Link href={route('payroll.planillas.show', { id: row.original.id_planilla })}>{MesNombres[row.original.mes as keyof typeof MesNombres]}</Link>
+    )
   },
   {
     id: 'Estado',

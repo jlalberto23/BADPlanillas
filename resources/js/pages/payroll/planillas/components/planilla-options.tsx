@@ -58,7 +58,7 @@ export default function PlanillaOptions({ planilla, children }: Props) {
             </DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleDeleteClick}>
+          <DropdownMenuItem onClick={handleDeleteClick} variant="destructive">
             Eliminar
             <DropdownMenuShortcut>
               <Trash />

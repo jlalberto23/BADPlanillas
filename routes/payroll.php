@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Payroll\AnioController;
 use App\Http\Controllers\Payroll\PlanillaController;
+use App\Http\Controllers\Payroll\PlanillaDetalleController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->prefix('payroll')->group(function () {
@@ -22,10 +23,12 @@ Route::middleware(['auth', 'verified'])->prefix('payroll')->group(function () {
 		->middleware('can:payroll.planillas.index')->name('payroll.planillas.index');
 	Route::post('planillas', [PlanillaController::class, 'store'])
 		->middleware('can:payroll.planillas.store')->name('payroll.planillas.store');
-	Route::get('planillas/{id}', [PlanillaController::class, 'show'])
-		->middleware('can:payroll.planillas.show')->name('payroll.planillas.show');
 	Route::put('planillas/{id}', [PlanillaController::class, 'update'])
 		->middleware('can:payroll.planillas.update')->name('payroll.planillas.update');
 	Route::delete('planillas/{id}', [PlanillaController::class, 'destroy'])
 		->middleware('can:payroll.planillas.destroy')->name('payroll.planillas.destroy');
+
+	// Rutas para planillas detalles
+	Route::get('planillas/{id}', [PlanillaDetalleController::class, 'index'])
+		->middleware('can:payroll.planillas.show')->name('payroll.planillas.show');
 });
