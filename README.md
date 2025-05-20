@@ -18,6 +18,12 @@ php artisan db:seed --class="Database\Seeders\CatalogsSeeders\CatalogsRolePermis
 php artisan db:seed --class="Database\Seeders\PayrollSeeders\PayrollRolePermissionsSeeder"
 ```
 
+- Centro de costos
+
+```bash
+php artisan db:seed --class="Database\Seeders\PayrollSeeders\FakeCentroCostoSeeder"
+```
+
 - Profesiones
 
 ```bash

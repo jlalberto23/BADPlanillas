@@ -24,7 +24,7 @@ return new class extends Migration
 			$table->foreignId('id_deptoEmpresa')->constrained('departamentoEmpresa', 'id_deptoEmpresa');
 			$table->foreignId('id_anio')->constrained('anio_calendario', 'id_anio');
 			$table->decimal('presupuesto_total', 9, 2);
-			$table->decimal('presupuesto_restante', 9, 2);
+			$table->decimal('presupuesto_restante', 9, 2)->default(0);
 			$table->unique(['id_deptoEmpresa', 'id_anio']);
 		});
 

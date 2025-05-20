@@ -13,15 +13,9 @@ class CentroCosto extends Model
 
 	protected $fillable = [
 		'id_deptoEmpresa',
-		'anio',
+		'id_anio',
 		'presupuesto_total',
-		'presupuesto_restante'
-	];
-
-	protected $casts = [
-		'anio' => 'integer',
-		'presupuesto_total' => 'decimal:2',
-		'presupuesto_restante' => 'decimal:2'
+		// 'presupuesto_restante' // Calculado automáticamente
 	];
 
 	public function departamentoEmpresa()
@@ -32,5 +26,10 @@ class CentroCosto extends Model
 	public function planillaDetalles()
 	{
 		return $this->hasMany(PlanillaDetalle::class, 'id_centro_costo');
+	}
+
+	public function anioCalendario()
+	{
+		return $this->belongsTo(AnioCalendario::class, 'id_anio');
 	}
 }
