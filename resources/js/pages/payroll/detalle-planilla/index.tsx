@@ -45,7 +45,11 @@ export default function PlanillasPage({ planilla, planillaDetalles }: Props) {
             <TotalCard description="Total de ingresos" total={planilla.total_ingresos} />
             <TotalCard description="Total de descuentos" total={planilla.total_descuentos} />
             <TotalCard description="Total de aportes patronales" total={planilla.total_aporte_patronal} />
-            <TotalCard description="Total neto" total={planilla.salario_neto_total} />
+            <TotalCard
+              description="Total neto"
+              total={planilla.salario_neto_total}
+              className="bg-neutral-900 text-neutral-50 dark:bg-neutral-50 dark:text-neutral-900"
+            />
           </section>
           <div className="flex min-h-[400px] grow overflow-x-hidden">
             <DataTablePaginated
