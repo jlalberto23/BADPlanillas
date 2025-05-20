@@ -8,6 +8,7 @@ import { MesNombres } from '@/types/mesEnum'
 import { Head, Link } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
 import { EllipsisVertical } from 'lucide-react'
+import TotalCard from '../components/total-card'
 import PayrollLayout from '../layout'
 import PlanillaOptions from '../planillas/components/planilla-options'
 import { Planilla, PlanillaDetalle, PlanillaDetallesPaginated } from './detalleplanilla'
@@ -39,22 +40,30 @@ export default function PlanillasPage({ planilla, planillaDetalles }: Props) {
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Planillas" />
       <ContentLayout title={title} description={description}>
-        <div className="flex h-full">
-          <DataTablePaginated
-            columns={columns}
-            data={data}
-            pagination={pagination}
-            calcTotals={false}
-            exportedFileName="Planillas"
-            canSearch={false}
-            headerContent={
-              <PlanillaOptions planilla={planilla}>
-                <Button variant="outline" size="sm">
-                  <EllipsisVertical className="size-3" />
-                </Button>
-              </PlanillaOptions>
-            }
-          />
+        <div className="flex h-full flex-col gap-4 overflow-x-hidden lg:flex-row">
+          <section className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-1">
+            <TotalCard description="Total de ingresos" total={planilla.total_ingresos} />
+            <TotalCard description="Total de descuentos" total={planilla.total_descuentos} />
+            <TotalCard description="Total de aportes patronales" total={planilla.total_aporte_patronal} />
+            <TotalCard description="Total neto" total={planilla.salario_neto_total} />
+          </section>
+          <div className="flex min-h-[400px] grow overflow-x-hidden">
+            <DataTablePaginated
+              columns={columns}
+              data={data}
+              pagination={pagination}
+              calcTotals={false}
+              exportedFileName="Planillas"
+              canSearch={false}
+              headerContent={
+                <PlanillaOptions planilla={planilla}>
+                  <Button variant="outline" size="sm">
+                    <EllipsisVertical className="size-3" /> Opciones
+                  </Button>
+                </PlanillaOptions>
+              }
+            />
+          </div>
         </div>
       </ContentLayout>
     </AppLayout>
