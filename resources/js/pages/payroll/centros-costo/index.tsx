@@ -73,12 +73,12 @@ const columns: ColumnDef<CentroCosto, string>[] = [
   },
   {
     id: 'Presupuesto total',
-    accessorFn: ({ presupuesto_total }) => formatCurrency(+presupuesto_total),
+    accessorFn: ({ presupuesto_total }) => formatCurrency(presupuesto_total),
     header: ({ column }) => <DataTableColumnHeader column={column} />
   },
   {
     id: 'Presupuesto restante',
-    accessorFn: ({ presupuesto_restante }) => formatCurrency(+presupuesto_restante),
+    accessorFn: ({ presupuesto_restante }) => formatCurrency(presupuesto_restante),
     header: ({ column }) => <DataTableColumnHeader column={column} />
   }
 ]
