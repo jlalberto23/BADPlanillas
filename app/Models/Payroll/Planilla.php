@@ -13,25 +13,15 @@ class Planilla extends Model
 	protected $fillable = [
 		'id_anio',
 		'mes',
-		'fecha_generacion',
 		'fecha_inicio',
 		'fecha_fin',
-		'total_ingresos',
-		'total_descuentos',
-		'total_aporte_patronal',
-		'salario_neto_total',
+		// Estos campos no son editables directamente
+		// 'fecha_generacion',
+		// 'total_ingresos',
+		// 'total_descuentos', 
+		// 'total_aporte_patronal',
+		// 'salario_neto_total',
 		'estado'
-	];
-
-	protected $casts = [
-		'mes' => 'string',
-		'fecha_generacion' => 'date',
-		'fecha_inicio' => 'date',
-		'fecha_fin' => 'date',
-		'total_ingresos' => 'decimal:2',
-		'total_descuentos' => 'decimal:2',
-		'total_aporte_patronal' => 'decimal:2',
-		'salario_neto_total' => 'decimal:2'
 	];
 
 	public function anioCalendario()

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Payroll;
 
 use App\Http\Controllers\Controller;
+use App\Models\Payroll\AnioCalendario;
 use App\Models\Payroll\Planilla;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -41,11 +42,12 @@ class PlanillaController extends Controller
 	public function store(Request $request)
 	{
 		$request->validate([
-			'id_anio' => ['required', 'exists:anio_calendario,id_anio'],
-			'mes' => ['required', 'string'],
+			'mes' => ['required', 'string', 'regex:/^\d{4}-\d{2}$/'], // Mes en formato 'YYYY-MM'
 			'fecha_inicio' => ['required', 'date'],
 			'fecha_fin' => ['required', 'date', 'after:fecha_inicio'],
 		]);
+
+		[$year, $month] = explode('-', $request->input('mes'));
 
 		try {
 
@@ -53,39 +55,63 @@ class PlanillaController extends Controller
 				return back()->withErrors(['message' => 'Ya existe una planilla activa']);
 			}
 
+			$anio = AnioCalendario::select('id_anio')->where('anio', $year)->first();
+
+			if (!$anio) {
+				return back()->withErrors(['message' => 'No se puede crear la planilla porque el año calendario no existe']);
+			}
+
 			$planilla = Planilla::create(array_merge(
 				$request->only([
-					'id_anio',
-					'mes',
 					'fecha_inicio',
 					'fecha_fin',
 				]),
-				['estado' => 'activo']
+				[
+					'id_anio' => $anio->id_anio,
+					'mes' => $month,
+				]
 			));
-			return back()->with('success', 'Planilla creada correctamente');
+			return back()->with('success', 'Planilla inicializada correctamente');
 		} catch (\Throwable $th) {
 			Log::error($th->getMessage());
-			return back()->withErrors(['message' => 'Error al crear la planilla']);
+			return back()->withErrors(['message' => 'Error al inicializar la planilla']);
 		}
 	}
 
 	public function update(Request $request, $id)
 	{
 		$request->validate([
-			'id_anio' => ['required', 'exists:anio_calendario,id_anio'],
-			'mes' => ['required', 'string'],
+			'mes' => ['required', 'string', 'regex:/^\d{4}-\d{2}$/'], // Mes en formato 'YYYY-MM'
 			'fecha_inicio' => ['required', 'date'],
 			'fecha_fin' => ['required', 'date', 'after:fecha_inicio'],
 		]);
 
+		[$year, $month] = explode('-', $request->input('mes'));
+
 		try {
-			$planilla = Planilla::findOrFail($id);
-			$planilla->update($request->only([
-				'id_anio',
-				'mes',
-				'fecha_inicio',
-				'fecha_fin',
-			]));
+
+			$anio = AnioCalendario::select('id_anio')->where('anio', $year)->first();
+
+			if (!$anio) {
+				return back()->withErrors(['message' => 'No se puede actualizar la planilla porque el año calendario no existe']);
+			}
+
+			$planilla = Planilla::find($id);
+
+			if (!$planilla) {
+				return back()->withErrors(['message' => 'No se puede actualizar la planilla porque no existe']);
+			}
+
+			$planilla->update(array_merge(
+				$request->only([
+					'fecha_inicio',
+					'fecha_fin',
+				]),
+				[
+					'id_anio' => $anio->id_anio,
+					'mes' => $month,
+				]
+			));
 			return back()->with('success', 'Planilla actualizada correctamente');
 		} catch (\Throwable $th) {
 			Log::error($th->getMessage());

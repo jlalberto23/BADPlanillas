@@ -12,24 +12,21 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { MesEnum } from '@/types/mesEnum'
 import { useForm } from '@inertiajs/react'
 import { ReactNode, useState } from 'react'
 import { toast } from 'sonner'
-
 interface Props {
   children: ReactNode
 }
 
-type Form = Pick<PlanillaTable, 'id_anio' | 'fecha_inicio' | 'fecha_fin'> & {
-  mes: MesEnum | null
+type Form = Pick<PlanillaTable, 'fecha_inicio' | 'fecha_fin'> & {
+  mes: string // Mes en formato 'YYYY-MM'
 }
 
 export function PlanillaCreatingDialog({ children }: Props) {
   const [open, setOpen] = useState(false)
   const { data, setData, reset, post, processing, errors, clearErrors } = useForm<Form>({
-    id_anio: 0,
-    mes: null,
+    mes: '',
     fecha_inicio: '',
     fecha_fin: ''
   })
@@ -66,32 +63,27 @@ export function PlanillaCreatingDialog({ children }: Props) {
       <AlertDialogContent>
         <form onSubmit={handleSubmit} className="grid gap-4" autoComplete="off">
           <AlertDialogHeader>
-            <AlertDialogTitle>Crear Año Calendario</AlertDialogTitle>
-            <AlertDialogDescription>Ingresa los datos del año calendario.</AlertDialogDescription>
+            <AlertDialogTitle>Inicializar Planilla</AlertDialogTitle>
+            <AlertDialogDescription>Ingresa los datos de periodo de la planilla.</AlertDialogDescription>
           </AlertDialogHeader>
-          <section className="grid gap-4">
-            <div>
-              <Label>Año</Label>
-              <InputError message={errors.anio} />
-              <Input type="number" onChange={handleChange} value={data.anio} name="anio" min={2000} max={2100} required />
-            </div>
-            <div>
-              <Label>Fecha de inicio</Label>
-              <InputError message={errors.fecha_inicio} />
-              <Input type="date" onChange={handleChange} value={data.fecha_inicio} name="fecha_inicio" required />
-            </div>
-            <div>
-              <Label>Fecha de fin</Label>
-              <InputError message={errors.fecha_fin} />
-              <Input type="date" onChange={handleChange} value={data.fecha_fin} name="fecha_fin" required />
-            </div>
+          <section className="grid grid-cols-2 gap-4">
             <div>
               <Label>Mes</Label>
               <InputError message={errors.mes} />
-              <Input type="number" onChange={handleChange} value={data.mes} name="mes" min={1} max={12} required />
             </div>
+            <Input type="month" name="mes" value={data.mes} onChange={handleChange} required className="w-min" />
+            <div>
+              <Label>Fecha de inicio</Label>
+              <InputError message={errors.fecha_inicio} />
+            </div>
+            <Input type="date" onChange={handleChange} value={data.fecha_inicio} name="fecha_inicio" required className="w-min" />
+            <div>
+              <Label>Fecha de fin</Label>
+              <InputError message={errors.fecha_fin} />
+            </div>
+            <Input type="date" onChange={handleChange} value={data.fecha_fin} name="fecha_fin" required className="w-min" />
           </section>
-          <AlertDialogFooter>
+          <AlertDialogFooter className="mt-4">
             <AlertDialogCancel onClick={handleCancel} disabled={processing}>
               Cancelar
             </AlertDialogCancel>

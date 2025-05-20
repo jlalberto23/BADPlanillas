@@ -1,9 +1,15 @@
+import { StateBadge } from '@/components/state-badge'
+import { Button } from '@/components/ui/button'
 import { DataTableColumnHeader, DataTablePaginated, DataTableSearchOption } from '@/components/ui/pagination'
 import AppLayout from '@/layouts/app-layout'
+import { formatCurrency } from '@/lib/formatCurrency'
 import { BreadcrumbItem } from '@/types'
+import { MesNombres } from '@/types/mesEnum'
 import { Head } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
+import { Plus } from 'lucide-react'
 import PayrollLayout from '../layout'
+import { PlanillaCreatingDialog } from './components/planilla-creating-dialog'
 import { Planilla, PlanillasPaginated } from './planillas'
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -33,7 +39,13 @@ export default function PlanillasPage({ planillas }: Props) {
             searchPlaceholder="Buscar por nombre"
             searchOptions={searchOptions}
             exportedFileName="Planillas"
-            // TODO: Agregar el headerContent
+            headerContent={
+              <PlanillaCreatingDialog>
+                <Button variant="outline" size="sm">
+                  <Plus />
+                </Button>
+              </PlanillaCreatingDialog>
+            }
           />
         </div>
       </PayrollLayout>
@@ -63,18 +75,19 @@ const columns: ColumnDef<Planilla, string>[] = [
   },
   {
     id: 'Año',
-    accessorKey: 'anio',
+    accessorKey: 'anio_calendario.anio',
     header: ({ column }) => <DataTableColumnHeader column={column} />
   },
   {
     id: 'Mes',
-    accessorKey: 'mes',
+    accessorFn: ({ mes }) => MesNombres[mes as keyof typeof MesNombres],
     header: ({ column }) => <DataTableColumnHeader column={column} />
   },
   {
     id: 'Estado',
     accessorKey: 'estado',
-    header: ({ column }) => <DataTableColumnHeader column={column} />
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    cell: ({ row }) => <StateBadge state={row.original.estado} />
   },
   {
     id: 'Fecha de generación',
@@ -93,22 +106,22 @@ const columns: ColumnDef<Planilla, string>[] = [
   },
   {
     id: 'Total de ingresos',
-    accessorKey: 'total_ingresos',
+    accessorFn: ({ total_ingresos }) => formatCurrency(total_ingresos),
     header: ({ column }) => <DataTableColumnHeader column={column} />
   },
   {
     id: 'Total de descuentos',
-    accessorKey: 'total_descuentos',
+    accessorFn: ({ total_descuentos }) => formatCurrency(total_descuentos),
     header: ({ column }) => <DataTableColumnHeader column={column} />
   },
   {
     id: 'Total de aportes patronales',
-    accessorKey: 'total_aporte_patronal',
+    accessorFn: ({ total_aporte_patronal }) => formatCurrency(total_aporte_patronal),
     header: ({ column }) => <DataTableColumnHeader column={column} />
   },
   {
     id: 'Total neto',
-    accessorKey: 'total_neto',
+    accessorFn: ({ salario_neto_total }) => formatCurrency(salario_neto_total),
     header: ({ column }) => <DataTableColumnHeader column={column} />
   }
 ]
