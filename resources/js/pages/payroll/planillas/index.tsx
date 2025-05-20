@@ -1,6 +1,6 @@
 import { StateBadge } from '@/components/state-badge'
 import { Button } from '@/components/ui/button'
-import { DataTableColumnHeader, DataTablePaginated, DataTableSearchOption } from '@/components/ui/pagination'
+import { DataTableColumnHeader, DataTablePaginated } from '@/components/ui/pagination'
 import AppLayout from '@/layouts/app-layout'
 import { formatCurrency } from '@/lib/formatCurrency'
 import { BreadcrumbItem } from '@/types'
@@ -37,9 +37,8 @@ export default function PlanillasPage({ planillas }: Props) {
             data={data}
             pagination={pagination}
             calcTotals={false}
-            searchPlaceholder="Buscar por nombre"
-            searchOptions={searchOptions}
             exportedFileName="Planillas"
+            canSearch={false}
             headerContent={
               <PlanillaCreatingDialog>
                 <Button variant="outline" size="sm">
@@ -53,17 +52,6 @@ export default function PlanillasPage({ planillas }: Props) {
     </AppLayout>
   )
 }
-
-const searchOptions: DataTableSearchOption[] = [
-  {
-    value: 'has:empleados',
-    label: 'Con empleados'
-  },
-  {
-    value: '-has:empleados',
-    label: 'Sin empleados'
-  }
-]
 
 const columns: ColumnDef<Planilla, string>[] = [
   {

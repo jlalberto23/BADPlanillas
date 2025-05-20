@@ -196,6 +196,7 @@ interface DataTableProps<TData, TValue> {
   hideViewOptions?: boolean
   searchPlaceholder?: string
   searchOptions?: DataTableSearchOption[]
+	canSearch?: boolean
 }
 
 export function DataTablePaginated<TData, TValue>({
@@ -212,7 +213,8 @@ export function DataTablePaginated<TData, TValue>({
   hideViewOptions,
   searchPlaceholder,
   searchOptions,
-  onColumnVisibilityChange
+  onColumnVisibilityChange,
+	canSearch = true
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -246,11 +248,13 @@ export function DataTablePaginated<TData, TValue>({
   return (
     <div className="p-1 flex flex-col grow w-full overflow-hidden">
       <div className="flex flex-wrap items-center gap-2 pb-4">
-        <DataTableSearch
-          pagination={pagination}
-          searchPlaceholder={searchPlaceholder}
-          searchOptions={searchOptions}
-        />
+        {canSearch ? (
+          <DataTableSearch
+            pagination={pagination}
+            searchPlaceholder={searchPlaceholder}
+            searchOptions={searchOptions}
+          />
+        ) : <div className='flex grow' ></div>}
         {headerContent}
         {canExport && (
           <DataTableExport table={table} exportedFileName={exportedFileName} />
