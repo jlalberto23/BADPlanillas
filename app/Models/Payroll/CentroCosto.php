@@ -18,7 +18,7 @@ class CentroCosto extends Model
 		// 'presupuesto_restante' // Calculado automáticamente
 	];
 
-	public function departamentoEmpresa()
+	public function departamento()
 	{
 		return $this->belongsTo(Departamentoempresa::class, 'id_deptoEmpresa');
 	}

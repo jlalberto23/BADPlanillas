@@ -3,6 +3,7 @@
 use App\Http\Controllers\Payroll\AnioController;
 use App\Http\Controllers\Payroll\PlanillaController;
 use App\Http\Controllers\Payroll\PlanillaDetalleController;
+use App\Http\Controllers\Payroll\CentroCostoController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->prefix('payroll')->group(function () {
@@ -17,6 +18,16 @@ Route::middleware(['auth', 'verified'])->prefix('payroll')->group(function () {
 		->middleware('can:payroll.anios.destroy')->name('payroll.anios.destroy');
 	Route::get('anios/get', [AnioController::class, 'getAnios'])
 		->name('payroll.anios.get');
+
+	// Rutas para centros de costos
+	Route::get('centros-costo', [CentroCostoController::class, 'index'])
+		->middleware('can:payroll.centroscosto.index')->name('payroll.centroscosto.index');
+	Route::post('centros-costo', [CentroCostoController::class, 'store'])
+		->middleware('can:payroll.centroscosto.store')->name('payroll.centroscosto.store');
+	Route::put('centros-costo/{id}', [CentroCostoController::class, 'update'])
+		->middleware('can:payroll.centroscosto.update')->name('payroll.centroscosto.update');
+	Route::delete('centros-costo/{id}', [CentroCostoController::class, 'destroy'])
+		->middleware('can:payroll.centroscosto.destroy')->name('payroll.centroscosto.destroy');
 
 	// Rutas para planillas
 	Route::get('planillas', [PlanillaController::class, 'index'])

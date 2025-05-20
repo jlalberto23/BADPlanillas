@@ -86,7 +86,6 @@ interface PaisTable {
 interface DepartamentoTable {
   id_departamento: number
   nombreDepartamento: string
-  id_pais: number
 }
 
 interface MunicipioTable {
@@ -99,6 +98,30 @@ interface DistritoTable {
   id_distritos: number
   nombreDistrito: string
   id_municipio: number
+}
+
+// Estructura organizacional
+interface DepartamentoEmpresaTable {
+  id_deptoEmpresa: number
+  nombreDepto: string
+  descripcionDepto: string
+  id_jefeDepto: number | null
+}
+
+interface AreaEmpresaTable {
+  id_area: number
+  nombreArea: string
+  descripcionArea: string
+  id_jefeArea: number | null
+  id_deptoEmpresa: number | null
+}
+
+interface SeccionEmpresaTable {
+  id_seccion: number
+  nombreSeccion: string
+  descripcionSeccion: string
+  id_jefeSeccion: number | null
+  id_area: number | null
 }
 
 // Catálogos de puestos y salarios
@@ -138,21 +161,29 @@ interface AnioCalendarioTable {
   anio: number
   fecha_inicio: string
   fecha_fin: string
-  estado: 'activo' | 'inactivo' // Automatico
+  readonly estado: 'activo' | 'inactivo' // Automatico
+}
+
+interface CentroCostoTable {
+  id_centro_costo: number
+  id_deptoEmpresa: number
+  id_anio: number
+  presupuesto_total: number
+  readonly presupuesto_restante: number
 }
 
 interface PlanillaTable {
   id_planilla: number
   id_anio: number
-  estado: 'activo' | 'inactivo'
+  readonly estado: 'activo' | 'inactivo'
   mes: '01' | '02' | '03' | '04' | '05' | '06' | '07' | '08' | '09' | '10' | '11' | '12'
   fecha_generacion: string | null
   fecha_inicio: string
   fecha_fin: string
-  total_ingresos: number
-  total_descuentos: number
-  total_aporte_patronal: number
-  salario_neto_total: number
+  readonly total_ingresos: number
+  readonly total_descuentos: number
+  readonly total_aporte_patronal: number
+  readonly salario_neto_total: number
 }
 
 interface PlanillaDetalleTable {
@@ -160,10 +191,10 @@ interface PlanillaDetalleTable {
   id_planilla: number
   id_empleado: number
   id_centro_costo: number
-  total_ingresos: number
-  total_descuentos: number
-  total_aporte_patronal: number
-  salario_neto_total: number
+  readonly total_ingresos: number
+  readonly total_descuentos: number
+  readonly total_aporte_patronal: number
+  readonly salario_neto_total: number
 }
 
 interface ConceptosEmpleadoTable {

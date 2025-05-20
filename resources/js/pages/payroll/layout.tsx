@@ -12,12 +12,12 @@ const sidebarNavItems: NavItem[] = [
     title: 'Años Calendario',
     href: '/payroll/anios',
     icon: null
+  },
+  {
+    title: 'Centros de Costo',
+    href: '/payroll/centros-costo',
+    icon: null
   }
-  // {
-  //   title: 'Conceptos',
-  //   href: '/payroll/conceptos',
-  //   icon: null
-  // }
 ]
 
 export default function PayrollLayout({ children }: PropsWithChildren) {
