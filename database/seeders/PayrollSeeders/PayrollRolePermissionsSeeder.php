@@ -15,6 +15,7 @@ class PayrollRolePermissionsSeeder extends Seeder
 		'payroll.anios.destroy' => 'Eliminar años calendario',
 		'payroll.planillas.index' => 'Ver planillas',
 		'payroll.planillas.store' => 'Crear planillas',
+		'payroll.planillas.show' => 'Ver detalle de planillas',
 		'payroll.planillas.update' => 'Actualizar planillas',
 		'payroll.planillas.destroy' => 'Eliminar planillas',
 	];
@@ -30,7 +31,7 @@ class PayrollRolePermissionsSeeder extends Seeder
 		);
 
 		foreach ($this->permissions as $name => $desc) {
-			$permission = Permission::firstOrCreate(
+			$permission = Permission::updateOrCreate(
 				['name' => $name],
 				['guard_name' => 'web', 'description' => $desc]
 			);
