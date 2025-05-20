@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Catalogs\DepartamentoEmpresaController;
 use App\Http\Controllers\Catalogs\EmpleadoController;
 use App\Http\Controllers\Catalogs\ProfesionController;
 use Illuminate\Support\Facades\Route;
@@ -20,4 +21,8 @@ Route::middleware(['auth', 'verified'])->prefix('catalogs')->group(function () {
 	// Rutas para empleados
 	Route::get('empleados', [EmpleadoController::class, 'index'])
 		->middleware('can:catalogs.empleados.index')->name('catalogs.empleados.index');
+
+	// Rutas para departamentos
+	Route::get('departamentos/get', [DepartamentoEmpresaController::class, 'getAll'])
+		->name('catalogs.departamentos.getAll');
 });
