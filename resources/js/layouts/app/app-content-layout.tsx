@@ -25,25 +25,27 @@ export default function ContentLayout({ children, title, description, sidebarNav
       <Heading title={title} description={description} />
 
       <div className="flex grow flex-col overflow-x-hidden lg:flex-row lg:space-y-0 lg:space-x-12">
-        <aside className="w-full max-w-xl lg:w-48">
-          <nav className="flex flex-wrap space-y-1 space-x-1 lg:flex-col lg:space-x-0">
-            {sidebarNavItems?.map((item, index) => (
-              <Button
-                key={`${item.href}-${index}`}
-                size="sm"
-                variant="ghost"
-                asChild
-                className={cn('justify-start lg:w-full', {
-                  'bg-muted': currentPath === item.href
-                })}
-              >
-                <Link href={item.href} prefetch>
-                  {item.title}
-                </Link>
-              </Button>
-            ))}
-          </nav>
-        </aside>
+        {sidebarNavItems && (
+          <aside className="w-full max-w-xl lg:w-48">
+            <nav className="flex flex-wrap space-y-1 space-x-1 lg:flex-col lg:space-x-0">
+              {sidebarNavItems.map((item, index) => (
+                <Button
+                  key={`${item.href}-${index}`}
+                  size="sm"
+                  variant="ghost"
+                  asChild
+                  className={cn('justify-start lg:w-full', {
+                    'bg-muted': currentPath === item.href
+                  })}
+                >
+                  <Link href={item.href} prefetch>
+                    {item.title}
+                  </Link>
+                </Button>
+              ))}
+            </nav>
+          </aside>
+        )}
         <Separator className="my-4 lg:hidden" />
 
         <div className="flex w-full grow overflow-x-hidden">
