@@ -11,6 +11,7 @@ use Inertia\Inertia;
 
 class PlanillaDetalleController extends Controller
 {
+	//! TODO: CORREGIR NO FUNCIONA PAGINACION
 	public function index(Request $request, $id)
 	{
 		$perPage = max(1, min((int) $request->get('per_page', 20), 500));

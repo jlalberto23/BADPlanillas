@@ -3,6 +3,7 @@ import { DataTableColumnHeader, DataTablePaginated } from '@/components/ui/pagin
 import AppLayout from '@/layouts/app-layout'
 import ContentLayout from '@/layouts/app/app-content-layout'
 import { formatCurrency } from '@/lib/formatCurrency'
+import { cn } from '@/lib/utils'
 import { BreadcrumbItem } from '@/types'
 import { MesNombres } from '@/types/mesEnum'
 import { Head, Link } from '@inertiajs/react'
@@ -21,6 +22,8 @@ interface Props {
 export default function PlanillasPage({ planilla, planillaDetalles }: Props) {
   if (!planilla || typeof planillaDetalles !== 'object') return <NotFoundPage />
   const { data, ...pagination } = planillaDetalles || {}
+
+  console.log(data)
 
   const title = `${MesNombres[planilla.mes as keyof typeof MesNombres]} del ${planilla.anio_calendario.anio}`
   const description = `Periodo ${planilla.fecha_inicio} al ${planilla.fecha_fin}`
@@ -88,13 +91,29 @@ const columns: ColumnDef<PlanillaDetalle, string>[] = [
   },
   {
     id: 'Empleado',
-    accessorKey: 'empleado.carnet',
-    header: ({ column }) => <DataTableColumnHeader column={column} />
+    accessorKey: 'empleado.carnet_empleado',
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    cell: ({
+      row: {
+        original: { empleado }
+      }
+    }) => (
+      <div className={cn('flex items-center gap-1', empleado.estado === 'inactivo' && 'text-destructive-foreground font-bold')}>
+        {empleado.estado === 'inactivo' && <span className="text-xs">INACTIVO</span>}
+        <span>{empleado.carnet_empleado}</span>
+      </div>
+    )
   },
   {
-    id: 'Fecha de fin',
-    accessorKey: 'fecha_fin',
-    header: ({ column }) => <DataTableColumnHeader column={column} />
+    id: 'Nombre',
+    accessorFn: ({ empleado }) => `${empleado.primer_nombre} ${empleado.apellido_paterno}`,
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    cell: ({ row }) => (
+      <div className={cn('flex items-center gap-1', row.original.empleado.estado === 'inactivo' && 'text-destructive-foreground font-bold')}>
+        <span>{row.original.empleado.primer_nombre}</span>
+        <span>{row.original.empleado.apellido_paterno}</span>
+      </div>
+    )
   },
   {
     id: 'Total de ingresos',
