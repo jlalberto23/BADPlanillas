@@ -99,6 +99,10 @@ class AnioController extends Controller
 				return back()->withErrors(['message' => 'No se puede eliminar el año porque tiene planillas asociadas']);
 			}
 
+			if ($anio->centroCostos()->exists()) {
+				return back()->withErrors(['message' => 'No se puede eliminar el año porque tiene centros de costo asociados']);
+			}
+
 			$anio->delete();
 			return back()->with('success', 'Año eliminado correctamente');
 		} catch (\Throwable $th) {

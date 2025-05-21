@@ -21,4 +21,9 @@ class AnioCalendario extends Model
 	{
 		return $this->hasMany(Planilla::class, 'id_anio');
 	}
+
+	public function centroCostos()
+	{
+		return $this->hasMany(CentroCosto::class, 'id_anio');
+	}
 }
