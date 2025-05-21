@@ -32,54 +32,82 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE PROCEDURE actualizar_planilla_detalle_empleados(
+    p_id_planilla BIGINT
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_id_anio BIGINT;
+    v_empleado RECORD;
+    v_id_centro_costo BIGINT;
+BEGIN
+    -- Obtener el id_anio de la planilla
+    SELECT id_anio INTO v_id_anio
+    FROM planilla
+    WHERE id_planilla = p_id_planilla;
+
+    -- Verificar que la planilla existe
+    IF v_id_anio IS NULL THEN
+        RAISE EXCEPTION 'La planilla con ID % no existe', p_id_planilla USING ERRCODE = 'P0003';
+    END IF;
+
+    -- Iterar sobre cada empleado activo
+    FOR v_empleado IN 
+        SELECT e.id_empleado, e.salario_base, s.id_seccion, a.id_area, d."id_deptoEmpresa", e.estado
+        FROM empleados e
+        LEFT JOIN "seccionEmpresa" s ON e.id_seccion = s.id_seccion
+        LEFT JOIN "areaEmpresa" a ON s.id_area = a.id_area
+        LEFT JOIN "departamentoEmpresa" d ON a."id_deptoEmpresa" = d."id_deptoEmpresa"
+    LOOP
+        -- Obtener el centro de costo para el departamento y año
+        SELECT id_centro_costo INTO v_id_centro_costo
+        FROM centro_costo
+        WHERE "id_deptoEmpresa" = v_empleado."id_deptoEmpresa"
+        AND id_anio = v_id_anio;
+
+        IF v_id_centro_costo IS NULL THEN
+            RAISE EXCEPTION 'No existe un centro de costo para el departamento % en el año %', v_empleado."id_deptoEmpresa", v_id_anio USING ERRCODE = 'P0004';
+        END IF;
+
+        -- Verificar si ya existe un detalle de planilla para este empleado
+        IF EXISTS (SELECT 1 FROM planilla_detalle pd WHERE id_planilla = p_id_planilla AND id_empleado = v_empleado.id_empleado) THEN
+            -- Actualizar el detalle de planilla si cambió el centro de costo
+            IF v_empleado.estado = 'activo' THEN
+                -- Si el empleado ya no está activo, eliminar el detalle
+                DELETE FROM planilla_detalle WHERE id_planilla = p_id_planilla AND id_empleado = v_empleado.id_empleado;
+            ELSEIF id_centro_costo != v_id_centro_costo THEN
+                -- Actualizar el centro de costo y mantener los demás valores si ha cambiado
+                UPDATE planilla_detalle
+                SET id_centro_costo = v_id_centro_costo
+                WHERE id_planilla = p_id_planilla 
+                AND id_empleado = v_empleado.id_empleado;
+            END IF;
+        ELSE
+        -- Insertar el detalle de planilla
+            INSERT INTO planilla_detalle (id_planilla, id_empleado, id_centro_costo)
+            VALUES (p_id_planilla, v_empleado.id_empleado, v_id_centro_costo);
+        END IF;
+    END LOOP;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION trigger_actualizar_planilla_detalle()
+RETURNS trigger AS $$
+BEGIN
+    -- Llamar al procedimiento pasando el ID de la nueva planilla
+    CALL actualizar_planilla_detalle_empleados(NEW.id_planilla);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
 -- Crear el trigger
 CREATE OR REPLACE TRIGGER verificar_condiciones_antes_planilla
     BEFORE INSERT ON planilla
     FOR EACH ROW
     EXECUTE FUNCTION verificar_condiciones_planilla();
 
--- CONTEXTO:
-
-CREATE TABLE IF NOT EXISTS public."departamentoEmpresa" (
-    "id_deptoEmpresa" bigserial NOT NULL,
-    "nombreDepto" character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    "descripcionDepto" character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    "id_jefeDepto" bigint,
-    CONSTRAINT "departamentoEmpresa_pkey" PRIMARY KEY ("id_deptoEmpresa")
-);
-
-CREATE TABLE IF NOT EXISTS public.anio_calendario (
-    id_anio bigserial NOT NULL,
-    anio integer NOT NULL,
-    fecha_inicio date NOT NULL,
-    fecha_fin date NOT NULL,
-    estado character varying(255) COLLATE pg_catalog."default" NOT NULL DEFAULT 'activo'::character varying,
-    CONSTRAINT anio_calendario_pkey PRIMARY KEY (id_anio),
-    CONSTRAINT anio_calendario_anio_unique UNIQUE (anio)
-);
-
-CREATE TABLE IF NOT EXISTS public.planilla (
-    id_planilla bigserial NOT NULL,
-    id_anio bigint NOT NULL,
-    estado character varying(255) COLLATE pg_catalog."default" NOT NULL DEFAULT 'activo'::character varying,
-    mes character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    fecha_generacion date,
-    fecha_inicio date NOT NULL,
-    fecha_fin date NOT NULL,
-    total_ingresos numeric(9, 2) NOT NULL DEFAULT '0'::numeric,
-    total_descuentos numeric(9, 2) NOT NULL DEFAULT '0'::numeric,
-    total_aporte_patronal numeric(9, 2) NOT NULL DEFAULT '0'::numeric,
-    salario_neto_total numeric(9, 2) NOT NULL DEFAULT '0'::numeric,
-    CONSTRAINT planilla_pkey PRIMARY KEY (id_planilla),
-    CONSTRAINT planilla_id_anio_mes_unique UNIQUE (id_anio, mes)
-);
-
-CREATE TABLE IF NOT EXISTS public.centro_costo (
-    id_centro_costo bigserial NOT NULL,
-    "id_deptoEmpresa" bigint NOT NULL,
-    id_anio bigint NOT NULL,
-    presupuesto_total numeric(9, 2) NOT NULL,
-    presupuesto_restante numeric(9, 2) NOT NULL DEFAULT '0'::numeric,
-    CONSTRAINT centro_costo_pkey PRIMARY KEY (id_centro_costo),
-    CONSTRAINT centro_costo_id_deptoempresa_id_anio_unique UNIQUE ("id_deptoEmpresa", id_anio)
-);
+CREATE OR REPLACE TRIGGER crear_planilla_detalle_despues_planilla
+    AFTER INSERT ON planilla
+    FOR EACH ROW
+    EXECUTE FUNCTION trigger_actualizar_planilla_detalle();
