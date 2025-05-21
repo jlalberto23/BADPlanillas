@@ -72,6 +72,21 @@ class PlanillaController extends Controller
 				]
 			));
 			return back()->with('success', 'Planilla inicializada correctamente');
+		} catch (\PDOException $e) {
+			switch ($e->getCode()) {
+				case 'P0001':
+					return back()->withErrors([
+						'code' => 'P0001',
+						'message' => 'El año especificado no existe en el calendario'
+					]);
+				case 'P0002':
+					return back()->withErrors([
+						'code' => 'P0002',
+						'message' => 'No existen centros de costo para todos los departamentos en el año ' . $year . ' Asegúrate de que todos los departamentos tengan un centro de costo asociado'
+					]);
+			}
+			Log::error($e->getMessage());
+			return back()->withErrors(['message' => 'Error inesperado al inicializar la planilla']);
 		} catch (\Throwable $th) {
 			Log::error($th->getMessage());
 			return back()->withErrors(['message' => 'Error al inicializar la planilla']);

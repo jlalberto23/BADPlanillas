@@ -12,7 +12,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useForm } from '@inertiajs/react'
+import { Link, useForm } from '@inertiajs/react'
 import { ReactNode, useState } from 'react'
 import { toast } from 'sonner'
 interface Props {
@@ -43,7 +43,34 @@ export function PlanillaCreatingDialog({ children }: Props) {
       },
       onError: (errors) => {
         const message = errors?.message ?? 'Error inesperado'
-        toast.error(message)
+        const code = errors?.code ?? 'P0000'
+
+        switch (code) {
+          case 'P0001':
+            toast.error(
+              <p>
+                El año especificado no existe en el calendario.
+                <br />
+                <Link href={route('payroll.anios.index')} className="text-blue-500">
+                  Ir a la página de años
+                </Link>
+              </p>
+            )
+            break
+          case 'P0002':
+            toast.error(
+              <p>
+                No existen centros de costo para todos los departamentos en el año {data.mes}.
+                <br />
+                <Link href={route('payroll.centroscosto.index')} className="text-blue-500">
+                  Ir a la página de centros de costo
+                </Link>
+              </p>
+            )
+            break
+          default:
+            toast.error(message)
+        }
       }
     })
   }
