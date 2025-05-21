@@ -1,11 +1,15 @@
+import { Button } from '@/components/ui/button'
 import { DataTableColumnHeader, DataTablePaginated, DataTableSearchOption } from '@/components/ui/pagination'
 import AppLayout from '@/layouts/app-layout'
 import { formatCurrency } from '@/lib/formatCurrency'
 import { BreadcrumbItem } from '@/types'
 import { Head } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
+import { EllipsisVertical, Plus } from 'lucide-react'
 import PayrollLayout from '../layout'
 import { CentroCosto, CentroCostosPaginated } from './centroscosto'
+import { CentroCostoCreatingDialog } from './components/centro-costo-creating-dialog'
+import CentroCostoOptions from './components/centro-costo-options'
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Gestión de planillas',
@@ -33,13 +37,13 @@ export default function CentroCostosPage({ centrosCosto }: Props) {
             searchPlaceholder="Buscar por nombre"
             searchOptions={searchOptions}
             exportedFileName="Años calendario"
-            // headerContent={
-            //   <AnioCreatingDialog>
-            //     <Button variant="outline" size="sm">
-            //       <Plus />
-            //     </Button>
-            //   </AnioCreatingDialog>
-            // }
+            headerContent={
+              <CentroCostoCreatingDialog>
+                <Button variant="outline" size="sm">
+                  <Plus />
+                </Button>
+              </CentroCostoCreatingDialog>
+            }
           />
         </div>
       </PayrollLayout>
@@ -52,14 +56,14 @@ const searchOptions: DataTableSearchOption[] = []
 const columns: ColumnDef<CentroCosto, string>[] = [
   {
     id: 'Actions',
-    header: ''
-    // cell: ({ row }) => (
-    //   <AnioOptions anio={row.original}>
-    //     <Button variant="ghost" size="sm">
-    //       <EllipsisVertical className="size-3" />
-    //     </Button>
-    //   </AnioOptions>
-    // )
+    header: '',
+    cell: ({ row }) => (
+      <CentroCostoOptions centroCosto={row.original}>
+        <Button variant="ghost" size="sm">
+          <EllipsisVertical className="size-3" />
+        </Button>
+      </CentroCostoOptions>
+    )
   },
   {
     id: 'Año',

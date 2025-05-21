@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Payroll;
 
 use App\Http\Controllers\Controller;
 use App\Models\Payroll\CentroCosto;
-use App\Models\Payroll\AnioCalendario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -44,7 +43,7 @@ class CentroCostoController extends Controller
 	public function store(Request $request)
 	{
 		$request->validate([
-			'id_deptoEmpresa' => ['required', 'exists:departamento_empresa,id_deptoEmpresa'],
+			'id_deptoEmpresa' => ['required', 'exists:departamentoEmpresa,id_deptoEmpresa'],
 			'id_anio' => ['required', 'exists:anio_calendario,id_anio'],
 			'presupuesto_total' => ['required', 'numeric', 'min:0'],
 		]);
@@ -66,7 +65,7 @@ class CentroCostoController extends Controller
 	public function update(Request $request, $id)
 	{
 		$request->validate([
-			'id_deptoEmpresa' => ['required', 'exists:departamento_empresa,id_deptoEmpresa'],
+			'id_deptoEmpresa' => ['required', 'exists:departamentoEmpresa,id_deptoEmpresa'],
 			'id_anio' => ['required', 'exists:anio_calendario,id_anio'],
 			'presupuesto_total' => ['required', 'numeric', 'min:0'],
 		]);

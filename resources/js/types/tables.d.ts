@@ -165,7 +165,7 @@ interface AnioCalendarioTable {
 }
 
 interface CentroCostoTable {
-  id_centro_costo: number
+  readonly id_centro_costo: number
   id_deptoEmpresa: number
   id_anio: number
   presupuesto_total: number
