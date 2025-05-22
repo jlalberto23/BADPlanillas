@@ -3,6 +3,7 @@
 namespace App\Models\Payroll;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Planilla extends Model
 {
@@ -32,5 +33,10 @@ class Planilla extends Model
 	public function detalles()
 	{
 		return $this->hasMany(PlanillaDetalle::class, 'id_planilla');
+	}
+
+	public function sincronizarDetallesConEmpleados($idPlanilla = null)
+	{
+		DB::statement("CALL actualizar_planilla_detalle_empleados(?)", [$idPlanilla ?? $this->id_planilla]);
 	}
 }

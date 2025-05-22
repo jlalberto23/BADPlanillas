@@ -38,6 +38,8 @@ Route::middleware(['auth', 'verified'])->prefix('payroll')->group(function () {
 		->middleware('can:payroll.planillas.update')->name('payroll.planillas.update');
 	Route::delete('planillas/{id}', [PlanillaController::class, 'destroy'])
 		->middleware('can:payroll.planillas.destroy')->name('payroll.planillas.destroy');
+	Route::post('planillas/{id}/sincronizar-detalles-con-empleados', [PlanillaController::class, 'sincronizarDetallesConEmpleados'])
+		->middleware('can:payroll.planillas.sincronizardetallesconempleados')->name('payroll.planillas.sincronizardetallesconempleados');
 
 	// Rutas para planillas detalles
 	Route::get('planillas/{id}', [PlanillaDetalleController::class, 'index'])

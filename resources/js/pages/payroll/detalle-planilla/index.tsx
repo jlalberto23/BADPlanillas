@@ -23,8 +23,6 @@ export default function PlanillasPage({ planilla, planillaDetalles }: Props) {
   if (!planilla || typeof planillaDetalles !== 'object') return <NotFoundPage />
   const { data, ...pagination } = planillaDetalles || {}
 
-  console.log(data)
-
   const title = `${MesNombres[planilla.mes as keyof typeof MesNombres]} del ${planilla.anio_calendario.anio}`
   const description = `Periodo ${planilla.fecha_inicio} al ${planilla.fecha_fin}`
 

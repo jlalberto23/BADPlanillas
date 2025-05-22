@@ -8,10 +8,11 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Link } from '@inertiajs/react'
-import { Eye, Pencil, Trash } from 'lucide-react'
+import { Eye, FolderSync, Pencil, Trash } from 'lucide-react'
 import { ReactNode, useRef, useState } from 'react'
 import { PlanillaDeletingDialog } from './planilla-deleting-dialog'
 import { PlanillaEditingDialog } from './planilla-editing-dialog'
+import { PlanillaSyncDetalleDialog } from './planilla-sync-detalle-dialog'
 
 type Props = {
   planilla: Pick<PlanillaTable, 'id_planilla' | 'fecha_inicio' | 'fecha_fin' | 'mes'> & {
@@ -24,6 +25,7 @@ export default function PlanillaOptions({ planilla, children }: Props) {
   const [open, setOpen] = useState(false)
   const editarBtn = useRef<HTMLButtonElement>(null)
   const eliminarBtn = useRef<HTMLButtonElement>(null)
+  const sincronizarBtn = useRef<HTMLButtonElement>(null)
 
   const handleEditClick = () => {
     editarBtn.current?.click()
@@ -33,7 +35,10 @@ export default function PlanillaOptions({ planilla, children }: Props) {
     eliminarBtn.current?.click()
     setOpen(false)
   }
-
+  const handleSincronizarClick = () => {
+    sincronizarBtn.current?.click()
+    setOpen(false)
+  }
   return (
     <section className="flex">
       <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -57,6 +62,12 @@ export default function PlanillaOptions({ planilla, children }: Props) {
               <Pencil />
             </DropdownMenuShortcut>
           </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleSincronizarClick}>
+            Sincronizar
+            <DropdownMenuShortcut>
+              <FolderSync />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleDeleteClick} variant="destructive">
             Eliminar
@@ -72,6 +83,9 @@ export default function PlanillaOptions({ planilla, children }: Props) {
       <PlanillaEditingDialog planilla={planilla}>
         <button ref={editarBtn} className="hidden"></button>
       </PlanillaEditingDialog>
+      <PlanillaSyncDetalleDialog planilla={planilla}>
+        <button ref={sincronizarBtn} className="hidden"></button>
+      </PlanillaSyncDetalleDialog>
     </section>
   )
 }

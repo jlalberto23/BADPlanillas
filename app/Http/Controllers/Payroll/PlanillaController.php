@@ -150,4 +150,41 @@ class PlanillaController extends Controller
 			return back()->withErrors(['message' => 'Error al eliminar la planilla']);
 		}
 	}
+
+	public function sincronizarDetallesConEmpleados($id)
+	{
+		try {
+			$planilla = Planilla::findOrFail($id);
+			$planilla->sincronizarDetallesConEmpleados();
+			return back()->with('success', 'Detalles sincronizados con empleados correctamente');
+		} catch (\PDOException $e) {
+			Log::error($e->getMessage());
+			if (in_array($e->getCode(), ['P0003', 'P0004', 'P0005'])) {
+				return back()->withErrors([
+					'code' => $e->getCode(),
+					'message' => $this->extractPostgresMessage($e->getMessage())
+				]);
+			}
+			return back()->withErrors(['message' => 'Error al sincronizar los detalles con empleados']);
+		} catch (\Throwable $th) {
+			Log::error($th->getMessage());
+			return back()->withErrors(['message' => 'Error al sincronizar los detalles con empleados']);
+		}
+	}
+
+	private function extractPostgresMessage($mensajeCompleto)
+	{
+		// Intenta extraer entre "ERROR: " y "CONTEXT:"
+		if (preg_match('/ERROR:\s(.+?)\sCONTEXT:/', $mensajeCompleto, $matches)) {
+			return trim($matches[1]);
+		}
+
+		// Fallback: extraer desde "ERROR:" hasta el final
+		if (preg_match('/ERROR:\s(.+)/', $mensajeCompleto, $matches)) {
+			return trim($matches[1]);
+		}
+
+		// Si no hay coincidencias, retornar el mensaje completo
+		return $mensajeCompleto;
+	}
 }
