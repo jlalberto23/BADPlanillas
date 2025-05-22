@@ -4,6 +4,7 @@ use App\Http\Controllers\Payroll\AnioController;
 use App\Http\Controllers\Payroll\PlanillaController;
 use App\Http\Controllers\Payroll\PlanillaDetalleController;
 use App\Http\Controllers\Payroll\CentroCostoController;
+use App\Http\Controllers\Payroll\ConceptoEmpleadoController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->prefix('payroll')->group(function () {
@@ -44,4 +45,8 @@ Route::middleware(['auth', 'verified'])->prefix('payroll')->group(function () {
 	// Rutas para planillas detalles
 	Route::get('planillas/{id}', [PlanillaDetalleController::class, 'index'])
 		->middleware('can:payroll.planillas.show')->name('payroll.planillas.show');
+
+	// Rutas para conceptos empleados
+	Route::get('planillas/{id}/conceptos-empleado', [ConceptoEmpleadoController::class, 'index'])
+		->middleware('can:payroll.planillas.detalles.show')->name('payroll.planillas.detalles.show');
 });

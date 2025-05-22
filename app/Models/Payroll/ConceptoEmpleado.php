@@ -17,11 +17,6 @@ class ConceptoEmpleado extends Model
 		'monto'
 	];
 
-	protected $casts = [
-		'fecha' => 'date',
-		'monto' => 'decimal:2'
-	];
-
 	public function planillaDetalle()
 	{
 		return $this->belongsTo(PlanillaDetalle::class, 'id_planilla_detalle');
