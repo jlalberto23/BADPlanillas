@@ -19,10 +19,24 @@ Route::middleware(['auth', 'verified'])->prefix('catalogs')->group(function () {
 		->name('catalogs.profesiones.get');
 
 	// Rutas para empleados
+	//Route::get('empleados', [EmpleadoController::class, 'index'])
+	//	->middleware('can:catalogs.empleados.index')->name('catalogs.empleados.index');
 	Route::get('empleados', [EmpleadoController::class, 'index'])
 		->middleware('can:catalogs.empleados.index')->name('catalogs.empleados.index');
+	//Route::post('empleados', [EmpleadoController::class, 'store'])
+	//	->middleware('can:catalogs.empleados.store')->name('catalogs.empleados.store');
+	Route::post('empleados', [EmpleadoController::class, 'store'])
+    ->name('catalogs.empleados.store'); 
 
+	Route::put('empleados/{id}', [EmpleadoController::class, 'update'])
+		->middleware('can:catalogs.empleados.update')->name('catalogs.empleados.update');
+	Route::delete('empleados/{id}', [EmpleadoController::class, 'destroy'])
+		->middleware('can:catalogs.empleados.destroy')->name('catalogs.empleados.destroy');
+	Route::get('empleados/get', [EmpleadoController::class, 'getempleados'])
+		->name('catalogs.empleados.get');
 	// Rutas para departamentos
 	Route::get('departamentos/get', [DepartamentoEmpresaController::class, 'getAll'])
 		->name('catalogs.departamentos.getAll');
-});
+}
+
+);

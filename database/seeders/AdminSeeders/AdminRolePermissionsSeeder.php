@@ -76,10 +76,10 @@ class AdminRolePermissionsSeeder extends Seeder
         $roleOption = $this->command->choice(
             'Seleccione el rol que desea asignar:',
             [
-                'Administrador',
-                'Administrador de Catálogos',
-                'Administrador de Planillas',
-                'Asignar todos los roles'
+                '0 - Administrador',
+                '1 - Administrador de Catálogos',
+                '2 - Administrador de Planillas',
+                '3 - Asignar todos los roles'
             ],
             0
         );

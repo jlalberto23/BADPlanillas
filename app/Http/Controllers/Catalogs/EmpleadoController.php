@@ -81,4 +81,35 @@ class EmpleadoController extends Controller
 
 		return $query;
 	}
+
+	public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'primer_nombre' => 'required|string|max:255',
+            'segundo_nombre' => 'nullable|string|max:255',
+            'apellido_paterno' => 'required|string|max:255',
+            'apellido_materno' => 'required|string|max:255',
+            'apellido_casada' => 'nullable|string|max:255',
+            'fecha_nacimiento' => 'required|date',
+            'fecha_ingreso' => 'required|date',
+            'tipo_documento' => 'required|string|in:DUI,Pasaporte,Otro',
+            'numero_documento' => 'nullable|string|max:50',
+            'dui' => 'nullable|string|max:10',
+            'nit' => 'nullable|string|max:17',
+            'codigo_isss' => 'nullable|string|max:20',
+            'codigo_nup' => 'nullable|string|max:20',
+            'salario_base' => 'required|numeric|min:0',
+            'estado_civil' => 'required|string|in:soltero,casado,divorciado,viudo',
+            'sexo' => 'required|string|in:M,F',
+            'correo_personal' => 'nullable|email|max:255',
+            'correo_institucional' => 'nullable|email|max:255',
+            'estado' => 'required|string|in:activo,inactivo',
+            'carnet_empleado' => 'nullable|string|max:20',
+            'id_profesion' => 'nullable|exists:profesiones,id_profesion',
+        ]);
+
+        Empleado::create($validated);
+
+        return redirect()->route('catalogs.empleados.index')->with('success', 'Empleado registrado correctamente.');
+    }
 }

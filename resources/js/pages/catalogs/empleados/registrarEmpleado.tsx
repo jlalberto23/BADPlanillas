@@ -78,7 +78,7 @@ export default function EmpleadoForm() {
   const submit: FormEventHandler = (e) => {
     e.preventDefault()
 
-    post(route('empleados.store'), {
+    post(route('catalogs.empleados.store'), {
       preserveScroll: true,
       onSuccess: () => reset()
     })
@@ -153,7 +153,7 @@ export default function EmpleadoForm() {
                 <InputError message={errors.fecha_nacimiento} />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="fechaIngreso">Fecha de nacimiento</Label>
+                <Label htmlFor="fechaIngreso">Fecha de ingreso</Label>
                 <Input id="fechaIngreso" type="date" value={data.fecha_ingreso} onChange={(e) => setData('fecha_ingreso', e.target.value)} />
                 <InputError message={errors.fecha_ingreso} />
               </div>
@@ -175,14 +175,14 @@ export default function EmpleadoForm() {
               </div>
               {data.tipo_documento === 'DUI' && (
                 <div className="grid gap-2">
-                  <Label htmlFor="numeroDui">Número de DUI</Label>
+                  <Label htmlFor="dui">Número de DUI</Label>
                   <Input
-                    id="numeroDui"
-                    value={data.numero_documento || ''}
-                    onChange={(e) => setData('numero_documento', e.target.value)}
+                    id="dui"
+                    value={data.dui || ''}
+                    onChange={(e) => setData('dui', e.target.value)}
                     placeholder="00000000-0"
                   />
-                  <InputError message={errors.numero_documento} />
+                  <InputError message={errors.dui} />
                 </div>
               )}
 
@@ -199,7 +199,7 @@ export default function EmpleadoForm() {
                 </div>
               )}
 
-              {data.tipo_documento === 'DUI' && (
+              {/* {data.tipo_documento === 'DUI' && (
                 <div className="grid gap-2">
                   <Label htmlFor="numeroDui">Número de DUI</Label>
                   <Input
@@ -210,9 +210,9 @@ export default function EmpleadoForm() {
                   />
                   <InputError message={errors.numero_documento} />
                 </div>
-              )}
+              )} */}
 
-              {data.tipo_documento !== 'DUI' && data.tipo_documento !== '' && (
+             {/*  {data.tipo_documento !== 'DUI' && data.tipo_documento !== '' && (
                 <div className="grid gap-2">
                   <Label htmlFor="numeroDocumento">Número de documento</Label>
                   <Input
@@ -223,7 +223,7 @@ export default function EmpleadoForm() {
                   />
                   <InputError message={errors.numero_documento} />
                 </div>
-              )}
+              )} */}
 
               <div className="grid gap-2">
                 <Label htmlFor="numeroNit">Número de NIT</Label>
@@ -278,9 +278,9 @@ export default function EmpleadoForm() {
                     <SelectValue placeholder="Seleccione una opción" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="masculino">Masculino</SelectItem>
-                    <SelectItem value="femenino">Femenino</SelectItem>
-                    <SelectItem value="otro">Otro</SelectItem>
+                    <SelectItem value="M">Masculino</SelectItem>
+                    <SelectItem value="F">Femenino</SelectItem>
+                    <SelectItem value="O">Otro</SelectItem>
                   </SelectContent>
                 </Select>
                 <InputError message={errors.sexo} />
@@ -349,7 +349,7 @@ export default function EmpleadoForm() {
 
             <div className="mt-32 mb-8 flex items-center gap-4">
               <Button disabled={processing}>Guardar empleado</Button>
-
+                
               {recentlySuccessful && <p className="text-sm text-neutral-600">Empleado guardado exitosamente</p>}
             </div>
           </form>
