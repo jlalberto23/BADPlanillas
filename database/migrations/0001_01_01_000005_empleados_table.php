@@ -21,7 +21,7 @@ return new class extends Migration
 			$table->date('fecha_nacimiento');
 			$table->date('fecha_ingreso');
 			$table->string('numero_documento', 20)->nullable();
-			$table->string('dui', 9)->unique();
+			$table->string('dui', 9)->unique()->nullable();
 			$table->string('nit', 14)->unique();
 			$table->string('codigo_isss', 9)->unique();
 			$table->string('codigo_nup', 9)->unique();

@@ -91,30 +91,35 @@ class EmpleadoController extends Controller
 	{
 		$validated = $request->validate([
 			'primer_nombre' => 'required|string|max:255',
-			'segundo_nombre' => 'nullable|string|max:255',
+			'segundo_nombre' => 'required|string|max:255',
 			'apellido_paterno' => 'required|string|max:255',
 			'apellido_materno' => 'required|string|max:255',
 			'apellido_casada' => 'nullable|string|max:255',
 			'fecha_nacimiento' => 'required|date',
 			'fecha_ingreso' => 'required|date',
 			'tipo_documento' => 'required|string|in:DUI,Pasaporte,Otro',
-			'numero_documento' => 'nullable|string|max:50',
-			'dui' => 'nullable|string|max:10',
-			'nit' => 'nullable|string|max:17',
-			'codigo_isss' => 'nullable|string|max:20',
-			'codigo_nup' => 'nullable|string|max:20',
-			'salario_base' => 'required|numeric|min:0',
+			'numero_documento' => 'nullable|required_if:tipo_documento,Pasaporte,Otro|string|max:20',
+			'dui' => 'nullable|required_if:tipo_documento,DUI|string|size:9|unique:empleados,dui',
+			'nit' => 'required|string|max:14|unique:empleados,nit',
+			'codigo_isss' => 'required|string|max:9|unique:empleados,codigo_isss',
+			'codigo_nup' => 'required|string|max:9|unique:empleados,codigo_nup',
+			'salario_base' => 'required|numeric|min:0|max:999999.99',
 			'estado_civil' => 'required|string|in:soltero,casado,divorciado,viudo',
-			'sexo' => 'required|string|in:M,F',
-			'correo_personal' => 'nullable|email|max:255',
-			'correo_institucional' => 'nullable|email|max:255',
+			'sexo' => 'required|string|size:1|in:M,F,O',
+			'correo_personal' => 'required|email|max:255|unique:empleados,correo_personal',
+			'correo_institucional' => 'required|email|max:255|unique:empleados,correo_institucional',
 			'estado' => 'required|string|in:activo,inactivo',
-			'carnet_empleado' => 'nullable|string|max:20',
+			'carnet_empleado' => 'required|string|max:255|unique:empleados,carnet_empleado',
 			'id_profesion' => 'nullable|exists:profesiones,id_profesion',
+			'id_puesto' => 'nullable|exists:puestos,id_puesto',
+			'id_seccion' => 'nullable|exists:secciones,id_seccion',
 		]);
-
-		Empleado::create($validated);
-
-		return redirect()->route('catalogs.empleados.index')->with('success', 'Empleado registrado correctamente.');
+		try {
+			Empleado::create($validated);
+			return redirect()->route('catalogs.empleados.index')->with('success', 'Empleado registrado correctamente.');
+		} catch (\Throwable $th) {
+			Log::error($th->getMessage());
+			return back()->withErrors(['message' => 'Error al registrar el empleado']);
+		}
 	}
 }

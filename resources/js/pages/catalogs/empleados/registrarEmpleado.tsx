@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { toast } from 'sonner'
 import CatalogsLayout from '../layout'
 import SelectProfesion from '../profesiones/components/profesion-select'
 
@@ -80,7 +81,11 @@ export default function EmpleadoForm() {
 
     post(route('catalogs.empleados.store'), {
       preserveScroll: true,
-      onSuccess: () => reset()
+      onSuccess: () => reset(),
+      onError: (errors) => {
+        console.log(errors)
+        toast.error(Object.values(errors).join(', '))
+      }
     })
   }
 
@@ -176,12 +181,7 @@ export default function EmpleadoForm() {
               {data.tipo_documento === 'DUI' && (
                 <div className="grid gap-2">
                   <Label htmlFor="dui">Número de DUI</Label>
-                  <Input
-                    id="dui"
-                    value={data.dui || ''}
-                    onChange={(e) => setData('dui', e.target.value)}
-                    placeholder="00000000-0"
-                  />
+                  <Input id="dui" value={data.dui || ''} onChange={(e) => setData('dui', e.target.value)} placeholder="00000000-0" />
                   <InputError message={errors.dui} />
                 </div>
               )}
@@ -212,7 +212,7 @@ export default function EmpleadoForm() {
                 </div>
               )} */}
 
-             {/*  {data.tipo_documento !== 'DUI' && data.tipo_documento !== '' && (
+              {/*  {data.tipo_documento !== 'DUI' && data.tipo_documento !== '' && (
                 <div className="grid gap-2">
                   <Label htmlFor="numeroDocumento">Número de documento</Label>
                   <Input
@@ -349,7 +349,7 @@ export default function EmpleadoForm() {
 
             <div className="mt-32 mb-8 flex items-center gap-4">
               <Button disabled={processing}>Guardar empleado</Button>
-                
+
               {recentlySuccessful && <p className="text-sm text-neutral-600">Empleado guardado exitosamente</p>}
             </div>
           </form>
