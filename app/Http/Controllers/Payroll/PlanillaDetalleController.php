@@ -11,7 +11,6 @@ use Inertia\Inertia;
 
 class PlanillaDetalleController extends Controller
 {
-	//! TODO: CORREGIR NO FUNCIONA PAGINACION
 	public function index(Request $request, $id)
 	{
 		$perPage = max(1, min((int) $request->get('per_page', 20), 500));
@@ -22,10 +21,11 @@ class PlanillaDetalleController extends Controller
 
 		if ($search !== '') {
 			$query->where(function ($q) use ($search) {
-				$q->where('mes', 'like', "%$search%")
-					->orWhereHas('empleado', function ($q) use ($search) {
-						$q->where('carnet', 'like', "%$search%");
-					});
+				$q->whereHas('empleado', function ($q) use ($search) {
+					$q->where('carnet_empleado', 'like', "%$search%")
+						->orWhere('primer_nombre', 'like', "%$search%")
+						->orWhere('apellido_paterno', 'like', "%$search%");
+				});
 			});
 		}
 

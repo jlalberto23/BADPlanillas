@@ -61,7 +61,7 @@ export default function PlanillasPage({ planilla, planillaDetalles }: Props) {
               pagination={pagination}
               calcTotals={false}
               exportedFileName="Planillas"
-              canSearch={false}
+              searchPlaceholder="Buscar por carnet o nombre"
               headerContent={
                 <PlanillaOptions planilla={planilla}>
                   <Button variant="outline" size="sm">
