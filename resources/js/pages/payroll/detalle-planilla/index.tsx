@@ -12,6 +12,7 @@ import { EllipsisVertical } from 'lucide-react'
 import TotalCard from '../components/total-card'
 import PayrollLayout from '../layout'
 import PlanillaOptions from '../planillas/components/planilla-options'
+import DetalleOptions from './components/detalle-options'
 import { Planilla, PlanillaDetalle, PlanillaDetallesPaginated } from './detalleplanilla'
 
 interface Props {
@@ -78,14 +79,14 @@ export default function PlanillasPage({ planilla, planillaDetalles }: Props) {
 const columns: ColumnDef<PlanillaDetalle, string>[] = [
   {
     id: 'Actions',
-    header: ''
-    // cell: ({ row }) => (
-    //   <PlanillaOptions planilla={row.original}>
-    //     <Button variant="ghost" size="sm">
-    //       <EllipsisVertical className="size-3" />
-    //     </Button>
-    //   </PlanillaOptions>
-    // )
+    header: '',
+    cell: ({ row }) => (
+      <DetalleOptions detalle={row.original}>
+        <Button variant="ghost" size="sm">
+          <EllipsisVertical className="size-3" />
+        </Button>
+      </DetalleOptions>
+    )
   },
   {
     id: 'Empleado',
@@ -93,13 +94,16 @@ const columns: ColumnDef<PlanillaDetalle, string>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} />,
     cell: ({
       row: {
-        original: { empleado }
+        original: { empleado, id_planilla_detalle }
       }
     }) => (
-      <div className={cn('flex items-center gap-1', empleado.estado === 'inactivo' && 'text-destructive-foreground font-bold')}>
+      <Link
+        href={route('payroll.planillas.detalles.show', { id: id_planilla_detalle })}
+        className={cn('flex items-center gap-1', empleado.estado === 'inactivo' && 'text-destructive-foreground font-bold')}
+      >
         {empleado.estado === 'inactivo' && <span className="text-xs">INACTIVO</span>}
         <span>{empleado.carnet_empleado}</span>
-      </div>
+      </Link>
     )
   },
   {
@@ -107,10 +111,13 @@ const columns: ColumnDef<PlanillaDetalle, string>[] = [
     accessorFn: ({ empleado }) => `${empleado.primer_nombre} ${empleado.apellido_paterno}`,
     header: ({ column }) => <DataTableColumnHeader column={column} />,
     cell: ({ row }) => (
-      <div className={cn('flex items-center gap-1', row.original.empleado.estado === 'inactivo' && 'text-destructive-foreground font-bold')}>
+      <Link
+        href={route('payroll.planillas.detalles.show', { id: row.original.id_planilla_detalle })}
+        className={cn('flex items-center gap-1', row.original.empleado.estado === 'inactivo' && 'text-destructive-foreground font-bold')}
+      >
         <span>{row.original.empleado.primer_nombre}</span>
         <span>{row.original.empleado.apellido_paterno}</span>
-      </div>
+      </Link>
     )
   },
   {

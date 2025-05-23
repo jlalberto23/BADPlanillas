@@ -22,23 +22,17 @@ class ConceptoEmpleadoController extends Controller
 			->where('id_planilla_detalle', $id)
 			->with(['tipoConcepto']);
 
-		if ($search !== '') {
-			$query->where(function ($q) use ($search) {
-				$q->whereHas('empleado', function ($q) use ($search) {
-					$q->where('carnet_empleado', 'like', "%$search%")
-						->orWhere('primer_nombre', 'like', "%$search%")
-						->orWhere('apellido_paterno', 'like', "%$search%");
-				});
-			});
-		}
-
 		try {
-			$detallePlanilla = PlanillaDetalle::with(['planilla', 'planilla.anioCalendario'])->find($id);
+			$detallePlanilla = PlanillaDetalle::with([
+				'planilla',
+				'planilla.anioCalendario',
+				'empleado:id_empleado,carnet_empleado,primer_nombre,apellido_paterno,estado,salario_base,sexo'
+			])->find($id);
 			$conceptosEmpleado = $query
 				// ->orderBy('fecha_generacion', 'desc')
 				->paginate($perPage, ['*'], 'page', $page);
-			return Inertia::render('payroll/conceptos-empleado/index', [
-				'detallePlanilla' => $detallePlanilla,
+			return Inertia::render('payroll/concepto-empleado/index', [
+				'detalle' => $detallePlanilla,
 				'conceptosEmpleado' => $conceptosEmpleado
 			]);
 		} catch (\Throwable $th) {

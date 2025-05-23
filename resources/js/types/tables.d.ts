@@ -197,7 +197,7 @@ interface PlanillaDetalleTable {
   readonly salario_neto_total: number
 }
 
-interface ConceptosEmpleadoTable {
+interface ConceptoEmpleadoTable {
   id_concepto_empleado: number
   id_planilla_detalle: number
   codigo_concepto: string
