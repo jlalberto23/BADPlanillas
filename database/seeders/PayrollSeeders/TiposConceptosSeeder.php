@@ -16,6 +16,7 @@ class TiposConceptosSeeder extends Seeder
 		['codigo' => 'ING_VIA', 'tipo' => 'ingreso', 'nombre' => 'Viáticos', 'descripcion' => 'Pago por gastos de viaje.'],
 
 		// DESCUENTOS
+		['codigo' => 'DES_ISSS', 'tipo' => 'descuento', 'nombre' => 'ISSS', 'descripcion' => 'Descuento por aportes a ISSS.'],
 		['codigo' => 'DES_AFP', 'tipo' => 'descuento', 'nombre' => 'AFP', 'descripcion' => 'Descuento por aportes a AFP.'],
 		['codigo' => 'DES_REN', 'tipo' => 'descuento', 'nombre' => 'Renta', 'descripcion' => 'Retención de renta.'],
 		['codigo' => 'DES_CRE', 'tipo' => 'descuento', 'nombre' => 'Crédito personal', 'descripcion' => 'Descuento por crédito personal.'],

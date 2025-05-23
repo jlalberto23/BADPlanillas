@@ -67,6 +67,12 @@ BEGIN
 
         -- Calcular conceptos de empleado
         CALL cacular_ingreso_sueldo(p_id_planilla, v_empleado.id_empleado);
+
+        -- Calcular descuentos
+        CALL cacular_descuento_isss(p_id_planilla, v_empleado.id_empleado);
+
+        -- Calcular aportes patronales
+        CALL calcular_aporte_patronal_isss(p_id_planilla, v_empleado.id_empleado);
     END LOOP;
 END;
 $$;

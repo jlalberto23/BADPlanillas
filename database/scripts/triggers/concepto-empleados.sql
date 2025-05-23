@@ -28,6 +28,75 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE PROCEDURE cacular_descuento_isss(
+    p_id_planilla BIGINT,
+    p_id_empleado BIGINT
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_porcentaje_isss numeric(9, 2) := 0.03;
+    v_tope_isss numeric(9, 2) := 30;
+    v_salario_base numeric(9, 2);
+    v_id_detalle_planilla BIGINT;
+    v_concepto character varying(255) := 'DES_ISSS';
+BEGIN
+    SELECT salario_base INTO v_salario_base
+    FROM empleados
+    WHERE id_empleado = p_id_empleado;
+
+    SELECT id_planilla_detalle INTO v_id_detalle_planilla
+    FROM planilla_detalle
+    WHERE id_planilla = p_id_planilla AND id_empleado = p_id_empleado;
+
+    IF EXISTS (SELECT 1 FROM conceptos_empleado WHERE id_planilla_detalle = v_id_detalle_planilla AND codigo_concepto = v_concepto) THEN
+        UPDATE conceptos_empleado 
+        SET monto = LEAST(v_salario_base * v_porcentaje_isss, v_tope_isss), fecha = CURRENT_DATE
+        WHERE id_planilla_detalle = v_id_detalle_planilla AND codigo_concepto = v_concepto;
+    ELSE
+        INSERT INTO conceptos_empleado (id_planilla_detalle, codigo_concepto, monto, fecha)
+        VALUES (v_id_detalle_planilla, v_concepto, LEAST(v_salario_base * v_porcentaje_isss, v_tope_isss), CURRENT_DATE);
+    END IF;
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE calcular_aporte_patronal_isss(
+    p_id_planilla BIGINT,
+    p_id_empleado BIGINT
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_porcentaje_isss numeric(9, 4) := 0.075;
+    v_salario_base numeric(9, 2);
+    v_id_detalle_planilla BIGINT;
+    v_concepto character varying(255) := 'APT_ISSS';
+BEGIN
+    -- El tope de aporte patronal es de 1000
+    SELECT LEAST(salario_base, 1000) INTO v_salario_base
+    FROM empleados
+    WHERE id_empleado = p_id_empleado;
+
+    SELECT id_planilla_detalle INTO v_id_detalle_planilla
+    FROM planilla_detalle
+    WHERE id_planilla = p_id_planilla AND id_empleado = p_id_empleado;
+
+    IF EXISTS (SELECT 1 FROM conceptos_empleado WHERE id_planilla_detalle = v_id_detalle_planilla AND codigo_concepto = v_concepto) THEN
+        UPDATE conceptos_empleado
+        SET monto = v_salario_base * v_porcentaje_isss, fecha = CURRENT_DATE
+        WHERE id_planilla_detalle = v_id_detalle_planilla AND codigo_concepto = v_concepto;
+    ELSE
+        INSERT INTO conceptos_empleado (id_planilla_detalle, codigo_concepto, monto, fecha)
+        VALUES (v_id_detalle_planilla, v_concepto, v_salario_base * v_porcentaje_isss, CURRENT_DATE);
+    END IF;
+END;
+$$;
+
+--
+--
+--
+--
+--
 -- CONTEXTO
 CREATE TABLE IF NOT EXISTS public.conceptos_empleado (
     id_concepto_empleado bigserial NOT NULL,
