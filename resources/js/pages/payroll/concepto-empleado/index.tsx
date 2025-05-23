@@ -57,6 +57,7 @@ export default function ConceptosPage({ detalle, conceptosEmpleado }: Props) {
               columns={columns}
               data={data}
               pagination={pagination}
+              calcTotals={false}
               exportedFileName={exportedFileName}
               canSearch={false}
               // headerContent={

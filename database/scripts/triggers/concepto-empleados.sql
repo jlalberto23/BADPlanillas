@@ -132,8 +132,8 @@ AS $$
 DECLARE
     v_salario_base numeric(9, 2);
     v_id_detalle_planilla BIGINT;
-    v_porcentaje_afp numeric(9, 4) := 0.0875;
-    v_concepto character varying(255) := 'DES_ISSS';
+    v_porcentaje_afp numeric(9, 4) := 0.0725;
+    v_concepto character varying(255) := 'DES_AFP';
 BEGIN
     SELECT salario_base INTO v_salario_base
     FROM empleados
@@ -162,8 +162,8 @@ LANGUAGE plpgsql
 AS $$
 DECLARE
     v_salario_base NUMERIC(9, 2);
-    v_descuento_isss NUMERIC(9, 2);
-    v_descuento_afp NUMERIC(9, 2);
+    v_descuento_isss NUMERIC(9, 2) := 0;
+    v_descuento_afp NUMERIC(9, 2) := 0;
     v_salario_neto NUMERIC(9, 2);
     v_renta NUMERIC(9, 2) := 0;
     v_id_detalle_planilla BIGINT;
@@ -180,31 +180,51 @@ BEGIN
     FROM empleados
     WHERE id_empleado = p_id_empleado;
 
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'Empleado no encontrado con ID %', p_id_empleado;
+    END IF;
+
     SELECT id_planilla_detalle INTO v_id_detalle_planilla
     FROM planilla_detalle
     WHERE id_planilla = p_id_planilla AND id_empleado = p_id_empleado;
 
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'No existe detalle de planilla para el empleado % en planilla %', p_id_empleado, p_id_planilla;
+    END IF;
+
     SELECT monto INTO v_descuento_isss
     FROM conceptos_empleado
-    WHERE id_planilla_detalle = v_id_detalle_planilla AND codigo_concepto = 'DES_ISSS';
+    WHERE id_planilla_detalle = v_id_detalle_planilla AND codigo_concepto = 'DES_ISSS'
+    LIMIT 1;
+
+    IF NOT FOUND THEN
+        v_descuento_isss := 0;
+    END IF;
 
     SELECT monto INTO v_descuento_afp
     FROM conceptos_empleado
-    WHERE id_planilla_detalle = v_id_detalle_planilla AND codigo_concepto = 'DES_AFP';
+    WHERE id_planilla_detalle = v_id_detalle_planilla AND codigo_concepto = 'DES_AFP'
+    LIMIT 1;
+
+    IF NOT FOUND THEN
+        v_descuento_afp := 0;
+    END IF;
 
     v_salario_neto := v_salario_base - v_descuento_isss - v_descuento_afp;
+    RAISE NOTICE 'Salario Neto: %', v_salario_neto;
 
     FOR v_desde, v_hasta, v_cuota_fija, v_porcentaje, v_sobre_exceso IN
         SELECT * FROM (
             VALUES
-                (0.01, 4064.00, 0.00, 0.00, 0.00),
-                (4064.01, 9142.86, 212.12, 0.10, 4064.00),
-                (9142.87, 22857.14, 720.00, 0.20, 9142.86),
-                (22857.15, NULL, 3462.86, 0.30, 22857.14)
+                (0.01, 472.00, 0.00, 0.00, 0.00),
+                (472.01, 895.24, 17.67, 0.10, 472.00),
+                (895.25, 2038.10, 60.00, 0.20, 895.24),
+                (2038.11, NULL, 288.57, 0.30, 2038.10)
         ) AS tramo(desde, hasta, cuota_fija, porcentaje, sobre_exceso)
     LOOP
-        IF (v_salario_neto BETWEEN v_desde AND COALESCE(v_hasta, v_salario_neto)) THEN
+        IF v_salario_neto >= v_desde AND (v_hasta IS NULL OR v_salario_neto <= v_hasta) THEN
             v_renta := v_cuota_fija + (v_salario_neto - v_sobre_exceso) * v_porcentaje;
+            RAISE NOTICE 'Tramo aplicado: desde % hasta % renta calculada: %', v_desde, v_hasta, v_renta;
             EXIT;
         END IF;
     END LOOP;
@@ -279,6 +299,45 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE PROCEDURE calcular_totales_planilla(
+    p_id_planilla BIGINT
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_total_ingresos NUMERIC(9, 2) := 0;
+    v_total_descuentos NUMERIC(9, 2) := 0;
+    v_total_aporte_patronal NUMERIC(9, 2) := 0;
+    v_salario_neto_total NUMERIC(9, 2) := 0;
+BEGIN
+    -- Calcular totales sumando desde planilla_detalle
+    SELECT 
+        COALESCE(SUM(total_ingresos), 0),
+        COALESCE(SUM(total_descuentos), 0),
+        COALESCE(SUM(total_aporte_patronal), 0),
+        COALESCE(SUM(salario_neto_total), 0)
+    INTO 
+        v_total_ingresos,
+        v_total_descuentos,
+        v_total_aporte_patronal,
+        v_salario_neto_total
+    FROM planilla_detalle
+    WHERE id_planilla = p_id_planilla;
+
+    -- Actualizar la planilla con los totales calculados
+    UPDATE planilla
+    SET total_ingresos = v_total_ingresos,
+        total_descuentos = v_total_descuentos,
+        total_aporte_patronal = v_total_aporte_patronal,
+        salario_neto_total = v_salario_neto_total
+    WHERE id_planilla = p_id_planilla;
+
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'No se encontró la planilla con ID %', p_id_planilla;
+    END IF;
+END;
+$$;
+
 --
 --
 --
@@ -317,6 +376,22 @@ CREATE TABLE IF NOT EXISTS public.planilla_detalle (
         id_planilla_detalle,
         id_empleado
     )
+);
+
+CREATE TABLE IF NOT EXISTS public.planilla (
+    id_planilla bigserial NOT NULL,
+    id_anio bigint NOT NULL,
+    estado character varying(255) COLLATE pg_catalog."default" NOT NULL DEFAULT 'activo'::character varying,
+    mes character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    fecha_generacion date,
+    fecha_inicio date NOT NULL,
+    fecha_fin date NOT NULL,
+    total_ingresos numeric(9, 2) NOT NULL DEFAULT '0'::numeric,
+    total_descuentos numeric(9, 2) NOT NULL DEFAULT '0'::numeric,
+    total_aporte_patronal numeric(9, 2) NOT NULL DEFAULT '0'::numeric,
+    salario_neto_total numeric(9, 2) NOT NULL DEFAULT '0'::numeric,
+    CONSTRAINT planilla_pkey PRIMARY KEY (id_planilla),
+    CONSTRAINT planilla_id_anio_mes_unique UNIQUE (id_anio, mes)
 );
 
 CREATE TABLE IF NOT EXISTS public.empleados (

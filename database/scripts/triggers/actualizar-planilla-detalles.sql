@@ -80,6 +80,9 @@ BEGIN
         -- Calcular totales detalle planilla
         CALL calcular_totales_detalle_planilla(p_id_planilla, v_empleado.id_empleado);
     END LOOP;
+
+    -- Calcular totales planilla
+    CALL calcular_totales_planilla(p_id_planilla);
 END;
 $$;
 
