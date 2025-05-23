@@ -29,7 +29,7 @@ class ConceptoEmpleadoController extends Controller
 				'empleado:id_empleado,carnet_empleado,primer_nombre,apellido_paterno,estado,salario_base,sexo'
 			])->find($id);
 			$conceptosEmpleado = $query
-				// ->orderBy('fecha_generacion', 'desc')
+				->orderBy('codigo_concepto', 'desc')
 				->paginate($perPage, ['*'], 'page', $page);
 			return Inertia::render('payroll/concepto-empleado/index', [
 				'detalle' => $detallePlanilla,
