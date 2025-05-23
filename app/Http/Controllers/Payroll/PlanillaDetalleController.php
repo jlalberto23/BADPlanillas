@@ -19,14 +19,16 @@ class PlanillaDetalleController extends Controller
 
 		$query = PlanillaDetalle::select()
 			->where('id_planilla', $id)
-			->with(['empleado']);
+			->with([
+				'empleado:id_empleado,carnet_empleado,primer_nombre,apellido_paterno,estado,salario_base,sexo'
+			]);
 
 		if ($search !== '') {
 			$query->where(function ($q) use ($search) {
 				$q->whereHas('empleado', function ($q) use ($search) {
-					$q->where('carnet_empleado', 'like', "%$search%")
-						->orWhere('primer_nombre', 'like', "%$search%")
-						->orWhere('apellido_paterno', 'like', "%$search%");
+					$q->whereLike('carnet_empleado', "%$search%")
+						->orWhereLike('primer_nombre', "%$search%")
+						->orWhereLike('apellido_paterno', "%$search%");
 				});
 			});
 		}
