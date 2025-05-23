@@ -1,7 +1,6 @@
 import { DataTableColumnHeader, DataTablePaginated } from '@/components/ui/pagination'
 import AppLayout from '@/layouts/app-layout'
 import ContentLayout from '@/layouts/app/app-content-layout'
-import { formatCurrency } from '@/lib/formatCurrency'
 import { BreadcrumbItem } from '@/types'
 import { MesNombres } from '@/types/mesEnum'
 import { Head, Link } from '@inertiajs/react'
@@ -20,6 +19,7 @@ export default function ConceptosPage({ detalle, conceptosEmpleado }: Props) {
   const { data, ...pagination } = conceptosEmpleado || {}
 
   const title = `${detalle.empleado.carnet_empleado}`
+  const exportedFileName = `${detalle.empleado.carnet_empleado} - ${MesNombres[detalle.planilla.mes as keyof typeof MesNombres]} del ${detalle.planilla.anio_calendario.anio}`
   const description = `${detalle.empleado.sexo === 'M' ? 'Empleado' : 'Empleada'} ${detalle.empleado.primer_nombre} ${detalle.empleado.apellido_paterno}`
 
   const breadcrumbs: BreadcrumbItem[] = [
@@ -57,8 +57,7 @@ export default function ConceptosPage({ detalle, conceptosEmpleado }: Props) {
               columns={columns}
               data={data}
               pagination={pagination}
-              calcTotals={false}
-              exportedFileName="Planillas"
+              exportedFileName={exportedFileName}
               canSearch={false}
               // headerContent={
               //   <PlanillaOptions planilla={detalle.planilla}>
@@ -75,7 +74,7 @@ export default function ConceptosPage({ detalle, conceptosEmpleado }: Props) {
   )
 }
 
-const columns: ColumnDef<ConceptoEmpleado, string>[] = [
+const columns: ColumnDef<ConceptoEmpleado, string | number>[] = [
   {
     id: 'Actions',
     header: ''
@@ -99,18 +98,33 @@ const columns: ColumnDef<ConceptoEmpleado, string>[] = [
   },
   {
     id: 'Ingresos',
-    accessorFn: ({ tipo_concepto, monto }) => (tipo_concepto.tipo === 'ingreso' ? formatCurrency(monto) : ''),
-    header: ({ column }) => <DataTableColumnHeader column={column} />
+    accessorFn: ({ tipo_concepto, monto }) => (tipo_concepto.tipo === 'ingreso' ? +monto : ''),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    cell: ({
+      row: {
+        original: { tipo_concepto, monto }
+      }
+    }) => (tipo_concepto.tipo === 'ingreso' ? <span className="text-green-600">{monto}</span> : '')
   },
   {
     id: 'Descuentos',
-    accessorFn: ({ tipo_concepto, monto }) => (tipo_concepto.tipo === 'descuento' ? formatCurrency(monto) : ''),
-    header: ({ column }) => <DataTableColumnHeader column={column} />
+    accessorFn: ({ tipo_concepto, monto }) => (tipo_concepto.tipo === 'descuento' ? +monto : ''),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    cell: ({
+      row: {
+        original: { tipo_concepto, monto }
+      }
+    }) => (tipo_concepto.tipo === 'descuento' ? <span className="text-red-600">{monto}</span> : '')
   },
   {
     id: 'Aportes patronales',
-    accessorFn: ({ tipo_concepto, monto }) => (tipo_concepto.tipo === 'aporte_patron' ? formatCurrency(monto) : ''),
-    header: ({ column }) => <DataTableColumnHeader column={column} />
+    accessorFn: ({ tipo_concepto, monto }) => (tipo_concepto.tipo === 'aporte_patron' ? +monto : ''),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    cell: ({
+      row: {
+        original: { tipo_concepto, monto }
+      }
+    }) => (tipo_concepto.tipo === 'aporte_patron' ? <span className="text-blue-600">{monto}</span> : '')
   }
 ]
 

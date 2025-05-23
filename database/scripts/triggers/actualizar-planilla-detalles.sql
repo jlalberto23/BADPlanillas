@@ -65,14 +65,20 @@ BEGIN
             VALUES (p_id_planilla, v_empleado.id_empleado, v_id_centro_costo);
         END IF;
 
-        -- Calcular conceptos de empleado
+        -- Calcular ingresos
         CALL cacular_ingreso_sueldo(p_id_planilla, v_empleado.id_empleado);
 
         -- Calcular descuentos
         CALL cacular_descuento_isss(p_id_planilla, v_empleado.id_empleado);
+        CALL calcular_descuento_afp(p_id_planilla, v_empleado.id_empleado);
+        CALL calcular_descuento_retencion_renta(p_id_planilla, v_empleado.id_empleado);
 
         -- Calcular aportes patronales
         CALL calcular_aporte_patronal_isss(p_id_planilla, v_empleado.id_empleado);
+        CALL calcular_aporte_patronal_afp(p_id_planilla, v_empleado.id_empleado);
+
+        -- Calcular totales detalle planilla
+        CALL calcular_totales_detalle_planilla(p_id_planilla, v_empleado.id_empleado);
     END LOOP;
 END;
 $$;
