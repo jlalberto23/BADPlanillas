@@ -89,7 +89,7 @@ const columns: ColumnDef<ConceptoEmpleado, string>[] = [
   },
   {
     id: 'Concepto',
-    accessorKey: 'concepto',
+    accessorKey: 'tipo_concepto.nombre',
     header: ({ column }) => <DataTableColumnHeader column={column} />
   },
   {
@@ -99,17 +99,17 @@ const columns: ColumnDef<ConceptoEmpleado, string>[] = [
   },
   {
     id: 'Ingresos',
-    accessorFn: ({ concepto, monto }) => (concepto.tipo === 'ingreso' ? formatCurrency(monto) : ''),
+    accessorFn: ({ tipo_concepto, monto }) => (tipo_concepto.tipo === 'ingreso' ? formatCurrency(monto) : ''),
     header: ({ column }) => <DataTableColumnHeader column={column} />
   },
   {
     id: 'Descuentos',
-    accessorFn: ({ concepto, monto }) => (concepto.tipo === 'descuento' ? formatCurrency(monto) : ''),
+    accessorFn: ({ tipo_concepto, monto }) => (tipo_concepto.tipo === 'descuento' ? formatCurrency(monto) : ''),
     header: ({ column }) => <DataTableColumnHeader column={column} />
   },
   {
     id: 'Aportes patronales',
-    accessorFn: ({ concepto, monto }) => (concepto.tipo === 'aporte_patron' ? formatCurrency(monto) : ''),
+    accessorFn: ({ tipo_concepto, monto }) => (tipo_concepto.tipo === 'aporte_patron' ? formatCurrency(monto) : ''),
     header: ({ column }) => <DataTableColumnHeader column={column} />
   }
 ]

@@ -9,6 +9,7 @@ class TiposConceptosSeeder extends Seeder
 {
 	private $tiposConceptos = [
 		// INGRESOS
+		['codigo' => 'ING_SUE', 'tipo' => 'ingreso', 'nombre' => 'Sueldo', 'descripcion' => 'Ingreso por sueldo.'],
 		['codigo' => 'ING_COM', 'tipo' => 'ingreso', 'nombre' => 'Comisión por venta', 'descripcion' => 'Ingreso por comisión generada en ventas.'],
 		['codigo' => 'ING_BON', 'tipo' => 'ingreso', 'nombre' => 'Bonificación', 'descripcion' => 'Bonificación extraordinaria.'],
 		['codigo' => 'ING_REG', 'tipo' => 'ingreso', 'nombre' => 'Regalías', 'descripcion' => 'Pagos por derechos o regalías.'],

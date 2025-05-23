@@ -13,7 +13,7 @@ export type PlanillaDetalle = PlanillaDetalleTable & {
 export type Concepto = TipoConceptoTable
 
 export type ConceptoEmpleado = ConceptoEmpleadoTable & {
-  concepto: Concepto
+  tipo_concepto: Concepto
 }
 
 export interface ConceptoEmpleadoPaginated extends Pagination {

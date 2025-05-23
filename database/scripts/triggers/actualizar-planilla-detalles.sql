@@ -64,6 +64,9 @@ BEGIN
             INSERT INTO planilla_detalle (id_planilla, id_empleado, id_centro_costo)
             VALUES (p_id_planilla, v_empleado.id_empleado, v_id_centro_costo);
         END IF;
+
+        -- Calcular conceptos de empleado
+        CALL cacular_ingreso_sueldo(p_id_planilla, v_empleado.id_empleado);
     END LOOP;
 END;
 $$;
