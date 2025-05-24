@@ -9,12 +9,14 @@ class TiposConceptosSeeder extends Seeder
 {
 	private $tiposConceptos = [
 		// INGRESOS
+		['codigo' => 'ING_SUE', 'tipo' => 'ingreso', 'nombre' => 'Sueldo', 'descripcion' => 'Ingreso por sueldo.'],
 		['codigo' => 'ING_COM', 'tipo' => 'ingreso', 'nombre' => 'Comisión por venta', 'descripcion' => 'Ingreso por comisión generada en ventas.'],
 		['codigo' => 'ING_BON', 'tipo' => 'ingreso', 'nombre' => 'Bonificación', 'descripcion' => 'Bonificación extraordinaria.'],
 		['codigo' => 'ING_REG', 'tipo' => 'ingreso', 'nombre' => 'Regalías', 'descripcion' => 'Pagos por derechos o regalías.'],
 		['codigo' => 'ING_VIA', 'tipo' => 'ingreso', 'nombre' => 'Viáticos', 'descripcion' => 'Pago por gastos de viaje.'],
 
 		// DESCUENTOS
+		['codigo' => 'DES_ISSS', 'tipo' => 'descuento', 'nombre' => 'ISSS', 'descripcion' => 'Descuento por aportes a ISSS.'],
 		['codigo' => 'DES_AFP', 'tipo' => 'descuento', 'nombre' => 'AFP', 'descripcion' => 'Descuento por aportes a AFP.'],
 		['codigo' => 'DES_REN', 'tipo' => 'descuento', 'nombre' => 'Renta', 'descripcion' => 'Retención de renta.'],
 		['codigo' => 'DES_CRE', 'tipo' => 'descuento', 'nombre' => 'Crédito personal', 'descripcion' => 'Descuento por crédito personal.'],

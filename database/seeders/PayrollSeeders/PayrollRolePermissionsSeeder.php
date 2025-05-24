@@ -23,7 +23,8 @@ class PayrollRolePermissionsSeeder extends Seeder
 		'payroll.planillas.update' => 'Actualizar planillas',
 		'payroll.planillas.destroy' => 'Eliminar planillas',
 		'payroll.planillas.sincronizardetallesconempleados' => 'Sincronizar detalles con empleados',
-		'payroll.planillas.detalles.show' => 'Ver detalle y conceptos de empleados',
+		'payroll.planillas.detalles.show' => 'Ver detalle de planillas',
+		'payroll.planillas.detalles.conceptos.show' => 'Ver conceptos de empleados',
 	];
 
 	private $role = 'Administrador de Planillas';

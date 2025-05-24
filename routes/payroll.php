@@ -47,6 +47,6 @@ Route::middleware(['auth', 'verified'])->prefix('payroll')->group(function () {
 		->middleware('can:payroll.planillas.show')->name('payroll.planillas.show');
 
 	// Rutas para conceptos empleados
-	Route::get('planillas/{id}/conceptos-empleado', [ConceptoEmpleadoController::class, 'index'])
+	Route::get('planilla-detalles/{id}/conceptos-empleado', [ConceptoEmpleadoController::class, 'index'])
 		->middleware('can:payroll.planillas.detalles.show')->name('payroll.planillas.detalles.show');
 });
