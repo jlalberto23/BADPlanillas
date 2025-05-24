@@ -112,7 +112,8 @@ class EmpleadoController extends Controller
 			'carnet_empleado' => 'required|string|max:255|unique:empleados,carnet_empleado',
 			'id_profesion' => 'nullable|exists:profesiones,id_profesion',
 			'id_puesto' => 'nullable|exists:puestos,id_puesto',
-			'id_seccion' => 'nullable|exists:secciones,id_seccion',
+			'id_seccion' => 'nullable|exists:seccionEmpresa,id_seccion',
+//			'id_deptoEmpresa' => 'nullable|exists:departamentoEmpresa,id_deptoEmpresa',
 		]);
 		try {
 			Empleado::create($validated);

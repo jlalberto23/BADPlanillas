@@ -12,6 +12,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { toast } from 'sonner'
 import CatalogsLayout from '../layout'
 import SelectProfesion from '../profesiones/components/profesion-select'
+//import SelectDepartamentoEmpresa from '../departamentosEmpresa/components/departamento-empresa-select'
+import SelectPuesto from '../puestos/components/puestos-select'
+import SelectSecciones from '../seccion/components/secciones-select'
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -47,6 +50,8 @@ type Form = Pick<
   | 'carnet_empleado'
   | 'tipo_documento'
   | 'id_profesion'
+  |  'id_puesto'
+  |  'id_seccion'
 >
 
 const initialValues: Form = {
@@ -70,7 +75,9 @@ const initialValues: Form = {
   primer_nombre: '',
   segundo_nombre: '',
   apellido_paterno: '',
-  apellido_materno: ''
+  apellido_materno: '',
+  id_puesto: null,
+  id_seccion: null
 }
 
 export default function EmpleadoForm() {
@@ -344,6 +351,21 @@ export default function EmpleadoForm() {
                 <Label htmlFor="profesion">Profesión</Label>
                 <SelectProfesion value={data.id_profesion} onChange={(value) => setData('id_profesion', value?.id_profesion || null)} />
                 <InputError message={errors.id_profesion} />
+              </div>
+              {/* <div className="grid gap-2">
+                <Label htmlFor="deptoEmpresa">Departamento</Label>
+                <SelectDepartamentoEmpresa value={data.id_deptoEmpresa} onChange={(value) => setData('id_deptoEmpresa', value?.id_deptoEmpresa || null)} />
+                <InputError message={errors.id_profesion} />
+              </div> */}
+               <div className="grid gap-2">
+                <Label htmlFor="puesto">Puesto</Label>
+                <SelectPuesto value={data.id_puesto} onChange={(value) => setData('id_puesto', value?.id_puesto || null)} />
+                <InputError message={errors.id_puesto} />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="seccion">Seccion</Label>
+                <SelectSecciones value={data.id_seccion} onChange={(value) => setData('id_seccion', value?.id_seccion || null)} />
+                <InputError message={errors.id_seccion} />
               </div>
             </div>
 
