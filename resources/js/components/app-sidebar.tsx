@@ -1,7 +1,16 @@
+import { useEffect, useState } from 'react'
 import { NavFooter } from '@/components/nav-footer'
 import { NavMain } from '@/components/nav-main'
 import { NavUser } from '@/components/nav-user'
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem
+} from '@/components/ui/sidebar'
 import { type NavItem } from '@/types'
 import { Link } from '@inertiajs/react'
 import { FileText, LayoutGrid, List, LockKeyhole } from 'lucide-react'
@@ -30,20 +39,18 @@ const mainNavItems: NavItem[] = [
   }
 ]
 
-const footerNavItems: NavItem[] = [
-  // {
-  //   title: 'Repository',
-  //   href: 'https://github.com/laravel/react-starter-kit',
-  //   icon: Folder
-  // },
-  // {
-  //   title: 'Documentation',
-  //   href: 'https://laravel.com/docs/starter-kits',
-  //   icon: BookOpen
-  // }
-]
+const footerNavItems: NavItem[] = []
 
 export function AppSidebar() {
+  const [fechaHora, setFechaHora] = useState(new Date())
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFechaHora(new Date())
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <Sidebar collapsible="icon" variant="inset">
       <SidebarHeader>
@@ -64,6 +71,13 @@ export function AppSidebar() {
 
       <SidebarFooter>
         <NavFooter items={footerNavItems} className="mt-auto" />
+
+        {/* Fecha y hora actual */}
+        <div className="text-xs text-center text-gray-400 mt-2 mb-2">
+          <p>📅 {fechaHora.toLocaleDateString()}</p>
+          <p>⏰ {fechaHora.toLocaleTimeString()}</p>
+        </div>
+
         <NavUser />
       </SidebarFooter>
     </Sidebar>
