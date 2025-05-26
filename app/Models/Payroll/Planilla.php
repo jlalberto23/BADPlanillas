@@ -17,7 +17,7 @@ class Planilla extends Model
 		'fecha_inicio',
 		'fecha_fin',
 		// Estos campos no son editables directamente
-		// 'fecha_generacion',
+		'fecha_generacion',
 		// 'total_ingresos',
 		// 'total_descuentos', 
 		// 'total_aporte_patronal',

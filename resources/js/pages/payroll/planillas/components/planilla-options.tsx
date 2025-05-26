@@ -8,14 +8,15 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Link } from '@inertiajs/react'
-import { Eye, FolderSync, Pencil, Trash } from 'lucide-react'
+import { CheckCheck, Eye, FolderSync, Pencil, Trash } from 'lucide-react'
 import { ReactNode, useRef, useState } from 'react'
 import { PlanillaDeletingDialog } from './planilla-deleting-dialog'
 import { PlanillaEditingDialog } from './planilla-editing-dialog'
+import { PlanillaFinalizeDialog } from './planilla-finalize-dialog'
 import { PlanillaSyncDetalleDialog } from './planilla-sync-detalle-dialog'
 
 type Props = {
-  planilla: Pick<PlanillaTable, 'id_planilla' | 'fecha_inicio' | 'fecha_fin' | 'mes'> & {
+  planilla: Pick<PlanillaTable, 'id_planilla' | 'fecha_inicio' | 'fecha_fin' | 'mes' | 'estado'> & {
     anio_calendario: Pick<AnioCalendarioTable, 'anio'>
   }
   children: ReactNode
@@ -26,6 +27,7 @@ export default function PlanillaOptions({ planilla, children }: Props) {
   const editarBtn = useRef<HTMLButtonElement>(null)
   const eliminarBtn = useRef<HTMLButtonElement>(null)
   const sincronizarBtn = useRef<HTMLButtonElement>(null)
+  const finalizarBtn = useRef<HTMLButtonElement>(null)
 
   const handleEditClick = () => {
     editarBtn.current?.click()
@@ -39,6 +41,12 @@ export default function PlanillaOptions({ planilla, children }: Props) {
     sincronizarBtn.current?.click()
     setOpen(false)
   }
+
+  const handleFinalizarClick = () => {
+    finalizarBtn.current?.click()
+    setOpen(false)
+  }
+
   return (
     <section className="flex">
       <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -56,20 +64,27 @@ export default function PlanillaOptions({ planilla, children }: Props) {
               </DropdownMenuItem>
             </Link>
           )}
-          <DropdownMenuItem onClick={handleEditClick}>
+
+          <DropdownMenuItem onClick={handleEditClick} disabled={planilla.estado !== 'activo'}>
             Editar
             <DropdownMenuShortcut>
               <Pencil />
             </DropdownMenuShortcut>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleSincronizarClick}>
+          <DropdownMenuItem onClick={handleSincronizarClick} disabled={planilla.estado !== 'activo'}>
             Sincronizar
             <DropdownMenuShortcut>
               <FolderSync />
             </DropdownMenuShortcut>
           </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleFinalizarClick} disabled={planilla.estado !== 'activo'}>
+            Finalizar
+            <DropdownMenuShortcut>
+              <CheckCheck />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleDeleteClick} variant="destructive">
+          <DropdownMenuItem onClick={handleDeleteClick} variant="destructive" disabled={planilla.estado !== 'activo'}>
             Eliminar
             <DropdownMenuShortcut>
               <Trash />
@@ -86,6 +101,9 @@ export default function PlanillaOptions({ planilla, children }: Props) {
       <PlanillaSyncDetalleDialog planilla={planilla}>
         <button ref={sincronizarBtn} className="hidden"></button>
       </PlanillaSyncDetalleDialog>
+      <PlanillaFinalizeDialog planilla={planilla}>
+        <button ref={finalizarBtn} className="hidden"></button>
+      </PlanillaFinalizeDialog>
     </section>
   )
 }

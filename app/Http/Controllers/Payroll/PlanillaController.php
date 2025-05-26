@@ -134,6 +134,13 @@ class PlanillaController extends Controller
 		}
 	}
 
+	public function finalize($id)
+	{
+		$planilla = Planilla::findOrFail($id);
+		$planilla->update(['estado' => 'inactivo', 'fecha_generacion' => now()]);
+		return back()->with('success', 'Planilla finalizada correctamente');
+	}
+
 	public function destroy($id)
 	{
 		try {
