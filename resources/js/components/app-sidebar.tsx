@@ -1,19 +1,11 @@
-import { useEffect, useState } from 'react'
 import { NavFooter } from '@/components/nav-footer'
 import { NavMain } from '@/components/nav-main'
 import { NavUser } from '@/components/nav-user'
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem
-} from '@/components/ui/sidebar'
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
 import { type NavItem } from '@/types'
 import { Link } from '@inertiajs/react'
 import { FileText, LayoutGrid, List, LockKeyhole } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 import AppLogo from './app-logo'
 
 const mainNavItems: NavItem[] = [
@@ -42,11 +34,13 @@ const mainNavItems: NavItem[] = [
 const footerNavItems: NavItem[] = []
 
 export function AppSidebar() {
-  const [fechaHora, setFechaHora] = useState(new Date())
+  const hour = useRef<HTMLDivElement>(null)
+  const date = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setFechaHora(new Date())
+      hour.current!.textContent = new Date().toLocaleTimeString()
+      date.current!.textContent = new Date().toLocaleDateString()
     }, 1000)
     return () => clearInterval(interval)
   }, [])
@@ -73,9 +67,9 @@ export function AppSidebar() {
         <NavFooter items={footerNavItems} className="mt-auto" />
 
         {/* Fecha y hora actual */}
-        <div className="text-xs text-center text-gray-400 mt-2 mb-2">
-          <p>📅 {fechaHora.toLocaleDateString()}</p>
-          <p>⏰ {fechaHora.toLocaleTimeString()}</p>
+        <div className="text-muted-foreground mt-2 mb-2 text-center text-xs">
+          <div ref={date}></div>
+          <div ref={hour}></div>
         </div>
 
         <NavUser />
