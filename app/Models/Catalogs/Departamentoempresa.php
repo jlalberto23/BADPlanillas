@@ -4,6 +4,7 @@ namespace App\Models\Catalogs;
 
 use App\Models\Payroll\Centrocosto;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Catalogs\Empleado;
 
 class Departamentoempresa extends Model
 {
@@ -22,6 +23,10 @@ class Departamentoempresa extends Model
 	public function jefeDepartamento()
 	{
 		return $this->belongsTo(Empleado::class, 'id_jefeDepto');
+	}
+		public function empleados()
+	{
+		return $this->hasMany(Empleado::class, 'id_deptoEmpresa', 'id_deptoEmpresa');
 	}
 
 	// Relación con las áreas del departamento

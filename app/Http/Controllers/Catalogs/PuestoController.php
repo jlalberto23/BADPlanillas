@@ -36,7 +36,7 @@ class PuestoController extends Controller
 	public function store(Request $request)
 	{
 		$request->validate([
-			'nombrePuesto' => ['required', 'string', 'min:1', 'max:100', 'unique:puestos,nombrePuestos']
+			'nombrePuesto' => ['required', 'string', 'min:1', 'max:100', 'unique:puestos,nombrePuesto']
 		]);
 
 		try {
@@ -51,7 +51,7 @@ class PuestoController extends Controller
 	public function update(Request $request, $id)
 	{
 		$request->validate([
-			'nombrePuesto' => ['required', 'string', 'min:1', 'max:100', "unique:puestos,nombrePuestos,{$id},id_puesto"]
+			'nombrePuesto' => ['required', 'string', 'min:1', 'max:100', "unique:puestos,nombrePuesto,{$id},id_puesto"]
 		]);
 
 		try {

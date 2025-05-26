@@ -5,6 +5,7 @@ use App\Http\Controllers\Catalogs\EmpleadoController;
 use App\Http\Controllers\Catalogs\ProfesionController;
 use App\Http\Controllers\Catalogs\PuestoController;
 use App\Http\Controllers\Catalogs\SeccionController;
+use App\Http\Controllers\Catalogs\AreaController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->prefix('catalogs')->group(
@@ -60,8 +61,30 @@ Route::middleware(['auth', 'verified'])->prefix('catalogs')->group(
 		Route::get('empleados/get', [EmpleadoController::class, 'getempleados'])
 			->name('catalogs.empleados.get');
 		// Rutas para departamentos
-		Route::get('departamentos/get', [DepartamentoEmpresaController::class, 'getAll'])
-			->name('catalogs.departamentos.getAll');
+		//Route::get('departamentos/get', [DepartamentoEmpresaController::class, 'getAll'])
+		//	->name('catalogs.departamentos.getAll');
+		// Rutas para departamentos de empresa
+		Route::get('departamentosEmpresa', [DepartamentoEmpresaController::class, 'index'])
+			->middleware('can:catalogs.departamentosEmpresa.index')->name('catalogs.departamentosEmpresa.index');
+		Route::post('departamentosEmpresa', [DepartamentoEmpresaController::class, 'store'])
+			->middleware('can:catalogs.departamentosEmpresa.store')->name('catalogs.departamentosEmpresa.store');
+		Route::put('departamentosEmpresa/{id}', [DepartamentoEmpresaController::class, 'update'])
+			->middleware('can:catalogs.departamentosEmpresa.update')->name('catalogs.departamentosEmpresa.update');
+		Route::delete('departamentosEmpresa/{id}', [DepartamentoEmpresaController::class, 'destroy'])
+			->middleware('can:catalogs.departamentosEmpresa.destroy')->name('catalogs.departamentosEmpresa.destroy');
+		Route::get('departamentosEmpresa/get', [DepartamentoEmpresaController::class, 'getdepartamentosEmpresa'])
+			->name('catalogs.departamentosEmpresa.get');
+			// Rutas para areas de empresa
+		Route::get('areas', [AreaController::class, 'index'])
+			->middleware('can:catalogs.areas.index')->name('catalogs.areas.index');
+		Route::post('areas', [AreaController::class, 'store'])
+			->middleware('can:catalogs.areas.store')->name('catalogs.areas.store');
+		Route::put('areas/{id}', [AreaController::class, 'update'])
+			->middleware('can:catalogs.areas.update')->name('catalogs.areas.update');
+		Route::delete('areas/{id}', [AreaController::class, 'destroy'])
+			->middleware('can:catalogs.areas.destroy')->name('catalogs.areas.destroy');
+		Route::get('areas/get', [AreaController::class, 'getareas'])
+			->name('catalogs.areas.get');
 	}
 
 );

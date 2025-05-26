@@ -14,7 +14,7 @@ import CatalogsLayout from '../layout'
 import SelectProfesion from '../profesiones/components/profesion-select'
 //import SelectDepartamentoEmpresa from '../departamentosEmpresa/components/departamento-empresa-select'
 import SelectPuesto from '../puestos/components/puestos-select'
-import SelectSecciones from '../seccion/components/secciones-select'
+import SelectSecciones from '../secciones/components/secciones-select'
 
 const breadcrumbs: BreadcrumbItem[] = [
   {

@@ -6,27 +6,27 @@ import { Head } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
 import { EllipsisVertical, Plus } from 'lucide-react'
 import CatalogsLayout from '../layout'
-import { PuestoCreatingDialog } from './components/puesto-creating-dialog'
-import PuestoOptions from './components/puesto-options'
-import { Puestos, PuestosPaginated } from './puestos'
+import { SeccionCreatingDialog } from './components/seccion-creating-dialog'
+import SeccionOptions from './components/seccion-options'
+import { Secciones, SeccionesPaginated } from './secciones'
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
-    title: 'Gestión de puestos',
-    href: '/catalogs/puestos'
+    title: 'Gestión de secciones',
+    href: '/catalogs/seccion'
   }
 ]
 
 interface Props {
-  puestos: PuestosPaginated
+  secciones: SeccionesPaginated
 }
 
-export default function PuestosPage({ puestos }: Props) {
-  const { data, ...pagination } = puestos
+export default function SeccionesPage({ secciones }: Props) {
+  const { data, ...pagination } = secciones
 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
-      <Head title="Puestos" />
+      <Head title="Secciones" />
       <CatalogsLayout>
         <div className="flex h-full">
           <DataTablePaginated
@@ -36,13 +36,13 @@ export default function PuestosPage({ puestos }: Props) {
             calcTotals={false}
             searchPlaceholder="Buscar por nombre"
             searchOptions={searchOptions}
-            exportedFileName="Puestos"
+            exportedFileName="Secciones"
             headerContent={
-              <PuestoCreatingDialog>
+              <SeccionCreatingDialog>
                 <Button variant="outline" size="sm">
                   <Plus />
                 </Button>
-              </PuestoCreatingDialog>
+              </SeccionCreatingDialog>
             }
           />
         </div>
@@ -62,21 +62,21 @@ const searchOptions: DataTableSearchOption[] = [
   }
 ]
 
-const columns: ColumnDef<Puestos, string>[] = [
+const columns: ColumnDef<Secciones, string>[] = [
   {
     id: 'Actions',
     header: '',
     cell: ({ row }) => (
-      <PuestoOptions puesto={row.original}>
+      <SeccionOptions seccion={row.original}>
         <Button variant="ghost" size="sm">
           <EllipsisVertical className="size-3" />
         </Button>
-      </PuestoOptions>
+      </SeccionOptions>
     )
   },
   {
-    id: 'Puesto',
-    accessorKey: 'nombrePuesto',
+    id: 'Seccion',
+    accessorKey: 'nombreSeccion',
     header: ({ column }) => <DataTableColumnHeader column={column} />
   },
   {

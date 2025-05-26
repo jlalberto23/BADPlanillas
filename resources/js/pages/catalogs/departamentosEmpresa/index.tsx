@@ -6,27 +6,27 @@ import { Head } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
 import { EllipsisVertical, Plus } from 'lucide-react'
 import CatalogsLayout from '../layout'
-import { PuestoCreatingDialog } from './components/puesto-creating-dialog'
-import PuestoOptions from './components/puesto-options'
-import { Puestos, PuestosPaginated } from './puestos'
+import { DepartamentoCreatingDialog } from './components/departamentosEmpresa-creating-dialog'
+import DepartamentoOptions from './components/departamentosEmpresa-options'
+import { Departamentos, DepartamentosPaginated } from './departamentoEmpresa'
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
-    title: 'Gestión de puestos',
-    href: '/catalogs/puestos'
+    title: 'Gestión de departamentos',
+    href: '/catalogs/departamentosEmpresa'
   }
 ]
 
 interface Props {
-  puestos: PuestosPaginated
+  departamentos: DepartamentosPaginated
 }
 
-export default function PuestosPage({ puestos }: Props) {
-  const { data, ...pagination } = puestos
+export default function SeccionesPage({ departamentos }: Props) {
+  const { data, ...pagination } = departamentos
 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
-      <Head title="Puestos" />
+      <Head title="Departamentos" />
       <CatalogsLayout>
         <div className="flex h-full">
           <DataTablePaginated
@@ -36,13 +36,13 @@ export default function PuestosPage({ puestos }: Props) {
             calcTotals={false}
             searchPlaceholder="Buscar por nombre"
             searchOptions={searchOptions}
-            exportedFileName="Puestos"
+            exportedFileName="Departamentos"
             headerContent={
-              <PuestoCreatingDialog>
+              <DepartamentoCreatingDialog>
                 <Button variant="outline" size="sm">
                   <Plus />
                 </Button>
-              </PuestoCreatingDialog>
+              </DepartamentoCreatingDialog>
             }
           />
         </div>
@@ -62,21 +62,21 @@ const searchOptions: DataTableSearchOption[] = [
   }
 ]
 
-const columns: ColumnDef<Puestos, string>[] = [
+const columns: ColumnDef<Departamentos, string>[] = [
   {
     id: 'Actions',
     header: '',
     cell: ({ row }) => (
-      <PuestoOptions puesto={row.original}>
+      <DepartamentoOptions departamento={row.original}>
         <Button variant="ghost" size="sm">
           <EllipsisVertical className="size-3" />
         </Button>
-      </PuestoOptions>
+      </DepartamentoOptions>
     )
   },
   {
-    id: 'Puesto',
-    accessorKey: 'nombrePuesto',
+    id: 'Departamento',
+    accessorKey: 'nombreDepto',
     header: ({ column }) => <DataTableColumnHeader column={column} />
   },
   {

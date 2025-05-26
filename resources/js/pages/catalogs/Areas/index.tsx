@@ -1,32 +1,32 @@
 import { Button } from '@/components/ui/button'
-import { DataTableColumnHeader, DataTablePaginated, DataTableSearchOption } from '@/components/ui/pagination'
+import { DataTableColumnHeader, DataTablePaginated } from '@/components/ui/pagination'
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { Head } from '@inertiajs/react'
 import { ColumnDef } from '@tanstack/react-table'
 import { EllipsisVertical, Plus } from 'lucide-react'
 import CatalogsLayout from '../layout'
-import { PuestoCreatingDialog } from './components/puesto-creating-dialog'
-import PuestoOptions from './components/puesto-options'
-import { Puestos, PuestosPaginated } from './puestos'
+import { AreaCreatingDialog } from './components/area-creating-dialog'
+import AreaOptions from './components/area-options'
+import { Areas, AreasPaginated } from './areas'
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
-    title: 'Gestión de puestos',
-    href: '/catalogs/puestos'
+    title: 'Gestión de areas',
+    href: '/catalogs/areas'
   }
 ]
 
 interface Props {
-  puestos: PuestosPaginated
+  areas: AreasPaginated
 }
 
-export default function PuestosPage({ puestos }: Props) {
-  const { data, ...pagination } = puestos
+export default function AreasPage({ areas }: Props) {
+  const { data, ...pagination } = areas
 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
-      <Head title="Puestos" />
+      <Head title="Areas" />
       <CatalogsLayout>
         <div className="flex h-full">
           <DataTablePaginated
@@ -35,14 +35,14 @@ export default function PuestosPage({ puestos }: Props) {
             pagination={pagination}
             calcTotals={false}
             searchPlaceholder="Buscar por nombre"
-            searchOptions={searchOptions}
-            exportedFileName="Puestos"
+            //searchOptions={searchOptions}
+            exportedFileName="Areas"
             headerContent={
-              <PuestoCreatingDialog>
+              <AreaCreatingDialog>
                 <Button variant="outline" size="sm">
                   <Plus />
                 </Button>
-              </PuestoCreatingDialog>
+              </AreaCreatingDialog>
             }
           />
         </div>
@@ -51,7 +51,7 @@ export default function PuestosPage({ puestos }: Props) {
   )
 }
 
-const searchOptions: DataTableSearchOption[] = [
+/* const searchOptions: DataTableSearchOption[] = [
   {
     value: 'has:empleados',
     label: 'Con empleados'
@@ -60,28 +60,28 @@ const searchOptions: DataTableSearchOption[] = [
     value: '-has:empleados',
     label: 'Sin empleados'
   }
-]
+] */
 
-const columns: ColumnDef<Puestos, string>[] = [
+const columns: ColumnDef<Areas, string>[] = [
   {
     id: 'Actions',
     header: '',
     cell: ({ row }) => (
-      <PuestoOptions puesto={row.original}>
+      <AreaOptions area={row.original}>
         <Button variant="ghost" size="sm">
           <EllipsisVertical className="size-3" />
         </Button>
-      </PuestoOptions>
+      </AreaOptions>
     )
   },
   {
-    id: 'Puesto',
-    accessorKey: 'nombrePuesto',
+    id: 'Area',
+    accessorKey: 'nombreArea',
     header: ({ column }) => <DataTableColumnHeader column={column} />
-  },
-  {
+  }
+/*   {
     id: 'Empleados',
     accessorKey: 'empleados_count',
     header: ({ column }) => <DataTableColumnHeader column={column} />
-  }
+  } */
 ]

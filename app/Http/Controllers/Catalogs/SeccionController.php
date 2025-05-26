@@ -10,7 +10,7 @@ use Inertia\Inertia;
 
 class SeccionController extends Controller
 {
-	public function index(Request $request): RedirectResponse|Response
+	public function index(Request $request)
 	{
 		$perPage = max(1, min((int) $request->get('per_page', 20), 500));
 		$page = (int) $request->get('page', 1);
@@ -36,7 +36,7 @@ class SeccionController extends Controller
 	public function store(Request $request)
 	{
 		$request->validate([
-			'nombreSeccion' => ['required', 'string', 'min:1', 'max:100', 'unique:secciones,nombreSeccion']
+			'nombreSeccion' => ['required', 'string', 'min:1', 'max:100', 'unique:seccionEmpresa,nombreSeccion']
 		]);
 
 		try {
@@ -51,7 +51,7 @@ class SeccionController extends Controller
 	public function update(Request $request, $id)
 	{
 		$request->validate([
-			'nombreSeccion' => ['required', 'string', 'min:1', 'max:100', "unique:seccion,nombreSeccion,{$id},id_seccion"]
+			'nombreSeccion' => ['required', 'string', 'min:1', 'max:100', "unique:seccionEmpresa,nombreSeccion,{$id},id_seccion"]
 		]);
 
 		try {

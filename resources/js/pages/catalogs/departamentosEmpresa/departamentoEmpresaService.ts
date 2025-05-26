@@ -5,7 +5,7 @@ type DepartamentoEmpresa = Pick<DepartamentoEmpresaTable, 'id_deptoEmpresa' | 'n
 
 export const getDepartamentosEmpresa = async (): Promise<DepartamentoEmpresa[]> => {
   try {
-    const response = await axios.get(route('catalogs.departamentos.getAll'))
+    const response = await axios.get(route('catalogs.departamentosEmpresa.get'))
     return response.data
   } catch (error) {
     console.error(error)

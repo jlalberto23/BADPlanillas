@@ -17,6 +17,22 @@ class CatalogsRolePermissionsSeeder extends Seeder
 		'catalogs.empleados.store' => 'Crear empleados',
 		'catalogs.empleados.update' => 'Actualizar empleados',
 		'catalogs.empleados.destroy' => 'Eliminar empleados',
+		'catalogs.puestos.index' => 'Ver puestos',
+		'catalogs.puestos.store' => 'Crear puestos',
+		'catalogs.puestos.update' => 'Actualizar puestos',
+		'catalogs.puestos.destroy' => 'Eliminar puestos',
+		'catalogs.secciones.index' => 'Ver secciones',
+		'catalogs.secciones.store' => 'Crear secciones',
+		'catalogs.secciones.update' => 'Actualizar secciones',
+		'catalogs.secciones.destroy' => 'Eliminar secciones',
+		'catalogs.departamentosEmpresa.index' => 'Ver departamentos',
+		'catalogs.departamentosEmpresa.store' => 'Crear departamentos',
+		'catalogs.departamentosEmpresa.update' => 'Actualizar departamentos',
+		'catalogs.departamentosEmpresa.destroy' => 'Eliminar departamentos',
+		'catalogs.areas.index' => 'Ver areas',
+		'catalogs.areas.store' => 'Crear areas',
+		'catalogs.areas.update' => 'Actualizar areas',
+		'catalogs.areas.destroy' => 'Eliminar areas',
 	];
 
 	private $role = 'Administrador de Catálogos';
