@@ -75,7 +75,7 @@ Route::middleware(['auth', 'verified'])->prefix('catalogs')->group(
 		Route::get('departamentosEmpresa/get', [DepartamentoEmpresaController::class, 'getdepartamentosEmpresa'])
 			->name('catalogs.departamentosEmpresa.get');
 			// Rutas para areas de empresa
-		Route::get('areas', [AreaController::class, 'index'])
+		/* Route::get('areas', [AreaController::class, 'index'])
 			->middleware('can:catalogs.areas.index')->name('catalogs.areas.index');
 		Route::post('areas', [AreaController::class, 'store'])
 			->middleware('can:catalogs.areas.store')->name('catalogs.areas.store');
@@ -84,7 +84,7 @@ Route::middleware(['auth', 'verified'])->prefix('catalogs')->group(
 		Route::delete('areas/{id}', [AreaController::class, 'destroy'])
 			->middleware('can:catalogs.areas.destroy')->name('catalogs.areas.destroy');
 		Route::get('areas/get', [AreaController::class, 'getareas'])
-			->name('catalogs.areas.get');
+			->name('catalogs.areas.get'); */
 	}
 
 );

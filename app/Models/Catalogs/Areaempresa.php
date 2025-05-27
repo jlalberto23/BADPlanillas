@@ -20,17 +20,17 @@ class Areaempresa extends Model
 
 
 	// Relación: Área pertenece a un departamento
-/* 	public function departamento()
+ 	public function departamento()
 	{
 		return $this->belongsTo(Departamentoempresa::class, 'id_deptoEmpresa', 'id_deptoEmpresa');
-	} */
+	} 
 
 	// Relación: Área tiene un jefe (empleado)
-	/* public function jefe()
+	 public function jefe()
 	{
 		return $this->belongsTo(Empleado::class, 'id_jefeArea', 'id_empleado');
 	}
- */
+ 
 	// Relación: Área tiene muchas secciones
 	public function secciones()
 	{
