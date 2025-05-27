@@ -27,7 +27,7 @@ return new class extends Migration
 		Schema::create('seccionEmpresa', function (Blueprint $table) {
 			$table->id('id_seccion');
 			$table->string('nombreSeccion');
-			$table->string('descripcionSeccion');
+			$table->string('descripcionSeccion')->nullable();
 			$table->unsignedBigInteger('id_jefeSeccion')->nullable();
 			$table->unsignedBigInteger('id_area')->nullable();
 		});

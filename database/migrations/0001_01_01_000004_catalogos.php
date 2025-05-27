@@ -37,9 +37,9 @@ return new class extends Migration
 		Schema::create('puestos', function (Blueprint $table) {
 			$table->id('id_puesto');
 			$table->string('nombrePuesto');
-			$table->string('descripcionPuesto');
-			$table->decimal('salario_min', 9, 2);
-			$table->decimal('salario_max', 9, 2);
+			$table->string('descripcionPuesto')->nullable();
+			$table->decimal('salario_min', 9, 2)->nullable();
+			$table->decimal('salario_max', 9, 2)->nullable();
 		});
 
 		Schema::create('tipos_conceptos', function (Blueprint $table) {
